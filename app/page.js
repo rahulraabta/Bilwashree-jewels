@@ -52,6 +52,23 @@ export default function Home() {
   const [loading, setLoading]         = useState(true);
   const [cartCount, setCartCount]     = useState(0);
   const [toastMessage, setToastMessage] = useState('');
+  const [activeReveals, setActiveReveals] = useState(new Set());
+
+  /* Reveal on scroll */
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const elements = document.querySelectorAll('.reveal');
+    elements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [loading]);
 
   /* Fetch products */
   useEffect(() => {
@@ -200,7 +217,7 @@ export default function Home() {
       </div>
 
       {/* ── ABOUT ── */}
-      <section id="about" className="about-section" aria-labelledby="about-heading">
+      <section id="about" className="about-section reveal" aria-labelledby="about-heading">
         <div className="about-grid">
           <div className="about-image-wrap">
             <div className="about-image-card">
@@ -219,7 +236,7 @@ export default function Home() {
           <div className="about-text">
             <div className="section-eyebrow">
               <span className="eyebrow-line" aria-hidden="true" />
-              <span className="eyebrow-text">Our Story</span>
+              <span className="eyebrow-text garamond">Our Story</span>
             </div>
             <h2 id="about-heading" className="section-title">
               Morality &amp; Purpose<br />at Our Heart
@@ -240,11 +257,11 @@ export default function Home() {
       </section>
 
       {/* ── COLLECTION ── */}
-      <section id="collection" className="collection-section" aria-labelledby="collection-heading">
+      <section id="collection" className="collection-section reveal" aria-labelledby="collection-heading">
         <div className="container">
           <div className="section-eyebrow" aria-hidden="true">
             <span className="eyebrow-line" />
-            <span className="eyebrow-text">The Collection</span>
+            <span className="eyebrow-text garamond">The Collection</span>
             <span className="eyebrow-line right" />
           </div>
           <h2 id="collection-heading" className="section-title">Premium Pendant Catalog</h2>
@@ -312,11 +329,11 @@ export default function Home() {
       </section>
 
       {/* ── VALUES ── */}
-      <section id="values" className="values-section" aria-labelledby="values-heading">
+      <section id="values" className="values-section reveal" aria-labelledby="values-heading">
         <div className="container">
           <div className="section-eyebrow" aria-hidden="true">
             <span className="eyebrow-line" style={{ background: 'linear-gradient(90deg, transparent, #F0D87A)' }} />
-            <span className="eyebrow-text">Why Choose Us</span>
+            <span className="eyebrow-text garamond">Why Choose Us</span>
             <span className="eyebrow-line right" style={{ background: 'linear-gradient(90deg, #F0D87A, transparent)' }} />
           </div>
           <h2 id="values-heading" className="section-title">Built on Timeless Values</h2>
@@ -334,11 +351,11 @@ export default function Home() {
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section id="reviews" className="testimonials-section" aria-labelledby="reviews-heading">
+      <section id="reviews" className="testimonials-section reveal" aria-labelledby="reviews-heading">
         <div className="container">
           <div className="section-eyebrow" aria-hidden="true">
             <span className="eyebrow-line" />
-            <span className="eyebrow-text">Customer Stories</span>
+            <span className="eyebrow-text garamond">Customer Stories</span>
             <span className="eyebrow-line right" />
           </div>
           <h2 id="reviews-heading" className="section-title">Loved by Many</h2>
