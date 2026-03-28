@@ -1,0 +1,278 @@
+{
+  "total_unique_products": 44,
+  "total_images": 151,
+  "by_category": {
+    "bangles": 2,
+    "earrings": 4,
+    "harams": 5,
+    "maang-tikka": 1,
+    "necklaces": 29,
+    "pendants": 3
+  },
+  "products": [
+    {
+      "code": "NK-14",
+      "name": "Bangles NK-14",
+      "category": "bangles",
+      "image_count": 4
+    },
+    {
+      "code": "NK-15",
+      "name": "Bangles NK-15",
+      "category": "bangles",
+      "image_count": 2
+    },
+    {
+      "code": "NK-125-Jadau",
+      "name": "Earrings NK-125-Jadau",
+      "category": "earrings",
+      "image_count": 1
+    },
+    {
+      "code": "NK-146-Jadau",
+      "name": "Earrings NK-146-Jadau",
+      "category": "earrings",
+      "image_count": 1
+    },
+    {
+      "code": "NK-2",
+      "name": "Earrings NK-2",
+      "category": "earrings",
+      "image_count": 1
+    },
+    {
+      "code": "NK-46",
+      "name": "Earrings NK-46",
+      "category": "earrings",
+      "image_count": 3
+    },
+    {
+      "code": "NK-40",
+      "name": "Haram (Long Necklace) NK-40",
+      "category": "harams",
+      "image_count": 3
+    },
+    {
+      "code": "NK-60",
+      "name": "Haram (Long Necklace) NK-60",
+      "category": "harams",
+      "image_count": 4
+    },
+    {
+      "code": "NK-62",
+      "name": "Haram (Long Necklace) NK-62",
+      "category": "harams",
+      "image_count": 1
+    },
+    {
+      "code": "NK-70",
+      "name": "Haram (Long Necklace) NK-70",
+      "category": "harams",
+      "image_count": 1
+    },
+    {
+      "code": "NK-72",
+      "name": "Haram (Long Necklace) NK-72",
+      "category": "harams",
+      "image_count": 2
+    },
+    {
+      "code": "NK-48",
+      "name": "Maang Tikka NK-48",
+      "category": "maang-tikka",
+      "image_count": 1
+    },
+    {
+      "code": "NK-10",
+      "name": "Necklace NK-10",
+      "category": "necklaces",
+      "image_count": 6
+    },
+    {
+      "code": "NK-12",
+      "name": "Necklace NK-12",
+      "category": "necklaces",
+      "image_count": 6
+    },
+    {
+      "code": "NK-13",
+      "name": "Necklace NK-13",
+      "category": "necklaces",
+      "image_count": 6
+    },
+    {
+      "code": "NK-18",
+      "name": "Necklace NK-18",
+      "category": "necklaces",
+      "image_count": 8
+    },
+    {
+      "code": "NK-19",
+      "name": "Necklace NK-19",
+      "category": "necklaces",
+      "image_count": 8
+    },
+    {
+      "code": "NK-20",
+      "name": "Necklace NK-20",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-22",
+      "name": "Necklace NK-22",
+      "category": "necklaces",
+      "image_count": 3
+    },
+    {
+      "code": "NK-24",
+      "name": "Necklace NK-24",
+      "category": "necklaces",
+      "image_count": 5
+    },
+    {
+      "code": "NK-25",
+      "name": "Necklace NK-25",
+      "category": "necklaces",
+      "image_count": 10
+    },
+    {
+      "code": "NK-26",
+      "name": "Necklace NK-26",
+      "category": "necklaces",
+      "image_count": 6
+    },
+    {
+      "code": "NK-27-Reversible",
+      "name": "Necklace NK-27-Reversible",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-28",
+      "name": "Necklace NK-28",
+      "category": "necklaces",
+      "image_count": 8
+    },
+    {
+      "code": "NK-30",
+      "name": "Necklace NK-30",
+      "category": "necklaces",
+      "image_count": 4
+    },
+    {
+      "code": "NK-32",
+      "name": "Necklace NK-32",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-34",
+      "name": "Necklace NK-34",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-35",
+      "name": "Necklace NK-35",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-36",
+      "name": "Necklace NK-36",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-38",
+      "name": "Necklace NK-38",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-39",
+      "name": "Necklace NK-39",
+      "category": "necklaces",
+      "image_count": 4
+    },
+    {
+      "code": "NK-41",
+      "name": "Necklace NK-41",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-42",
+      "name": "Necklace NK-42",
+      "category": "necklaces",
+      "image_count": 5
+    },
+    {
+      "code": "NK-42-Jadau",
+      "name": "Necklace NK-42-Jadau",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-45",
+      "name": "Necklace NK-45",
+      "category": "necklaces",
+      "image_count": 2
+    },
+    {
+      "code": "NK-50",
+      "name": "Necklace NK-50",
+      "category": "necklaces",
+      "image_count": 11
+    },
+    {
+      "code": "NK-54",
+      "name": "Necklace NK-54",
+      "category": "necklaces",
+      "image_count": 6
+    },
+    {
+      "code": "NK-55",
+      "name": "Necklace NK-55",
+      "category": "necklaces",
+      "image_count": 8
+    },
+    {
+      "code": "NK-56",
+      "name": "Necklace NK-56",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-57",
+      "name": "Necklace NK-57",
+      "category": "necklaces",
+      "image_count": 3
+    },
+    {
+      "code": "NK-64",
+      "name": "Necklace NK-64",
+      "category": "necklaces",
+      "image_count": 1
+    },
+    {
+      "code": "NK-10-Dollar",
+      "name": "Dollar Pendant NK-10-Dollar",
+      "category": "pendants",
+      "image_count": 1
+    },
+    {
+      "code": "NK-50-Dollar",
+      "name": "Dollar Pendant NK-50-Dollar",
+      "category": "pendants",
+      "image_count": 1
+    },
+    {
+      "code": "NK-8-Dollar",
+      "name": "Dollar Pendant NK-8-Dollar",
+      "category": "pendants",
+      "image_count": 5
+    }
+  ]
+}

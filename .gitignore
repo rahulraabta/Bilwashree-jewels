@@ -31,3 +31,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large processing files
+eng.traineddata
+grid_*.jpg
+public/images/allimages.pdf
+public/images/extracted/

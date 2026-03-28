@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { inventory, CATEGORIES, OCCASIONS, OFFERS } from '../data/inventory';
 
 /* ─── Static data ─────────────────────────────────────────── */
 const TESTIMONIALS = [
@@ -37,6 +38,24 @@ const VALUES = [
   { icon: "❧", name: "Timeless Elegance", desc: "Designs that transcend seasons — pieces you will cherish for a lifetime." },
 ];
 
+const PROCESS_STEPS = [
+  { num: "01", icon: "✎", name: "Design", desc: "Inspired by temple art & sacred geometry" },
+  { num: "02", icon: "🤲", name: "Handcraft", desc: "Skilled artisans shape every detail" },
+  { num: "03", icon: "✓", name: "Quality Check", desc: "Rigorous inspection for flawless finish" },
+  { num: "04", icon: "🎁", name: "Delivered", desc: "Premium packaging, straight to your door" },
+];
+
+const MARQUEE_ITEMS = [
+  "Free Shipping on All Orders",
+  "Handcrafted with Love",
+  "Starting at ₹399",
+  "100% Satisfaction Guaranteed",
+  "Ethically Sourced Materials",
+  "Premium Gift Packaging",
+  "Temple Jewellery Heritage",
+  "Trusted by 500+ Customers",
+];
+
 /* ─── Stars helper ───────────────────────────────────────── */
 function Stars({ count = 5 }) {
   return (
@@ -46,13 +65,33 @@ function Stars({ count = 5 }) {
   );
 }
 
+/* ─── Marquee Strip ──────────────────────────────────────── */
+function MarqueeStrip() {
+  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
+  return (
+    <div className="marquee-strip" aria-hidden="true">
+      <div className="marquee-track">
+        {items.map((text, i) => (
+          <span key={i} className="marquee-item">
+            <span className="marquee-dot">✦</span>
+            {text}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Main page ────────────────────────────────────────── */
 export default function Home() {
-  const [products, setProducts]       = useState([]);
-  const [loading, setLoading]         = useState(true);
-  const [cartCount, setCartCount]     = useState(0);
+  const [products]                    = useState(inventory);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [loading]                     = useState(false);
+  const [cartItems, setCartItems]     = useState([]);
+  const [isCartOpen, setIsCartOpen]   = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const [activeReveals, setActiveReveals] = useState(new Set());
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const navRef = useRef(null);
 
   /* Reveal on scroll */
   useEffect(() => {
@@ -70,13 +109,39 @@ export default function Home() {
     return () => observer.disconnect();
   }, [loading]);
 
-  /* Fetch products */
+  /* Navbar scroll effect */
   useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(data => { setProducts(data); setLoading(false); })
-      .catch(err => { console.error('Failed to fetch products', err); setLoading(false); });
+    const handleScroll = () => {
+      if (navRef.current) {
+        if (window.scrollY > 80) {
+          navRef.current.classList.add('scrolled');
+        } else {
+          navRef.current.classList.remove('scrolled');
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  /* Close mobile nav on resize */
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) setMobileNavOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  /* Lock body scroll when mobile nav is open */
+  useEffect(() => {
+    if (mobileNavOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileNavOpen]);
 
   /* Toast */
   const showToast = useCallback((message) => {
@@ -84,59 +149,105 @@ export default function Home() {
     setTimeout(() => setToastMessage(''), 3200);
   }, []);
 
-  /* Mock checkout / add to cart */
-  const handleAddToCart = useCallback(async (product) => {
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: [{ ...product, quantity: 1 }],
-          total: product.priceINR,
-          timestamp: new Date().toISOString(),
-        }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setCartCount(c => c + 1);
-        showToast(`✨ "${product.title}" added to cart!`);
+  /* Add to cart */
+  const handleAddToCart = useCallback((product) => {
+    setCartItems(prev => {
+      const existing = prev.find(item => item.product.id === product.id);
+      if (existing) {
+        return prev.map(item => item.product.id === product.id ? { ...item, qty: item.qty + 1 } : item);
       }
-    } catch (err) {
-      console.error(err);
-      showToast('Could not connect to checkout. Please try again.');
-    }
+      return [...prev, { product, qty: 1 }];
+    });
+    setIsCartOpen(true);
+    showToast(`✨ "${product.title}" added to cart!`);
   }, [showToast]);
 
-  /* Smooth scroll to collection */
-  const scrollToCollection = () => {
-    document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' });
+  /* Cart Operations */
+  const updateQuantity = (id, delta) => {
+    setCartItems(prev => prev.map(item => {
+      if (item.product.id === id) {
+        const newQty = Math.max(0, item.qty + delta);
+        return { ...item, qty: newQty };
+      }
+      return item;
+    }).filter(item => item.qty > 0));
   };
-  const scrollToAbout = () => {
-    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+
+  const cartTotal = cartItems.reduce((sum, item) => sum + ((item.product.priceINR ?? 0) * item.qty), 0);
+  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
+  const progressPercent = Math.min(100, (cartTotal / 999) * 100);
+
+  /* Checkout Methods */
+  const DEMO_PHONE = "919999999999"; 
+  const DEMO_EMAIL = "demo@bilvashree.com";
+
+  const generateOrderSummary = () => {
+    let text = `Hello Bilvashree Jewels! I would like to place an order:\n\n`;
+    cartItems.forEach(item => {
+      text += `- ${item.qty}x ${item.product.title} (₹${item.product.priceINR * item.qty})\n`;
+    });
+    text += `\n*Total:* ₹${cartTotal}`;
+    if (cartTotal >= 999) text += ` (Free Shipping eligible)`;
+    return text;
   };
+
+  const checkoutWhatsApp = () => {
+    const text = encodeURIComponent(generateOrderSummary());
+    window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
+  };
+
+  const checkoutEmail = () => {
+    const subject = encodeURIComponent("New Order Request - Bilvashree Jewels");
+    const body = encodeURIComponent(generateOrderSummary() + "\n\nMy Shipping Details:\n[Please provide your address here]");
+    window.open(`mailto:${DEMO_EMAIL}?subject=${subject}&body=${body}`);
+  };
+
+  /* Smooth scroll helpers */
+  const scrollToSection = (id) => {
+    setMobileNavOpen(false);
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  const NAV_LINKS = [
+    { id: 'hero', label: 'Home' },
+    { id: 'categories', label: 'Categories' },
+    { id: 'collection', label: 'Collection' },
+    { id: 'about', label: 'Our Story' },
+    { id: 'values', label: 'Values' },
+  ];
+
+  /* Filter computed property */
+  const filteredProducts = activeCategory === 'all' 
+    ? products 
+    : products.filter(p => p.category === activeCategory);
 
   return (
     <div className="page-wrapper">
 
       {/* ── NAV BAR ── */}
-      <nav className="navbar" role="navigation" aria-label="Main navigation">
+      <nav ref={navRef} className="navbar" role="navigation" aria-label="Main navigation">
         <div className="navbar-brand">
           <span className="navbar-brand-name">Bilvashree Jewels</span>
           <span className="navbar-brand-tagline">Premium Temple Jewellery</span>
         </div>
 
         <ul className="navbar-links">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#collection">Collection</a></li>
-          <li><a href="#about">Our Story</a></li>
-          <li><a href="#values">Values</a></li>
-          <li><a href="#reviews">Reviews</a></li>
+          {NAV_LINKS.map(link => (
+            <li key={link.id}>
+              <a href={`#${link.id}`} onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}>
+                {link.label}
+              </a>
+            </li>
+          ))}
         </ul>
 
         <div className="navbar-actions">
           <button
             id="navbar-cart-button"
             className="navbar-cart-btn"
+            onClick={() => setIsCartOpen(true)}
             aria-label={`Cart with ${cartCount} items`}
           >
             🛍
@@ -145,14 +256,108 @@ export default function Home() {
             )}
             Cart
           </button>
+
+          {/* Hamburger */}
+          <button
+            className={`hamburger-btn ${mobileNavOpen ? 'open' : ''}`}
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileNavOpen}
+          >
+            <span className="hamburger-line" />
+            <span className="hamburger-line" />
+            <span className="hamburger-line" />
+          </button>
         </div>
       </nav>
+
+      {/* ── Mobile Nav Overlay ── */}
+      <div
+        className={`mobile-nav-overlay ${mobileNavOpen ? 'open' : ''}`}
+        onClick={() => setMobileNavOpen(false)}
+        aria-hidden="true"
+      />
+      <div className={`mobile-nav-drawer ${mobileNavOpen ? 'open' : ''}`} role="dialog" aria-label="Mobile navigation">
+        <span className="mobile-nav-brand">Bilvashree Jewels</span>
+        <ul className="mobile-nav-links">
+          {NAV_LINKS.map(link => (
+            <li key={link.id}>
+              <a href={`#${link.id}`} onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* ── CART DRAWER ── */}
+      <div className={`cart-overlay ${isCartOpen ? 'open' : ''}`} onClick={() => setIsCartOpen(false)} aria-hidden="true" />
+      <div className={`cart-drawer ${isCartOpen ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label="Shopping Cart">
+        <div className="cart-header">
+          <h2>Your Cart ({cartCount})</h2>
+          <button className="cart-close-btn" onClick={() => setIsCartOpen(false)} aria-label="Close cart">✕</button>
+        </div>
+
+        {/* Free Shipping Progress */}
+        <div className="cart-shipping-bar">
+          <p className="shipping-text">
+            {cartTotal >= 999 ? "✨ You've unlocked Free Shipping!" : `Add ₹${999 - cartTotal} more for Free Shipping!`}
+          </p>
+          <div className="progress-track">
+            <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
+          </div>
+        </div>
+
+        <div className="cart-body">
+          {cartItems.length === 0 ? (
+            <div className="empty-cart-msg">
+              <span className="empty-cart-icon">🛍️</span>
+              <p>Your cart is currently empty.</p>
+              <button className="btn-empty" onClick={() => { setIsCartOpen(false); scrollToSection('collection'); }}>Shop Now</button>
+            </div>
+          ) : (
+            cartItems.map(item => (
+              <div key={item.product.id} className="cart-item">
+                <img src={item.product.imageURL} alt={item.product.title} className="cart-item-img" />
+                <div className="cart-item-details">
+                  <h4 className="cart-item-title">{item.product.title}</h4>
+                  <p className="cart-item-price">{item.product.priceINR != null ? `₹${item.product.priceINR.toLocaleString('en-IN')}` : 'Price TBD'}</p>
+                  <div className="cart-item-actions">
+                    <div className="qty-controls">
+                      <button onClick={() => updateQuantity(item.product.id, -1)} aria-label="Decrease quantity">−</button>
+                      <span>{item.qty}</span>
+                      <button onClick={() => updateQuantity(item.product.id, 1)} aria-label="Increase quantity">+</button>
+                    </div>
+                    <button className="cart-item-remove" onClick={() => updateQuantity(item.product.id, -item.qty)}>Remove</button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="cart-footer">
+          <div className="cart-subtotal">
+            <span>Subtotal</span>
+            <span>₹{cartTotal.toLocaleString('en-IN')}</span>
+          </div>
+          <p className="cart-tax-note">Shipping & taxes calculated at checkout.</p>
+          <div className="checkout-actions">
+            <button className="btn-checkout-wa" onClick={checkoutWhatsApp} disabled={cartItems.length === 0}>
+              ✦ Checkout via WhatsApp
+            </button>
+            <button className="btn-checkout-email" onClick={checkoutEmail} disabled={cartItems.length === 0}>
+              ✉ Checkout via Email
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* ── HERO ── */}
       <section id="hero" className="hero-section" aria-label="Hero banner">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/main-banner.jpg"
+          src="/Bilwashree-jewels/images/main-banner.jpg"
           alt="Bilvashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
           className="hero-bg-image"
           fetchPriority="high"
@@ -177,7 +382,7 @@ export default function Home() {
             <button
               id="hero-shop-now-btn"
               className="btn-hero-primary"
-              onClick={scrollToCollection}
+              onClick={() => scrollToSection('collection')}
               aria-label="Shop the collection"
             >
               Shop the Collection
@@ -185,7 +390,7 @@ export default function Home() {
             <button
               id="hero-our-story-btn"
               className="btn-hero-secondary"
-              onClick={scrollToAbout}
+              onClick={() => scrollToSection('about')}
               aria-label="Learn our story"
             >
               Our Story
@@ -193,7 +398,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="hero-scroll-hint" aria-hidden="true">
+        <div className="hero-scroll-hint" aria-hidden="true" onClick={() => scrollToSection('collection')}>
           <span className="hero-scroll-arrow">↓</span>
           Scroll
         </div>
@@ -216,6 +421,58 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── MARQUEE ── */}
+      <MarqueeStrip />
+
+      {/* ── OFFERS BANNER ── */}
+      <section className="offers-banner" aria-label="Current promotions">
+        <div className="offers-grid">
+          {OFFERS.map((offer, i) => (
+            <div key={i} className="offer-card">
+              <span className="offer-icon" aria-hidden="true">{offer.icon}</span>
+              <div className="offer-text-group">
+                <span className="offer-title">{offer.title}</span>
+                <span className="offer-desc">{offer.description}</span>
+              </div>
+              <span className="offer-highlight">{offer.highlight}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SHOP BY CATEGORY ── */}
+      <section id="categories" className="category-section reveal" aria-labelledby="category-heading">
+        <div className="container">
+          <div className="section-eyebrow" aria-hidden="true">
+            <span className="eyebrow-line"></span>
+            <span className="eyebrow-text garamond">Explore</span>
+            <span className="eyebrow-line right"></span>
+          </div>
+          <h2 id="category-heading" className="section-title">Shop by Category</h2>
+          <p className="section-subtitle">Discover our meticulously curated collections, designed for every occasion.</p>
+          
+          <div className="category-grid" role="list">
+            {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
+              <div 
+                key={cat.id} 
+                className="category-card" 
+                role="listitem"
+                onClick={() => {
+                  setActiveCategory(cat.id);
+                  scrollToSection('collection');
+                }}
+              >
+                <div className="category-bg-gradient" aria-hidden="true"></div>
+                <div className="category-icon" aria-hidden="true">{cat.icon}</div>
+                <h3 className="category-name">{cat.name}</h3>
+                <p className="category-desc">{cat.description}</p>
+                <span className="category-link">Explore {cat.name} <span>→</span></span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── ABOUT ── */}
       <section id="about" className="about-section reveal" aria-labelledby="about-heading">
         <div className="about-grid">
@@ -223,7 +480,7 @@ export default function Home() {
             <div className="about-image-card">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/pendant-1.jpg.jpeg"
+                src="/Bilwashree-jewels/images/pendant-1.jpg.jpeg"
                 alt="Close-up of a handcrafted Bilvashree pendant"
               />
             </div>
@@ -256,6 +513,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── OUR CRAFTSMANSHIP PROCESS ── */}
+      <section className="process-section reveal" aria-labelledby="process-heading">
+        <div className="container">
+          <div className="section-eyebrow" aria-hidden="true">
+            <span className="eyebrow-line" />
+            <span className="eyebrow-text garamond">Our Process</span>
+            <span className="eyebrow-line right" />
+          </div>
+          <h2 id="process-heading" className="section-title">From Vision to Treasure</h2>
+          <p className="section-subtitle">
+            Each pendant passes through hands that have perfected their craft over generations.
+          </p>
+
+          <div className="process-grid">
+            {PROCESS_STEPS.map(step => (
+              <div key={step.num} className="process-step">
+                <div className="process-step-number">{step.num}</div>
+                <div className="process-step-icon" aria-hidden="true">{step.icon}</div>
+                <h3 className="process-step-name">{step.name}</h3>
+                <p className="process-step-desc">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── COLLECTION ── */}
       <section id="collection" className="collection-section reveal" aria-labelledby="collection-heading">
         <div className="container">
@@ -264,18 +547,47 @@ export default function Home() {
             <span className="eyebrow-text garamond">The Collection</span>
             <span className="eyebrow-line right" />
           </div>
-          <h2 id="collection-heading" className="section-title">Premium Pendant Catalog</h2>
-          <p className="section-subtitle">
-            Explore our exclusively curated, handcrafted pendants — each one a piece of wearable heritage.
-          </p>
+          <h2 id="collection-heading" className="section-title">Premium Jewelry Catalog</h2>
+          
+          {/* Shop By Occasion Tags */}
+          <div className="occasion-tags" role="list" aria-label="Shop by occasion">
+            <span className="occasion-label">Occasion:</span>
+            {OCCASIONS.map(occ => (
+              <button key={occ.id} className="occasion-tag" role="listitem">
+                <span aria-hidden="true">{occ.icon}</span> {occ.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Category Filter Pills */}
+          <div className="category-filters" role="tablist" aria-label="Product categories">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat.id}
+                role="tab"
+                aria-selected={activeCategory === cat.id}
+                className={`filter-pill ${activeCategory === cat.id ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat.id)}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
 
           {loading ? (
             <div className="loader-container" role="status" aria-label="Loading products">
               <span className="loader" />
             </div>
+          ) : filteredProducts.length === 0 ? (
+             <div className="empty-category-state">
+                <div className="empty-icon">✧</div>
+                <h3>New Designs Coming Soon</h3>
+                <p>We are currently handcrafting new {CATEGORIES.find(c => c.id === activeCategory)?.name.toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
+                <button className="btn-empty" onClick={() => setActiveCategory('pendants')}>View Available Pendants</button>
+             </div>
           ) : (
             <div className="product-grid" role="list">
-              {products.map(product => (
+              {filteredProducts.map(product => (
                 <article
                   key={product.id}
                   className="glass-card"
@@ -289,6 +601,13 @@ export default function Home() {
                       alt={product.title}
                       onError={e => { e.target.style.display = 'none'; }}
                     />
+                    
+                    {/* Badge */}
+                    {product.badge && (
+                      <div className={`product-badge ${product.badge === 'Bestseller' ? 'badge-bestseller' : 'badge-new'}`}>
+                        {product.badge}
+                      </div>
+                    )}
                   </div>
 
                   <span className={`stock-badge${!product.inStock ? ' out-of-stock' : ''}`}>
@@ -296,28 +615,61 @@ export default function Home() {
                   </span>
 
                   <div className="card-body">
-                    <p className="product-category">{product.category}</p>
+                    <p className="product-category">
+                      {CATEGORIES.find(c => c.id === product.category)?.name || product.category}
+                    </p>
                     <h3 className="product-title">{product.title}</h3>
-                    {product.material && (
-                      <p className="product-material">{product.material}</p>
-                    )}
+                    
+                    {/* Material & Occasions */}
+                    <div className="product-meta">
+                      {product.material && <span className="product-material">{product.material}</span>}
+                      {product.occasion && product.occasion.length > 0 && (
+                         <div className="card-occasion-strip">
+                           {product.occasion.map(occId => {
+                              const occ = OCCASIONS.find(o => o.id === occId);
+                              return occ ? <span key={occId} className="card-occasion-tag">{occ.name}</span> : null;
+                           })}
+                         </div>
+                      )}
+                    </div>
 
                     <div className="product-footer">
-                      <span className="product-price">
-                        ₹{product.priceINR.toLocaleString('en-IN')}
-                      </span>
+                      <div className="price-group">
+                        {product.priceINR != null ? (
+                          <>
+                            <span className="product-price">
+                              ₹{product.priceINR.toLocaleString('en-IN')}
+                            </span>
+                            {product.originalPrice && (
+                              <span className="original-price">
+                                ₹{product.originalPrice.toLocaleString('en-IN')}
+                              </span>
+                            )}
+                            {product.originalPrice && (
+                              <span className="discount-tag">
+                                {Math.round(((product.originalPrice - product.priceINR) / product.originalPrice) * 100)}% OFF
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="price-coming-soon">Price Coming Soon</span>
+                        )}
+                      </div>
+                      
                       <button
                         id={`add-to-cart-${product.id}`}
                         className="btn-add"
-                        disabled={!product.inStock}
+                        disabled={!product.inStock || product.priceINR == null}
                         onClick={() => handleAddToCart(product)}
                         aria-label={
-                          product.inStock
-                            ? `Add ${product.title} to cart`
-                            : `${product.title} is out of stock`
+                          !product.inStock
+                            ? `${product.title} is out of stock`
+                            : product.priceINR == null
+                            ? `${product.title} — price coming soon`
+                            : `Add ${product.title} to cart`
                         }
                       >
-                        {product.inStock ? '+ Add to Cart' : 'Out of Stock'}
+                        {!product.inStock ? 'Out of Stock' : product.priceINR == null ? 'Coming Soon' : '+ Add to Cart'}
                       </button>
                     </div>
                   </div>
@@ -364,7 +716,7 @@ export default function Home() {
           <div className="testimonials-grid" role="list">
             {TESTIMONIALS.map(t => (
               <blockquote key={t.id} className="testimonial-card" role="listitem">
-                <div className="testimonial-quote" aria-hidden="true">"</div>
+                <div className="testimonial-quote" aria-hidden="true">&ldquo;</div>
                 <Stars count={t.stars} />
                 <p className="testimonial-text">{t.text}</p>
                 <footer className="testimonial-author">
@@ -390,7 +742,7 @@ export default function Home() {
           <button
             id="cta-shop-btn"
             className="btn-cta"
-            onClick={scrollToCollection}
+            onClick={() => scrollToSection('collection')}
             aria-label="Explore the full collection"
           >
             Explore the Full Collection
@@ -418,15 +770,11 @@ export default function Home() {
           <div>
             <h3 className="footer-heading">Quick Links</h3>
             <ul className="footer-links" role="list">
-              {[
-                { label: 'Home',            href: '#hero' },
-                { label: 'The Collection', href: '#collection' },
-                { label: 'Our Story',      href: '#about' },
-                { label: 'Our Values',     href: '#values' },
-                { label: 'Reviews',        href: '#reviews' },
-              ].map(link => (
-                <li key={link.href} role="listitem">
-                  <a href={link.href}>{link.label}</a>
+              {NAV_LINKS.map(link => (
+                <li key={link.id} role="listitem">
+                  <a href={`#${link.id}`} onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}>
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -448,6 +796,18 @@ export default function Home() {
           <span className="footer-bottom-accent">Crafted with devotion ✦</span>
         </div>
       </footer>
+
+      {/* ── FLOATING WHATSAPP ── */}
+      <a
+        href="https://wa.me/919999999999?text=Hi!%20I'm%20interested%20in%20Bilvashree%20Jewels"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="whatsapp-float"
+        aria-label="Chat with us on WhatsApp"
+      >
+        <div className="whatsapp-float-btn">💬</div>
+        <span className="whatsapp-float-label">Chat with us</span>
+      </a>
 
       {/* ── TOAST ── */}
       <div
