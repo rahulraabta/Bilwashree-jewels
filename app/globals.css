@@ -65,15 +65,13 @@ body {
 }
 
 .js-reveal .reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
-              transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 1;
+  transform: none;
 }
 
 .js-reveal .reveal.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .garamond {
@@ -309,20 +307,25 @@ button:focus-visible {
   display: none;
   position: fixed;
   top: 0;
-  right: -100vw;
+  right: 0;
   width: 300px;
   max-width: 85vw;
   height: 100dvh;
   background: var(--bg-color);
   z-index: 1050;
-  transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: opacity 0.25s ease;
   padding: 6rem 2rem 2rem;
   box-shadow: -10px 0 40px rgba(0,0,0,0.15);
   overflow-y: auto;
   overflow-x: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 .mobile-nav-drawer.open {
-  right: 0;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .mobile-nav-links {
@@ -1898,19 +1901,26 @@ section[id] {
 .cart-drawer {
   position: fixed;
   top: 0;
-  right: -100vw;
+  right: 0;
   width: 100%;
   max-width: 420px;
   height: 100dvh;
   background: var(--bg-color);
   z-index: 1001;
   box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-  transition: right 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 0.25s ease;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
-.cart-drawer.open { right: 0; }
+.cart-drawer.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 
 .cart-header {
   padding: 1.5rem 2rem;
@@ -1974,7 +1984,7 @@ section[id] {
   .navbar-links { display: none; }
   .hamburger-btn { display: flex; }
   .mobile-nav-overlay { display: block; }
-  .mobile-nav-drawer { display: block; }
+  .mobile-nav-drawer.open { display: block; }
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
