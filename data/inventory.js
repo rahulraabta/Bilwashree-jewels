@@ -1,5 +1,5 @@
 // data/inventory.js
-const BASE_PATH = ''; // Empty for Netlify (serves from root). Was '/Bilwashree-jewels' for GitHub Pages.
+export const BASE_PATH = process.env.NODE_ENV === 'production' ? '/Bilwashree-jewels' : '';
 
 /* ─── Product Categories ─────────────────────────────────── */
 export const CATEGORIES = [

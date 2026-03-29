@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
+const repoName = 'Bilwashree-jewels';
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
   output: 'export',
-  // No basePath needed for Netlify — it serves from the root '/'
-  // basePath was '/Bilwashree-jewels' for GitHub Pages only
-  trailingSlash: true, 
+  basePath: isProd ? `/${repoName}` : '',
+  assetPrefix: isProd ? `/${repoName}/` : '',
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },

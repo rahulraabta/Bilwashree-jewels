@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { inventory, CATEGORIES, OCCASIONS, OFFERS } from '../data/inventory';
+import { inventory, CATEGORIES, OCCASIONS, OFFERS, BASE_PATH } from '../data/inventory';
 
 /* ─── Static data ─────────────────────────────────────────── */
 const TESTIMONIALS = [
@@ -457,7 +457,7 @@ export default function Home() {
       <section id="hero" className="hero-section" aria-label="Hero banner">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/main-banner.jpg"
+          src={`${BASE_PATH}/images/main-banner.jpg`}
           alt="Bilvashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
           className="hero-bg-image"
           fetchPriority="high"
@@ -589,7 +589,7 @@ export default function Home() {
             <div className="about-image-card">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/pendant-1.jpg.jpeg"
+                src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`}
                 alt="Close-up of a handcrafted Bilvashree pendant"
               />
             </div>
