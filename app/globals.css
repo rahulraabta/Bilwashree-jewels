@@ -1015,8 +1015,18 @@ section[id] {
               opacity 0.6s ease;
   box-shadow: var(--shadow-sm);
   cursor: pointer;
+  opacity: 1;
+  transform: none;
+}
+
+.js-reveal .collection-section .glass-card {
   opacity: 0;
   transform: translateY(30px);
+}
+
+.js-reveal .collection-section.active .glass-card {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Stagger delays */
