@@ -40,6 +40,8 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -51,6 +53,7 @@ body {
     radial-gradient(ellipse at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
   background-attachment: fixed;
   min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
   line-height: 1.6;
 }
@@ -570,7 +573,10 @@ button:focus-visible {
 /* ============================
    GLOBAL LAYOUT
 ============================*/
-.page-wrapper { width: 100%; }
+.page-wrapper {
+  width: 100%;
+  overflow-x: clip;
+}
 
 section[id] {
   scroll-margin-top: calc(var(--navbar-height) + 18px);
