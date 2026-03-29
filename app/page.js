@@ -102,6 +102,8 @@ export default function Home() {
 
   /* Reveal on scroll */
   useEffect(() => {
+    document.documentElement.classList.add('js-reveal');
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -113,7 +115,10 @@ export default function Home() {
     const elements = document.querySelectorAll('.reveal');
     elements.forEach(el => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove('js-reveal');
+    };
   }, [loading]);
 
   /* Navbar scroll effect */
