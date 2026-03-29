@@ -56,6 +56,10 @@ const MARQUEE_ITEMS = [
   "Trusted by 500+ Customers",
 ];
 
+const CART_STORAGE_KEY = 'bilvashree_cart_v1';
+const DEMO_PHONE = '919999999999';
+const DEMO_EMAIL = 'demo@bilvashree.com';
+
 /* ─── Stars helper ───────────────────────────────────────── */
 function Stars({ count = 5 }) {
   return (
@@ -86,12 +90,15 @@ function MarqueeStrip() {
 export default function Home() {
   const [products]                    = useState(inventory);
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeOccasion, setActiveOccasion] = useState('all');
   const [loading]                     = useState(false);
   const [cartItems, setCartItems]     = useState([]);
   const [isCartOpen, setIsCartOpen]   = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [failedImages, setFailedImages] = useState({});
   const navRef = useRef(null);
+  const toastTimeoutRef = useRef(null);
 
   /* Reveal on scroll */
   useEffect(() => {
@@ -133,20 +140,74 @@ export default function Home() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  /* Lock body scroll when mobile nav is open */
+  /* Restore cart from previous session */
   useEffect(() => {
-    if (mobileNavOpen) {
+    try {
+      const savedCart = window.localStorage.getItem(CART_STORAGE_KEY);
+      if (!savedCart) return;
+
+      const parsed = JSON.parse(savedCart);
+      if (!Array.isArray(parsed)) return;
+
+      const normalized = parsed
+        .filter((item) => item?.product?.id && Number.isFinite(item?.qty) && item.qty > 0)
+        .map((item) => ({ ...item, qty: Math.floor(item.qty) }));
+
+      setCartItems(normalized);
+    } catch {
+      window.localStorage.removeItem(CART_STORAGE_KEY);
+    }
+  }, []);
+
+  /* Persist cart for refresh continuity */
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+    } catch {
+      // Ignore storage errors silently
+    }
+  }, [cartItems]);
+
+  /* Lock body scroll when overlays are open */
+  useEffect(() => {
+    if (mobileNavOpen || isCartOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [mobileNavOpen]);
+  }, [mobileNavOpen, isCartOpen]);
+
+  /* ESC closes open drawers */
+  useEffect(() => {
+    if (!mobileNavOpen && !isCartOpen) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMobileNavOpen(false);
+        setIsCartOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileNavOpen, isCartOpen]);
 
   /* Toast */
   const showToast = useCallback((message) => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
     setToastMessage(message);
-    setTimeout(() => setToastMessage(''), 3200);
+    toastTimeoutRef.current = setTimeout(() => setToastMessage(''), 3200);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+    };
   }, []);
 
   /* Add to cart */
@@ -175,16 +236,14 @@ export default function Home() {
 
   const cartTotal = cartItems.reduce((sum, item) => sum + ((item.product.priceINR ?? 0) * item.qty), 0);
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
+  const freeShippingRemaining = Math.max(0, 999 - cartTotal);
   const progressPercent = Math.min(100, (cartTotal / 999) * 100);
 
   /* Checkout Methods */
-  const DEMO_PHONE = "919999999999"; 
-  const DEMO_EMAIL = "demo@bilvashree.com";
-
   const generateOrderSummary = () => {
     let text = `Hello Bilvashree Jewels! I would like to place an order:\n\n`;
     cartItems.forEach(item => {
-      text += `- ${item.qty}x ${item.product.title} (₹${item.product.priceINR * item.qty})\n`;
+      text += `- ${item.qty}x ${item.product.title} (₹${(item.product.priceINR ?? 0) * item.qty})\n`;
     });
     text += `\n*Total:* ₹${cartTotal}`;
     if (cartTotal >= 999) text += ` (Free Shipping eligible)`;
@@ -202,6 +261,16 @@ export default function Home() {
     window.open(`mailto:${DEMO_EMAIL}?subject=${subject}&body=${body}`);
   };
 
+  const SOCIAL_LINKS = [
+    { label: 'Instagram', href: 'https://www.instagram.com/', external: true },
+    { label: 'WhatsApp', href: `https://wa.me/${DEMO_PHONE}?text=Hi!%20I%27m%20interested%20in%20Bilvashree%20Jewels`, external: true },
+    { label: 'Email', href: `mailto:${DEMO_EMAIL}`, external: false },
+  ];
+
+  const handleInfoClick = (label) => {
+    showToast(`${label} page is coming soon. Please message us on WhatsApp for details.`);
+  };
+
   /* Smooth scroll helpers */
   const scrollToSection = (id) => {
     setMobileNavOpen(false);
@@ -216,15 +285,37 @@ export default function Home() {
     { id: 'collection', label: 'Collection' },
     { id: 'about', label: 'Our Story' },
     { id: 'values', label: 'Values' },
+    { id: 'reviews', label: 'Reviews' },
   ];
 
   /* Filter computed property */
-  const filteredProducts = activeCategory === 'all' 
-    ? products 
-    : products.filter(p => p.category === activeCategory);
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
+    const matchesOccasion = activeOccasion === 'all' || product.occasion?.includes(activeOccasion);
+
+    return matchesCategory && matchesOccasion;
+  });
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'JewelryStore',
+    name: 'Bilvashree Jewels',
+    description: 'Handcrafted South Indian temple jewellery with ethical craftsmanship and premium finishing.',
+    telephone: `+${DEMO_PHONE}`,
+    email: DEMO_EMAIL,
+    priceRange: 'INR 399+',
+    makesOffer: {
+      '@type': 'Offer',
+      priceCurrency: 'INR',
+      lowPrice: 399,
+      availability: 'https://schema.org/InStock',
+      category: 'Temple Jewellery',
+    },
+  };
 
   return (
     <div className="page-wrapper">
+      <a href="#collection" className="skip-link">Skip to collection</a>
 
       {/* ── NAV BAR ── */}
       <nav ref={navRef} className="navbar" role="navigation" aria-label="Main navigation">
@@ -247,7 +338,10 @@ export default function Home() {
           <button
             id="navbar-cart-button"
             className="navbar-cart-btn"
-            onClick={() => setIsCartOpen(true)}
+            onClick={() => {
+              setMobileNavOpen(false);
+              setIsCartOpen(true);
+            }}
             aria-label={`Cart with ${cartCount} items`}
           >
             🛍
@@ -277,7 +371,7 @@ export default function Home() {
         onClick={() => setMobileNavOpen(false)}
         aria-hidden="true"
       />
-      <div className={`mobile-nav-drawer ${mobileNavOpen ? 'open' : ''}`} role="dialog" aria-label="Mobile navigation">
+      <div className={`mobile-nav-drawer ${mobileNavOpen ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label="Mobile navigation">
         <span className="mobile-nav-brand">Bilvashree Jewels</span>
         <ul className="mobile-nav-links">
           {NAV_LINKS.map(link => (
@@ -301,7 +395,7 @@ export default function Home() {
         {/* Free Shipping Progress */}
         <div className="cart-shipping-bar">
           <p className="shipping-text">
-            {cartTotal >= 999 ? "✨ You've unlocked Free Shipping!" : `Add ₹${999 - cartTotal} more for Free Shipping!`}
+            {cartTotal >= 999 ? "✨ You've unlocked Free Shipping!" : `Add ₹${freeShippingRemaining.toLocaleString('en-IN')} more for Free Shipping!`}
           </p>
           <div className="progress-track">
             <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
@@ -318,7 +412,13 @@ export default function Home() {
           ) : (
             cartItems.map(item => (
               <div key={item.product.id} className="cart-item">
-                <img src={item.product.imageURL} alt={item.product.title} className="cart-item-img" />
+                <img
+                  src={item.product.imageURL}
+                  alt={item.product.title}
+                  className="cart-item-img"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <div className="cart-item-details">
                   <h4 className="cart-item-title">{item.product.title}</h4>
                   <p className="cart-item-price">{item.product.priceINR != null ? `₹${item.product.priceINR.toLocaleString('en-IN')}` : 'Price TBD'}</p>
@@ -357,7 +457,7 @@ export default function Home() {
       <section id="hero" className="hero-section" aria-label="Hero banner">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/Bilwashree-jewels/images/main-banner.jpg"
+          src="/images/main-banner.jpg"
           alt="Bilvashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
           className="hero-bg-image"
           fetchPriority="high"
@@ -457,9 +557,18 @@ export default function Home() {
                 key={cat.id} 
                 className="category-card" 
                 role="listitem"
+                tabIndex={0}
+                aria-label={`Explore ${cat.name}`}
                 onClick={() => {
                   setActiveCategory(cat.id);
                   scrollToSection('collection');
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setActiveCategory(cat.id);
+                    scrollToSection('collection');
+                  }
                 }}
               >
                 <div className="category-bg-gradient" aria-hidden="true"></div>
@@ -480,7 +589,7 @@ export default function Home() {
             <div className="about-image-card">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/Bilwashree-jewels/images/pendant-1.jpg.jpeg"
+                src="/images/pendant-1.jpg.jpeg"
                 alt="Close-up of a handcrafted Bilvashree pendant"
               />
             </div>
@@ -552,8 +661,22 @@ export default function Home() {
           {/* Shop By Occasion Tags */}
           <div className="occasion-tags" role="list" aria-label="Shop by occasion">
             <span className="occasion-label">Occasion:</span>
+            <button
+              className={`occasion-tag ${activeOccasion === 'all' ? 'active' : ''}`}
+              role="listitem"
+              onClick={() => setActiveOccasion('all')}
+              aria-pressed={activeOccasion === 'all'}
+            >
+              All
+            </button>
             {OCCASIONS.map(occ => (
-              <button key={occ.id} className="occasion-tag" role="listitem">
+              <button
+                key={occ.id}
+                className={`occasion-tag ${activeOccasion === occ.id ? 'active' : ''}`}
+                role="listitem"
+                onClick={() => setActiveOccasion(occ.id)}
+                aria-pressed={activeOccasion === occ.id}
+              >
                 <span aria-hidden="true">{occ.icon}</span> {occ.name}
               </button>
             ))}
@@ -583,7 +706,15 @@ export default function Home() {
                 <div className="empty-icon">✧</div>
                 <h3>New Designs Coming Soon</h3>
                 <p>We are currently handcrafting new {CATEGORIES.find(c => c.id === activeCategory)?.name.toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
-                <button className="btn-empty" onClick={() => setActiveCategory('pendants')}>View Available Pendants</button>
+                <button
+                  className="btn-empty"
+                  onClick={() => {
+                    setActiveCategory('pendants');
+                    setActiveOccasion('all');
+                  }}
+                >
+                  View Available Pendants
+                </button>
              </div>
           ) : (
             <div className="product-grid" role="list">
@@ -596,15 +727,23 @@ export default function Home() {
                 >
                   <div className="card-image-wrap">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={product.imageURL}
-                      alt={product.title}
-                      onError={e => { e.target.style.display = 'none'; }}
-                    />
+                    {failedImages[product.id] ? (
+                      <div className="image-fallback">Image coming soon</div>
+                    ) : (
+                      <img
+                        src={product.imageURL}
+                        alt={product.title}
+                        loading="lazy"
+                        decoding="async"
+                        onError={() => {
+                          setFailedImages((prev) => ({ ...prev, [product.id]: true }));
+                        }}
+                      />
+                    )}
                     
                     {/* Badge */}
                     {product.badge && (
-                      <div className={`product-badge ${product.badge === 'Bestseller' ? 'badge-bestseller' : 'badge-new'}`}>
+                      <div className={`product-badge ${String(product.badge).toLowerCase().replace(/\s+/g, '').includes('bestseller') ? 'badge-bestseller' : 'badge-new'}`}>
                         {product.badge}
                       </div>
                     )}
@@ -760,8 +899,18 @@ export default function Home() {
               Celebrating heritage, ethically handcrafted temple jewellery rooted in the soul of India. Each piece a prayer in gold.
             </p>
             <div className="footer-socials" role="list" aria-label="Social media links">
-              {['Instagram', 'WhatsApp', 'Facebook'].map(s => (
-                <button key={s} className="social-pill" role="listitem" aria-label={s}>{s}</button>
+              {SOCIAL_LINKS.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="social-pill"
+                  role="listitem"
+                  aria-label={social.label}
+                  target={social.external ? '_blank' : undefined}
+                  rel={social.external ? 'noopener noreferrer' : undefined}
+                >
+                  {social.label}
+                </a>
               ))}
             </div>
           </div>
@@ -785,7 +934,11 @@ export default function Home() {
             <h3 className="footer-heading">Information</h3>
             <ul className="footer-links" role="list">
               {['Shipping Policy', 'Return Policy', 'Care Instructions', 'Contact Us', 'Privacy Policy'].map(item => (
-                <li key={item} role="listitem"><a href="#">{item}</a></li>
+                <li key={item} role="listitem">
+                  <button type="button" className="footer-link-btn" onClick={() => handleInfoClick(item)}>
+                    {item}
+                  </button>
+                </li>
               ))}
             </ul>
           </div>
@@ -819,6 +972,11 @@ export default function Home() {
         <span className="toast-icon" aria-hidden="true">✨</span>
         {toastMessage}
       </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
     </div>
   );
