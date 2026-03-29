@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
-const repoName = 'Bilwashree-jewels';
-const isProd = process.env.NODE_ENV === 'production';
+const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const normalizedBasePath = rawBasePath
+  ? `/${rawBasePath.replace(/^\/+|\/+$/g, '')}`
+  : '';
 
 const nextConfig = {
   output: 'export',
-  basePath: isProd ? `/${repoName}` : '',
-  assetPrefix: isProd ? `/${repoName}/` : '',
+  basePath: normalizedBasePath,
+  assetPrefix: normalizedBasePath ? `${normalizedBasePath}/` : '',
   trailingSlash: true,
   images: {
     unoptimized: true,

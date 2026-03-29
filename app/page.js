@@ -45,17 +45,6 @@ const PROCESS_STEPS = [
   { num: "04", icon: "🎁", name: "Delivered", desc: "Premium packaging, straight to your door" },
 ];
 
-const MARQUEE_ITEMS = [
-  "Free Shipping on All Orders",
-  "Handcrafted with Love",
-  "Starting at ₹399",
-  "100% Satisfaction Guaranteed",
-  "Ethically Sourced Materials",
-  "Premium Gift Packaging",
-  "Temple Jewellery Heritage",
-  "Trusted by 500+ Customers",
-];
-
 const CART_STORAGE_KEY = 'bilvashree_cart_v1';
 const DEMO_PHONE = '919999999999';
 const DEMO_EMAIL = 'demo@bilvashree.com';
@@ -69,29 +58,11 @@ function Stars({ count = 5 }) {
   );
 }
 
-/* ─── Marquee Strip ──────────────────────────────────────── */
-function MarqueeStrip() {
-  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
-  return (
-    <div className="marquee-strip" aria-hidden="true">
-      <div className="marquee-track">
-        {items.map((text, i) => (
-          <span key={i} className="marquee-item">
-            <span className="marquee-dot">✦</span>
-            {text}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ─── Main page ────────────────────────────────────────── */
 export default function Home() {
   const [products]                    = useState(inventory);
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeOccasion, setActiveOccasion] = useState('all');
-  const [loading]                     = useState(false);
   const [cartItems, setCartItems]     = useState([]);
   const [isCartOpen, setIsCartOpen]   = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -99,27 +70,6 @@ export default function Home() {
   const [failedImages, setFailedImages] = useState({});
   const navRef = useRef(null);
   const toastTimeoutRef = useRef(null);
-
-  /* Reveal on scroll */
-  useEffect(() => {
-    document.documentElement.classList.add('js-reveal');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    const elements = document.querySelectorAll('.reveal');
-    elements.forEach(el => observer.observe(el));
-
-    return () => {
-      observer.disconnect();
-      document.documentElement.classList.remove('js-reveal');
-    };
-  }, [loading]);
 
   /* Navbar scroll effect */
   useEffect(() => {
@@ -476,11 +426,11 @@ export default function Home() {
           </div>
 
           <h1 className="hero-title">
-            Jewels Crafted with<br /><em>Divine Artistry</em>
+            Temple Jewellery with <em>Timeless Impact</em>
           </h1>
 
           <p className="hero-subtitle">
-            Every pendant tells a story rooted in devotion, heritage, and timeless Indian craftsmanship. Adorned by queens, cherished by souls.
+            Let the craftsmanship speak first - heritage-inspired pieces designed to elevate every celebration.
           </p>
 
           <div className="hero-actions">
@@ -526,11 +476,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── MARQUEE ── */}
-      <MarqueeStrip />
-
       {/* ── OFFERS BANNER ── */}
       <section className="offers-banner" aria-label="Current promotions">
+        <p className="offers-welcome">
+          Welcome to offers, shipping, and advertisements. Full details will be updated soon.
+        </p>
         <div className="offers-grid">
           {OFFERS.map((offer, i) => (
             <div key={i} className="offer-card">
@@ -702,11 +652,7 @@ export default function Home() {
             ))}
           </div>
 
-          {loading ? (
-            <div className="loader-container" role="status" aria-label="Loading products">
-              <span className="loader" />
-            </div>
-          ) : filteredProducts.length === 0 ? (
+          {filteredProducts.length === 0 ? (
              <div className="empty-category-state">
                 <div className="empty-icon">✧</div>
                 <h3>New Designs Coming Soon</h3>
@@ -954,18 +900,6 @@ export default function Home() {
           <span className="footer-bottom-accent">Crafted with devotion ✦</span>
         </div>
       </footer>
-
-      {/* ── FLOATING WHATSAPP ── */}
-      <a
-        href="https://wa.me/919999999999?text=Hi!%20I'm%20interested%20in%20Bilvashree%20Jewels"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="whatsapp-float"
-        aria-label="Chat with us on WhatsApp"
-      >
-        <div className="whatsapp-float-btn">💬</div>
-        <span className="whatsapp-float-label">Chat with us</span>
-      </a>
 
       {/* ── TOAST ── */}
       <div

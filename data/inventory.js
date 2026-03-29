@@ -1,5 +1,8 @@
 // data/inventory.js
-export const BASE_PATH = process.env.NODE_ENV === 'production' ? '/Bilwashree-jewels' : '';
+const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+export const BASE_PATH = rawBasePath
+  ? `/${rawBasePath.replace(/^\/+|\/+$/g, '')}`
+  : '';
 
 /* ─── Product Categories ─────────────────────────────────── */
 export const CATEGORIES = [
@@ -23,10 +26,9 @@ export const OCCASIONS = [
 
 /* ─── Promotional Offers ────────────────────────────────── */
 export const OFFERS = [
-  { icon: '🏷️', title: 'Grand Launch Offer',  description: 'Flat prices starting at just ₹399', highlight: '₹399' },
-  { icon: '🚚', title: 'Free Shipping',        description: 'Free delivery on all orders across India', highlight: 'Free' },
-  { icon: '🔄', title: 'Easy Returns',          description: '7-day hassle-free return policy', highlight: '7 Days' },
-  { icon: '✅', title: 'Quality Assured',        description: 'BIS Hallmarked & certified jewellery', highlight: 'Certified' },
+  { icon: '🏷️', title: 'Offers',          description: 'Welcome! Offer details will be updated soon.', highlight: 'Soon' },
+  { icon: '🚚', title: 'Shipping',        description: 'Shipping timelines and terms will be shared shortly.', highlight: 'Soon' },
+  { icon: '📢', title: 'Advertisements',  description: 'Campaign and promotional details are coming next.', highlight: 'Soon' },
 ];
 
 /* ─── Products Inventory ─────────────────────────────────── */

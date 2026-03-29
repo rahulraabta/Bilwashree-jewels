@@ -1,7 +1,10 @@
 import './globals.css';
 
+const fallbackSiteUrl = 'https://bilvash.netlify.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.URL || fallbackSiteUrl;
+
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bilvashree-jewels.netlify.app'),
+  metadataBase: new URL(siteUrl),
   title: 'Bilvashree Jewels — Premium Temple Jewellery',
   description:
     'Discover handcrafted South Indian temple pendants rooted in heritage and devotion. Starting at ₹399. Ethically made by skilled artisans.',
@@ -23,6 +26,12 @@ export const metadata = {
     description: 'Handcrafted temple pendants rooted in heritage. Starting at ₹399.',
     images: ['/images/main-banner.jpg'],
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }) {
