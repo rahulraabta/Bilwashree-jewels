@@ -628,7 +628,7 @@ section[id] {
 .section-subtitle {
   text-align: center;
   color: var(--text-muted);
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.2rem;
   font-size: 1.1rem;
   font-weight: 300;
   max-width: 550px;
@@ -1219,7 +1219,7 @@ section[id] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.8rem;
-  margin-top: 3.5rem;
+  margin-top: 0;
 }
 
 .value-card {
@@ -1279,7 +1279,7 @@ section[id] {
    TESTIMONIALS
 ============================*/
 .testimonials-section {
-  padding: 7rem 0;
+  padding: 5rem 0 4.5rem;
   background: var(--bg-alt);
 }
 
@@ -1287,7 +1287,7 @@ section[id] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.8rem;
-  margin-top: 3.5rem;
+  margin-top: 0;
 }
 
 .testimonial-card {
@@ -1366,7 +1366,7 @@ section[id] {
    CTA BANNER
 ============================*/
 .cta-section {
-  padding: 6rem 2rem;
+  padding: 4.25rem 2rem;
   text-align: center;
   background: linear-gradient(135deg, #D4AF37 0%, #C5A059 60%, #B08840 100%);
   position: relative;
@@ -1523,7 +1523,7 @@ section[id] {
 .footer {
   background: #14110C;
   color: rgba(255,255,255,0.55);
-  padding: 4rem 2rem 2rem;
+  padding: 3rem 2rem 2rem;
   position: relative;
 }
 
@@ -1780,7 +1780,7 @@ section[id] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
-  margin-top: 3.5rem;
+  margin-top: 0;
 }
 .category-card {
   background: var(--white);
