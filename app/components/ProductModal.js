@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { DEMO_PHONE } from '../data/inventory';
+import { DEMO_PHONE } from '../../data/inventory';
 
 export default function ProductModal({ product, categoryName, onClose, onAddToCart }) {
   const modalRef = useRef(null);
