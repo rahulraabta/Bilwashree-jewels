@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { DEMO_PHONE } from '../../data/inventory';
 
-export default function ProductCard({ product, categoryName, occasionTags, onAddToCart }) {
+export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
 
   const discount = product.originalPrice && product.priceINR
@@ -15,6 +16,8 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
       className="glass-card"
       role="listitem"
       aria-label={product.title}
+      onMouseEnter={onView}
+      onClick={onClick}
     >
       <div className="card-image-wrap">
         {imageError ? (
@@ -88,7 +91,10 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             id={`add-to-cart-${product.id}`}
             className="btn-add"
             disabled={!product.inStock || product.priceINR == null}
-            onClick={() => onAddToCart(product)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToCart(product);
+            }}
             aria-label={
               !product.inStock
                 ? `${product.title} is out of stock`
@@ -98,6 +104,19 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             }
           >
             {!product.inStock ? 'Out of Stock' : product.priceINR == null ? 'Coming Soon' : '+ Add to Cart'}
+          </button>
+
+          <button
+            className="btn-quick-buy"
+            onClick={(e) => {
+              e.stopPropagation();
+              onView?.();
+              const text = encodeURIComponent(`Hi! I'm interested in "${product.title}" (₹${product.priceINR}). Can you help me?`);
+              window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
+            }}
+            aria-label={`Inquiry about ${product.title} on WhatsApp`}
+          >
+            Inquiry <span>💬</span>
           </button>
         </div>
       </div>

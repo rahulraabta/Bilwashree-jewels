@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import SearchBar from './SearchBar';
 
 export default function Navbar({
   navLinks,
   cartCount,
   onCartOpen,
-  scrollToSection
+  scrollToSection,
+  onSearch
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -82,6 +84,7 @@ export default function Navbar({
         </ul>
 
         <div className="navbar-actions">
+          <SearchBar onSearch={onSearch} />
           <button
             id="navbar-cart-button"
             className="navbar-cart-btn"

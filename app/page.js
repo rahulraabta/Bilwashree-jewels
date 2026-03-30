@@ -11,6 +11,7 @@ import {
   TESTIMONIALS,
   VALUES,
   PROCESS_STEPS,
+  CARE_INSTRUCTIONS,
   CART_STORAGE_KEY,
   DEMO_PHONE,
   DEMO_EMAIL
@@ -23,6 +24,9 @@ import ProductCard from './components/ProductCard';
 import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
 import Reveal from './components/Reveal';
+import LuxuryTrustBar from './components/LuxuryTrustBar';
+import Ornament from './components/Ornament';
+import ProductModal from './components/ProductModal';
 
 /* ─── Stars helper ───────────────────────────────────────── */
 function Stars({ count = 5 }) {
@@ -36,6 +40,9 @@ function Stars({ count = 5 }) {
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeOccasion, setActiveOccasion] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -76,7 +83,22 @@ export default function Home() {
     }
   }, [cartItems]);
 
-  /* Lock body scroll when overlays are open */
+  /* Persistence for recently viewed */
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem('bilvashree_recent_v1');
+      if (saved) setRecentlyViewed(JSON.parse(saved).slice(0, 6));
+    } catch { }
+  }, []);
+
+  const addToRecent = useCallback((product) => {
+    setRecentlyViewed(prev => {
+      const filtered = prev.filter(p => p.id !== product.id);
+      const updated = [product, ...filtered].slice(0, 6);
+      window.localStorage.setItem('bilvashree_recent_v1', JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
   useEffect(() => {
     if (isCartOpen) {
       document.body.classList.add('cart-open');
@@ -132,6 +154,11 @@ export default function Home() {
     setIsCartOpen(true);
     showToast(`✨ "${product.title}" added to cart!`);
   }, [showToast]);
+
+  const openProductQuickView = (product) => {
+    setSelectedProduct(product);
+    addToRecent(product);
+  };
 
   /* Cart Operations */
   const updateQuantity = (id, delta) => {
@@ -217,7 +244,10 @@ export default function Home() {
   const filteredProducts = inventory.filter((product) => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
     const matchesOccasion = activeOccasion === 'all' || product.occasion?.includes(activeOccasion);
-    return matchesCategory && matchesOccasion;
+    const matchesSearch = !searchQuery ||
+      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      CATEGORIES.find(c => c.id === product.category)?.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesOccasion && matchesSearch;
   });
 
   const structuredData = {
@@ -246,6 +276,7 @@ export default function Home() {
         cartCount={cartCount}
         onCartOpen={() => setIsCartOpen(true)}
         scrollToSection={scrollToSection}
+        onSearch={setSearchQuery}
       />
 
       <CartDrawer
@@ -265,24 +296,7 @@ export default function Home() {
         onStoryClick={() => scrollToSection('about')}
       />
 
-      {/* ── TRUST BAR ── */}
-      <Reveal className="trust-bar-reveal">
-        <div className="trust-bar" aria-label="Trust statistics">
-          <div className="trust-bar-grid">
-            {[
-              { number: '7+',    label: 'Curated Pieces' },
-              { number: '100%',  label: 'Handcrafted' },
-              { number: '₹399',  label: 'Starting Price' },
-              { number: '★ 5.0', label: 'Customer Rating' },
-            ].map(item => (
-              <div key={item.label} className="trust-item">
-                <div className="trust-number">{item.number}</div>
-                <div className="trust-label">{item.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Reveal>
+      <LuxuryTrustBar />
 
       {/* ── OFFERS BANNER ── */}
       <Reveal className="offers-banner-reveal">
@@ -503,10 +517,94 @@ export default function Home() {
                   categoryName={CATEGORIES.find(c => c.id === product.category)?.name || product.category}
                   occasionTags={product.occasion?.map(occId => OCCASIONS.find(o => o.id === occId)).filter(Boolean)}
                   onAddToCart={handleAddToCart}
+                  onView={() => addToRecent(product)}
+                  onClick={() => openProductQuickView(product)}
                 />
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ── GIFTING GUIDE ── */}
+      <section id="gifting" className="gifting-section" aria-labelledby="gifting-heading">
+        <div className="container">
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">Gifting</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="gifting-heading" className="section-title">Perfect Gifts for Every Moment</h2>
+            <p className="section-subtitle">Discover our curated gift selections designed to make every occasion unforgettable.</p>
+          </Reveal>
+
+          <Reveal className="reveal-stagger">
+            <div className="gifting-grid">
+              <div className="gift-card" onClick={() => { setActiveOccasion('festive'); scrollToSection('collection'); }}>
+                <div className="gift-bg">
+                  <Image src={`${BASE_PATH}/images/pendant-2.jpg.jpeg`} alt="Gifts for Her" fill style={{ objectFit: 'cover' }} unoptimized />
+                </div>
+                <div className="gift-overlay" />
+                <div className="gift-content">
+                  <h3 className="gift-title">For Her</h3>
+                  <p className="gift-desc">Elegant pendants and necklaces she will cherish forever.</p>
+                  <span className="gift-btn">Explore Gifts</span>
+                </div>
+              </div>
+
+              <div className="gift-card" onClick={() => { setActiveOccasion('bridal'); scrollToSection('collection'); }}>
+                <div className="gift-bg">
+                  <Image src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`} alt="Wedding Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
+                </div>
+                <div className="gift-overlay" />
+                <div className="gift-content">
+                  <h3 className="gift-title">The Bride</h3>
+                  <p className="gift-desc">Divine temple sets for the most sacred day of her life.</p>
+                  <span className="gift-btn">Explore Bridal</span>
+                </div>
+              </div>
+
+              <div className="gift-card" onClick={() => { setActiveOccasion('daily'); scrollToSection('collection'); }}>
+                <div className="gift-bg">
+                  <Image src={`${BASE_PATH}/images/pendant-5.jpg.jpeg`} alt="Anniversary Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
+                </div>
+                <div className="gift-overlay" />
+                <div className="gift-content">
+                  <h3 className="gift-title">Daily Elegance</h3>
+                  <p className="gift-desc">Minimalistic heritage designs for her everyday celebrations.</p>
+                  <span className="gift-btn">Explore Collection</span>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── JEWELRY CARE ── */}
+      <section id="care" className="care-section" aria-labelledby="care-heading">
+        <div className="container">
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">Preserve Beauty</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="care-heading" className="section-title">Jewellery Care Guide</h2>
+            <p className="section-subtitle">A little care goes a long way in preserving the sacred luster of your Bilvashree pieces.</p>
+          </Reveal>
+
+          <Reveal className="reveal-stagger">
+            <div className="care-grid">
+              {CARE_INSTRUCTIONS.map((item, idx) => (
+                <div key={idx} className="care-card">
+                  <div className="care-icon" aria-hidden="true">{item.icon}</div>
+                  <h3 className="care-title">{item.title}</h3>
+                  <p className="care-desc">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -590,12 +688,68 @@ export default function Home() {
         </section>
       </Reveal>
 
+      {/* ── NEWSLETTER ── */}
+      <section className="newsletter-section">
+        <div className="container">
+          <Reveal className="newsletter-content">
+            <h2 className="newsletter-title">Join the Bilvashree Circle</h2>
+            <p className="newsletter-desc">Be the first to discover our new collections, heritage stories, and exclusive offers.</p>
+            <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); showToast('✨ Welcome to the circle!'); }}>
+              <input
+                type="email"
+                className="newsletter-input"
+                placeholder="Enter your email address"
+                required
+              />
+              <button type="submit" className="btn-newsletter">Join Now</button>
+            </form>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── RECENTLY VIEWED ── */}
+      {recentlyViewed.length > 0 && (
+        <section className="recently-viewed-section" aria-labelledby="recent-heading">
+          <div className="container">
+            <Reveal>
+              <div className="section-eyebrow" aria-hidden="true">
+                <span className="eyebrow-line" />
+                <span className="eyebrow-text garamond">History</span>
+                <span className="eyebrow-line right" />
+              </div>
+              <h2 id="recent-heading" className="section-title">Recently Viewed</h2>
+            </Reveal>
+            <div className="product-grid mini-grid">
+              {recentlyViewed.map(product => (
+                <ProductCard
+                  key={`recent-${product.id}`}
+                  product={product}
+                  categoryName={CATEGORIES.find(c => c.id === product.category)?.name || product.category}
+                  onAddToCart={handleAddToCart}
+                  onView={() => {}} // No need to re-add to recent
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <Footer
         navLinks={NAV_LINKS}
         socialLinks={SOCIAL_LINKS}
         onInfoClick={handleInfoClick}
         scrollToSection={scrollToSection}
       />
+
+      {/* ── PRODUCT MODAL ── */}
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          categoryName={CATEGORIES.find(c => c.id === selectedProduct.category)?.name || selectedProduct.category}
+          onClose={() => setSelectedProduct(null)}
+          onAddToCart={handleAddToCart}
+        />
+      )}
 
       {/* ── TOAST ── */}
       <div
