@@ -755,3 +755,49 @@ export const inventory = [
     inStock: true
   },
 ];
+
+/* ─── Static Data — Extra Content ────────────────────────── */
+export const TESTIMONIALS = [
+  {
+    id: 1,
+    text: "Ordered the Goddess Lakshmi pendant for my mother and she was moved to tears. The craftsmanship is absolutely divine — you can feel the love in every detail.",
+    name: "Ananya R.",
+    location: "Bengaluru, Karnataka",
+    initial: "A",
+    stars: 5,
+  },
+  {
+    id: 2,
+    text: "The packaging alone felt luxurious. Got the Peacock Motif pendant for my wedding anniversary and my wife hasn't taken it off since. Truly beautiful work.",
+    name: "Vikram S.",
+    location: "Chennai, Tamil Nadu",
+    initial: "V",
+    stars: 5,
+  },
+  {
+    id: 3,
+    text: "I've gifted Bilvashree pieces to three friends now. Every single one of them asks me where I found such elegant and affordable jewellery. Highly recommend!",
+    name: "Priya M.",
+    location: "Hyderabad, Telangana",
+    initial: "P",
+    stars: 5,
+  },
+];
+
+export const VALUES = [
+  { icon: "✦", name: "Heritage Craftsmanship", desc: "Every pendant honours centuries of South Indian temple jewellery artistry." },
+  { icon: "⬡", name: "Ethical Sourcing", desc: "Materials are sourced responsibly, supporting fair-wage artisan communities." },
+  { icon: "♻", name: "Sustainability", desc: "Eco-minded packaging and low-waste production processes at our core." },
+  { icon: "❧", name: "Timeless Elegance", desc: "Designs that transcend seasons — pieces you will cherish for a lifetime." },
+];
+
+export const PROCESS_STEPS = [
+  { num: "01", icon: "✎", name: "Design", desc: "Inspired by temple art & sacred geometry" },
+  { num: "02", icon: "🤲", name: "Handcraft", desc: "Skilled artisans shape every detail" },
+  { num: "03", icon: "✓", name: "Quality Check", desc: "Rigorous inspection for flawless finish" },
+  { num: "04", icon: "🎁", name: "Delivered", desc: "Premium packaging, straight to your door" },
+];
+
+export const CART_STORAGE_KEY = 'bilvashree_cart_v1';
+export const DEMO_PHONE = '919999999999';
+export const DEMO_EMAIL = 'demo@bilvashree.com';

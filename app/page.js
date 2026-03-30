@@ -1,53 +1,28 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { inventory, CATEGORIES, OCCASIONS, OFFERS, BASE_PATH } from '../data/inventory';
+import Image from 'next/image';
+import {
+  inventory,
+  CATEGORIES,
+  OCCASIONS,
+  OFFERS,
+  BASE_PATH,
+  TESTIMONIALS,
+  VALUES,
+  PROCESS_STEPS,
+  CART_STORAGE_KEY,
+  DEMO_PHONE,
+  DEMO_EMAIL
+} from '../data/inventory';
 
-/* ─── Static data ─────────────────────────────────────────── */
-const TESTIMONIALS = [
-  {
-    id: 1,
-    text: "Ordered the Goddess Lakshmi pendant for my mother and she was moved to tears. The craftsmanship is absolutely divine — you can feel the love in every detail.",
-    name: "Ananya R.",
-    location: "Bengaluru, Karnataka",
-    initial: "A",
-    stars: 5,
-  },
-  {
-    id: 2,
-    text: "The packaging alone felt luxurious. Got the Peacock Motif pendant for my wedding anniversary and my wife hasn't taken it off since. Truly beautiful work.",
-    name: "Vikram S.",
-    location: "Chennai, Tamil Nadu",
-    initial: "V",
-    stars: 5,
-  },
-  {
-    id: 3,
-    text: "I've gifted Bilvashree pieces to three friends now. Every single one of them asks me where I found such elegant and affordable jewellery. Highly recommend!",
-    name: "Priya M.",
-    location: "Hyderabad, Telangana",
-    initial: "P",
-    stars: 5,
-  },
-];
-
-const VALUES = [
-  { icon: "✦", name: "Heritage Craftsmanship", desc: "Every pendant honours centuries of South Indian temple jewellery artistry." },
-  { icon: "⬡", name: "Ethical Sourcing", desc: "Materials are sourced responsibly, supporting fair-wage artisan communities." },
-  { icon: "♻", name: "Sustainability", desc: "Eco-minded packaging and low-waste production processes at our core." },
-  { icon: "❧", name: "Timeless Elegance", desc: "Designs that transcend seasons — pieces you will cherish for a lifetime." },
-];
-
-const PROCESS_STEPS = [
-  { num: "01", icon: "✎", name: "Design", desc: "Inspired by temple art & sacred geometry" },
-  { num: "02", icon: "🤲", name: "Handcraft", desc: "Skilled artisans shape every detail" },
-  { num: "03", icon: "✓", name: "Quality Check", desc: "Rigorous inspection for flawless finish" },
-  { num: "04", icon: "🎁", name: "Delivered", desc: "Premium packaging, straight to your door" },
-];
-
-const CART_STORAGE_KEY = 'bilvashree_cart_v1';
-const DEMO_PHONE = '919999999999';
-const DEMO_EMAIL = 'demo@bilvashree.com';
+// Components
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import ProductCard from './components/ProductCard';
+import CartDrawer from './components/CartDrawer';
+import Footer from './components/Footer';
+import Reveal from './components/Reveal';
 
 /* ─── Stars helper ───────────────────────────────────────── */
 function Stars({ count = 5 }) {
@@ -58,41 +33,19 @@ function Stars({ count = 5 }) {
   );
 }
 
-/* ─── Main page ────────────────────────────────────────── */
 export default function Home() {
-  const [products]                    = useState(inventory);
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeOccasion, setActiveOccasion] = useState('all');
-  const [cartItems, setCartItems]     = useState([]);
-  const [isCartOpen, setIsCartOpen]   = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [failedImages, setFailedImages] = useState({});
-  const navRef = useRef(null);
+  const [isFiltering, setIsFiltering] = useState(false);
   const toastTimeoutRef = useRef(null);
 
-  /* Navbar scroll effect */
+  /* Scrollbar width calculation for smooth body lock */
   useEffect(() => {
-    const handleScroll = () => {
-      if (navRef.current) {
-        if (window.scrollY > 80) {
-          navRef.current.classList.add('scrolled');
-        } else {
-          navRef.current.classList.remove('scrolled');
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  /* Close mobile nav on resize */
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 900) setMobileNavOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
   }, []);
 
   /* Restore cart from previous session */
@@ -125,28 +78,30 @@ export default function Home() {
 
   /* Lock body scroll when overlays are open */
   useEffect(() => {
-    if (mobileNavOpen || isCartOpen) {
-      document.body.style.overflow = 'hidden';
+    if (isCartOpen) {
+      document.body.classList.add('cart-open');
     } else {
-      document.body.style.overflow = '';
+      document.body.classList.remove('cart-open');
     }
-    return () => { document.body.style.overflow = ''; };
-  }, [mobileNavOpen, isCartOpen]);
+    return () => {
+      document.body.classList.remove('cart-open');
+      document.body.classList.remove('nav-open');
+    };
+  }, [isCartOpen]);
 
   /* ESC closes open drawers */
   useEffect(() => {
-    if (!mobileNavOpen && !isCartOpen) return;
+    if (!isCartOpen) return;
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
-        setMobileNavOpen(false);
         setIsCartOpen(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [mobileNavOpen, isCartOpen]);
+  }, [isCartOpen]);
 
   /* Toast */
   const showToast = useCallback((message) => {
@@ -191,8 +146,6 @@ export default function Home() {
 
   const cartTotal = cartItems.reduce((sum, item) => sum + ((item.product.priceINR ?? 0) * item.qty), 0);
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
-  const freeShippingRemaining = Math.max(0, 999 - cartTotal);
-  const progressPercent = Math.min(100, (cartTotal / 999) * 100);
 
   /* Checkout Methods */
   const generateOrderSummary = () => {
@@ -228,7 +181,6 @@ export default function Home() {
 
   /* Smooth scroll helpers */
   const scrollToSection = (id) => {
-    setMobileNavOpen(false);
     setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -243,11 +195,28 @@ export default function Home() {
     { id: 'reviews', label: 'Reviews' },
   ];
 
-  /* Filter computed property */
-  const filteredProducts = products.filter((product) => {
+  /* Filter with smooth transition */
+  const changeCategory = (catId) => {
+    if (catId === activeCategory) return;
+    setIsFiltering(true);
+    setTimeout(() => {
+      setActiveCategory(catId);
+      setIsFiltering(false);
+    }, 300);
+  };
+
+  const changeOccasion = (occId) => {
+    if (occId === activeOccasion) return;
+    setIsFiltering(true);
+    setTimeout(() => {
+      setActiveOccasion(occId);
+      setIsFiltering(false);
+    }, 300);
+  };
+
+  const filteredProducts = inventory.filter((product) => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
     const matchesOccasion = activeOccasion === 'all' || product.occasion?.includes(activeOccasion);
-
     return matchesCategory && matchesOccasion;
   });
 
@@ -272,289 +241,137 @@ export default function Home() {
     <div className="page-wrapper">
       <a href="#collection" className="skip-link">Skip to collection</a>
 
-      {/* ── NAV BAR ── */}
-      <nav ref={navRef} className="navbar" role="navigation" aria-label="Main navigation">
-        <div className="navbar-brand">
-          <span className="navbar-brand-name">Bilvashree Jewels</span>
-          <span className="navbar-brand-tagline">Premium Temple Jewellery</span>
-        </div>
-
-        <ul className="navbar-links">
-          {NAV_LINKS.map(link => (
-            <li key={link.id}>
-              <a href={`#${link.id}`} onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}>
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="navbar-actions">
-          <button
-            id="navbar-cart-button"
-            className="navbar-cart-btn"
-            onClick={() => {
-              setMobileNavOpen(false);
-              setIsCartOpen(true);
-            }}
-            aria-label={`Cart with ${cartCount} items`}
-          >
-            🛍
-            {cartCount > 0 && (
-              <span className="cart-badge" aria-live="polite">{cartCount}</span>
-            )}
-            Cart
-          </button>
-
-          {/* Hamburger */}
-          <button
-            className={`hamburger-btn ${mobileNavOpen ? 'open' : ''}`}
-            onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileNavOpen}
-          >
-            <span className="hamburger-line" />
-            <span className="hamburger-line" />
-            <span className="hamburger-line" />
-          </button>
-        </div>
-      </nav>
-
-      {/* ── Mobile Nav Overlay ── */}
-      <div
-        className={`mobile-nav-overlay ${mobileNavOpen ? 'open' : ''}`}
-        onClick={() => setMobileNavOpen(false)}
-        aria-hidden="true"
+      <Navbar
+        navLinks={NAV_LINKS}
+        cartCount={cartCount}
+        onCartOpen={() => setIsCartOpen(true)}
+        scrollToSection={scrollToSection}
       />
-      <div className={`mobile-nav-drawer ${mobileNavOpen ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label="Mobile navigation">
-        <span className="mobile-nav-brand">Bilvashree Jewels</span>
-        <ul className="mobile-nav-links">
-          {NAV_LINKS.map(link => (
-            <li key={link.id}>
-              <a href={`#${link.id}`} onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}>
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
 
-      {/* ── CART DRAWER ── */}
-      <div className={`cart-overlay ${isCartOpen ? 'open' : ''}`} onClick={() => setIsCartOpen(false)} aria-hidden="true" />
-      <div className={`cart-drawer ${isCartOpen ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label="Shopping Cart">
-        <div className="cart-header">
-          <h2>Your Cart ({cartCount})</h2>
-          <button className="cart-close-btn" onClick={() => setIsCartOpen(false)} aria-label="Close cart">✕</button>
-        </div>
+      <CartDrawer
+        isOpen={isCartOpen}
+        cartItems={cartItems}
+        cartCount={cartCount}
+        cartTotal={cartTotal}
+        onClose={() => setIsCartOpen(false)}
+        updateQuantity={updateQuantity}
+        checkoutWhatsApp={checkoutWhatsApp}
+        checkoutEmail={checkoutEmail}
+        scrollToSection={scrollToSection}
+      />
 
-        {/* Free Shipping Progress */}
-        <div className="cart-shipping-bar">
-          <p className="shipping-text">
-            {cartTotal >= 999 ? "✨ You've unlocked Free Shipping!" : `Add ₹${freeShippingRemaining.toLocaleString('en-IN')} more for Free Shipping!`}
-          </p>
-          <div className="progress-track">
-            <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
-          </div>
-        </div>
-
-        <div className="cart-body">
-          {cartItems.length === 0 ? (
-            <div className="empty-cart-msg">
-              <span className="empty-cart-icon">🛍️</span>
-              <p>Your cart is currently empty.</p>
-              <button className="btn-empty" onClick={() => { setIsCartOpen(false); scrollToSection('collection'); }}>Shop Now</button>
-            </div>
-          ) : (
-            cartItems.map(item => (
-              <div key={item.product.id} className="cart-item">
-                <img
-                  src={item.product.imageURL}
-                  alt={item.product.title}
-                  className="cart-item-img"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="cart-item-details">
-                  <h4 className="cart-item-title">{item.product.title}</h4>
-                  <p className="cart-item-price">{item.product.priceINR != null ? `₹${item.product.priceINR.toLocaleString('en-IN')}` : 'Price TBD'}</p>
-                  <div className="cart-item-actions">
-                    <div className="qty-controls">
-                      <button onClick={() => updateQuantity(item.product.id, -1)} aria-label="Decrease quantity">−</button>
-                      <span>{item.qty}</span>
-                      <button onClick={() => updateQuantity(item.product.id, 1)} aria-label="Increase quantity">+</button>
-                    </div>
-                    <button className="cart-item-remove" onClick={() => updateQuantity(item.product.id, -item.qty)}>Remove</button>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className="cart-footer">
-          <div className="cart-subtotal">
-            <span>Subtotal</span>
-            <span>₹{cartTotal.toLocaleString('en-IN')}</span>
-          </div>
-          <p className="cart-tax-note">Shipping & taxes calculated at checkout.</p>
-          <div className="checkout-actions">
-            <button className="btn-checkout-wa" onClick={checkoutWhatsApp} disabled={cartItems.length === 0}>
-              ✦ Checkout via WhatsApp
-            </button>
-            <button className="btn-checkout-email" onClick={checkoutEmail} disabled={cartItems.length === 0}>
-              ✉ Checkout via Email
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* ── HERO ── */}
-      <section id="hero" className="hero-section" aria-label="Hero banner">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`${BASE_PATH}/images/main-banner.jpg`}
-          alt="Bilvashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
-          className="hero-bg-image"
-          fetchPriority="high"
-        />
-        <div className="hero-overlay" aria-hidden="true" />
-
-        <div className="hero-content">
-          <div className="hero-eyebrow" aria-hidden="true">
-            <span className="hero-eyebrow-dot" />
-            Temple Heritage Collection
-          </div>
-
-          <h1 className="hero-title">
-            Temple Jewellery with <em>Timeless Impact</em>
-          </h1>
-
-          <p className="hero-subtitle">
-            Let the craftsmanship speak first - heritage-inspired pieces designed to elevate every celebration.
-          </p>
-
-          <div className="hero-actions">
-            <button
-              id="hero-shop-now-btn"
-              className="btn-hero-primary"
-              onClick={() => scrollToSection('collection')}
-              aria-label="Shop the collection"
-            >
-              Shop the Collection
-            </button>
-            <button
-              id="hero-our-story-btn"
-              className="btn-hero-secondary"
-              onClick={() => scrollToSection('about')}
-              aria-label="Learn our story"
-            >
-              Our Story
-            </button>
-          </div>
-        </div>
-
-        <div className="hero-scroll-hint" aria-hidden="true" onClick={() => scrollToSection('collection')}>
-          <span className="hero-scroll-arrow">↓</span>
-          Scroll
-        </div>
-      </section>
+      <Hero
+        onShopClick={() => scrollToSection('collection')}
+        onStoryClick={() => scrollToSection('about')}
+      />
 
       {/* ── TRUST BAR ── */}
-      <div className="trust-bar" aria-label="Trust statistics">
-        <div className="trust-bar-grid">
-          {[
-            { number: '7+',    label: 'Curated Pieces' },
-            { number: '100%',  label: 'Handcrafted' },
-            { number: '₹399',  label: 'Starting Price' },
-            { number: '★ 5.0', label: 'Customer Rating' },
-          ].map(item => (
-            <div key={item.label} className="trust-item">
-              <div className="trust-number">{item.number}</div>
-              <div className="trust-label">{item.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── OFFERS BANNER ── */}
-      <section className="offers-banner" aria-label="Current promotions">
-        <p className="offers-welcome">
-          Welcome to offers, shipping, and advertisements. Full details will be updated soon.
-        </p>
-        <div className="offers-grid">
-          {OFFERS.map((offer, i) => (
-            <div key={i} className="offer-card">
-              <span className="offer-icon" aria-hidden="true">{offer.icon}</span>
-              <div className="offer-text-group">
-                <span className="offer-title">{offer.title}</span>
-                <span className="offer-desc">{offer.description}</span>
-              </div>
-              <span className="offer-highlight">{offer.highlight}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── SHOP BY CATEGORY ── */}
-      <section id="categories" className="category-section reveal" aria-labelledby="category-heading">
-        <div className="container">
-          <div className="section-eyebrow" aria-hidden="true">
-            <span className="eyebrow-line"></span>
-            <span className="eyebrow-text garamond">Explore</span>
-            <span className="eyebrow-line right"></span>
-          </div>
-          <h2 id="category-heading" className="section-title">Shop by Category</h2>
-          <p className="section-subtitle">Discover our meticulously curated collections, designed for every occasion.</p>
-          
-          <div className="category-grid" role="list">
-            {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
-              <div 
-                key={cat.id} 
-                className="category-card" 
-                role="listitem"
-                tabIndex={0}
-                aria-label={`Explore ${cat.name}`}
-                onClick={() => {
-                  setActiveCategory(cat.id);
-                  scrollToSection('collection');
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    setActiveCategory(cat.id);
-                    scrollToSection('collection');
-                  }
-                }}
-              >
-                <div className="category-bg-gradient" aria-hidden="true"></div>
-                <div className="category-icon" aria-hidden="true">{cat.icon}</div>
-                <h3 className="category-name">{cat.name}</h3>
-                <p className="category-desc">{cat.description}</p>
-                <span className="category-link">Explore {cat.name} <span>→</span></span>
+      <Reveal className="trust-bar-reveal">
+        <div className="trust-bar" aria-label="Trust statistics">
+          <div className="trust-bar-grid">
+            {[
+              { number: '7+',    label: 'Curated Pieces' },
+              { number: '100%',  label: 'Handcrafted' },
+              { number: '₹399',  label: 'Starting Price' },
+              { number: '★ 5.0', label: 'Customer Rating' },
+            ].map(item => (
+              <div key={item.label} className="trust-item">
+                <div className="trust-number">{item.number}</div>
+                <div className="trust-label">{item.label}</div>
               </div>
             ))}
           </div>
         </div>
+      </Reveal>
+
+      {/* ── OFFERS BANNER ── */}
+      <Reveal className="offers-banner-reveal">
+        <section className="offers-banner" aria-label="Current promotions">
+          <p className="offers-welcome">
+            Welcome to offers, shipping, and advertisements. Full details will be updated soon.
+          </p>
+          <div className="offers-grid">
+            {OFFERS.map((offer, i) => (
+              <div key={i} className="offer-card">
+                <span className="offer-icon" aria-hidden="true">{offer.icon}</span>
+                <div className="offer-text-group">
+                  <span className="offer-title">{offer.title}</span>
+                  <span className="offer-desc">{offer.description}</span>
+                </div>
+                <span className="offer-highlight">{offer.highlight}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ── SHOP BY CATEGORY ── */}
+      <section id="categories" className="category-section" aria-labelledby="category-heading">
+        <div className="container">
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line"></span>
+              <span className="eyebrow-text garamond">Explore</span>
+              <span className="eyebrow-line right"></span>
+            </div>
+            <h2 id="category-heading" className="section-title">Shop by Category</h2>
+            <p className="section-subtitle">Discover our meticulously curated collections, designed for every occasion.</p>
+          </Reveal>
+
+          <Reveal className="reveal-stagger">
+            <div className="category-grid" role="list">
+              {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
+                <div
+                  key={cat.id}
+                  className="category-card"
+                  role="listitem"
+                  tabIndex={0}
+                  aria-label={`Explore ${cat.name}`}
+                  onClick={() => {
+                    changeCategory(cat.id);
+                    scrollToSection('collection');
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      changeCategory(cat.id);
+                      scrollToSection('collection');
+                    }
+                  }}
+                >
+                  <div className="category-bg-gradient" aria-hidden="true"></div>
+                  <div className="category-icon" aria-hidden="true">{cat.icon}</div>
+                  <h3 className="category-name">{cat.name}</h3>
+                  <p className="category-desc">{cat.description}</p>
+                  <span className="category-link">Explore {cat.name} <span>→</span></span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* ── ABOUT ── */}
-      <section id="about" className="about-section reveal" aria-labelledby="about-heading">
+      <section id="about" className="about-section" aria-labelledby="about-heading">
         <div className="about-grid">
-          <div className="about-image-wrap">
+          <Reveal className="about-image-wrap">
             <div className="about-image-card">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`}
                 alt="Close-up of a handcrafted Bilvashree pendant"
+                width={600}
+                height={800}
+                style={{ objectFit: 'cover' }}
+                unoptimized
               />
             </div>
             <div className="about-badge" aria-hidden="true">
               <div className="about-badge-number">100%</div>
               <div className="about-badge-text">Pure Craft</div>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="about-text">
+          <Reveal className="about-text">
             <div className="section-eyebrow">
               <span className="eyebrow-line" aria-hidden="true" />
               <span className="eyebrow-text garamond">Our Story</span>
@@ -573,87 +390,97 @@ export default function Home() {
                 <span key={p} className="about-pillar" role="listitem">✦ {p}</span>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── OUR CRAFTSMANSHIP PROCESS ── */}
-      <section className="process-section reveal" aria-labelledby="process-heading">
+      <section className="process-section" aria-labelledby="process-heading">
         <div className="container">
-          <div className="section-eyebrow" aria-hidden="true">
-            <span className="eyebrow-line" />
-            <span className="eyebrow-text garamond">Our Process</span>
-            <span className="eyebrow-line right" />
-          </div>
-          <h2 id="process-heading" className="section-title">From Vision to Treasure</h2>
-          <p className="section-subtitle">
-            Each pendant passes through hands that have perfected their craft over generations.
-          </p>
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">Our Process</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="process-heading" className="section-title">From Vision to Treasure</h2>
+            <p className="section-subtitle">
+              Each pendant passes through hands that have perfected their craft over generations.
+            </p>
+          </Reveal>
 
-          <div className="process-grid">
-            {PROCESS_STEPS.map(step => (
-              <div key={step.num} className="process-step">
-                <div className="process-step-number">{step.num}</div>
-                <div className="process-step-icon" aria-hidden="true">{step.icon}</div>
-                <h3 className="process-step-name">{step.name}</h3>
-                <p className="process-step-desc">{step.desc}</p>
-              </div>
-            ))}
-          </div>
+          <Reveal className="reveal-stagger">
+            <div className="process-grid">
+              {PROCESS_STEPS.map(step => (
+                <div key={step.num} className="process-step">
+                  <div className="process-step-number">{step.num}</div>
+                  <div className="process-step-icon" aria-hidden="true">{step.icon}</div>
+                  <h3 className="process-step-name">{step.name}</h3>
+                  <p className="process-step-desc">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── COLLECTION ── */}
-      <section id="collection" className="collection-section reveal" aria-labelledby="collection-heading">
+      <section id="collection" className="collection-section" aria-labelledby="collection-heading">
         <div className="container">
-          <div className="section-eyebrow" aria-hidden="true">
-            <span className="eyebrow-line" />
-            <span className="eyebrow-text garamond">The Collection</span>
-            <span className="eyebrow-line right" />
-          </div>
-          <h2 id="collection-heading" className="section-title">Premium Jewelry Catalog</h2>
-          
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">The Collection</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="collection-heading" className="section-title">Premium Jewelry Catalog</h2>
+          </Reveal>
+
           {/* Shop By Occasion Tags */}
-          <div className="occasion-tags" role="list" aria-label="Shop by occasion">
-            <span className="occasion-label">Occasion:</span>
-            <button
-              className={`occasion-tag ${activeOccasion === 'all' ? 'active' : ''}`}
-              role="listitem"
-              onClick={() => setActiveOccasion('all')}
-              aria-pressed={activeOccasion === 'all'}
-            >
-              All
-            </button>
-            {OCCASIONS.map(occ => (
+          <Reveal>
+            <div className="occasion-tags" role="list" aria-label="Shop by occasion">
+              <span className="occasion-label">Occasion:</span>
               <button
-                key={occ.id}
-                className={`occasion-tag ${activeOccasion === occ.id ? 'active' : ''}`}
+                className={`occasion-tag ${activeOccasion === 'all' ? 'active' : ''}`}
                 role="listitem"
-                onClick={() => setActiveOccasion(occ.id)}
-                aria-pressed={activeOccasion === occ.id}
+                onClick={() => changeOccasion('all')}
+                aria-pressed={activeOccasion === 'all'}
               >
-                <span aria-hidden="true">{occ.icon}</span> {occ.name}
+                All
               </button>
-            ))}
-          </div>
+              {OCCASIONS.map(occ => (
+                <button
+                  key={occ.id}
+                  className={`occasion-tag ${activeOccasion === occ.id ? 'active' : ''}`}
+                  role="listitem"
+                  onClick={() => changeOccasion(occ.id)}
+                  aria-pressed={activeOccasion === occ.id}
+                >
+                  <span aria-hidden="true">{occ.icon}</span> {occ.name}
+                </button>
+              ))}
+            </div>
+          </Reveal>
 
           {/* Category Filter Pills */}
-          <div className="category-filters" role="tablist" aria-label="Product categories">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat.id}
-                role="tab"
-                aria-selected={activeCategory === cat.id}
-                className={`filter-pill ${activeCategory === cat.id ? 'active' : ''}`}
-                onClick={() => setActiveCategory(cat.id)}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
+          <Reveal>
+            <div className="category-filters" role="tablist" aria-label="Product categories">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat.id}
+                  role="tab"
+                  aria-selected={activeCategory === cat.id}
+                  className={`filter-pill ${activeCategory === cat.id ? 'active' : ''}`}
+                  onClick={() => changeCategory(cat.id)}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          </Reveal>
 
           {filteredProducts.length === 0 ? (
-             <div className="empty-category-state">
+             <Reveal className="empty-category-state">
                 <div className="empty-icon">✧</div>
                 <h3>New Designs Coming Soon</h3>
                 <p>We are currently handcrafting new {CATEGORIES.find(c => c.id === activeCategory)?.name.toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
@@ -666,104 +493,17 @@ export default function Home() {
                 >
                   View Available Pendants
                 </button>
-             </div>
+             </Reveal>
           ) : (
-            <div className="product-grid" role="list">
+            <div className={`product-grid ${isFiltering ? 'filtering' : ''}`} role="list">
               {filteredProducts.map(product => (
-                <article
+                <ProductCard
                   key={product.id}
-                  className="glass-card"
-                  role="listitem"
-                  aria-label={product.title}
-                >
-                  <div className="card-image-wrap">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    {failedImages[product.id] ? (
-                      <div className="image-fallback">Image coming soon</div>
-                    ) : (
-                      <img
-                        src={product.imageURL}
-                        alt={product.title}
-                        loading="lazy"
-                        decoding="async"
-                        onError={() => {
-                          setFailedImages((prev) => ({ ...prev, [product.id]: true }));
-                        }}
-                      />
-                    )}
-                    
-                    {/* Badge */}
-                    {product.badge && (
-                      <div className={`product-badge ${String(product.badge).toLowerCase().replace(/\s+/g, '').includes('bestseller') ? 'badge-bestseller' : 'badge-new'}`}>
-                        {product.badge}
-                      </div>
-                    )}
-                  </div>
-
-                  <span className={`stock-badge${!product.inStock ? ' out-of-stock' : ''}`}>
-                    {product.inStock ? 'Available' : 'Sold Out'}
-                  </span>
-
-                  <div className="card-body">
-                    <p className="product-category">
-                      {CATEGORIES.find(c => c.id === product.category)?.name || product.category}
-                    </p>
-                    <h3 className="product-title">{product.title}</h3>
-                    
-                    {/* Material & Occasions */}
-                    <div className="product-meta">
-                      {product.material && <span className="product-material">{product.material}</span>}
-                      {product.occasion && product.occasion.length > 0 && (
-                         <div className="card-occasion-strip">
-                           {product.occasion.map(occId => {
-                              const occ = OCCASIONS.find(o => o.id === occId);
-                              return occ ? <span key={occId} className="card-occasion-tag">{occ.name}</span> : null;
-                           })}
-                         </div>
-                      )}
-                    </div>
-
-                    <div className="product-footer">
-                      <div className="price-group">
-                        {product.priceINR != null ? (
-                          <>
-                            <span className="product-price">
-                              ₹{product.priceINR.toLocaleString('en-IN')}
-                            </span>
-                            {product.originalPrice && (
-                              <span className="original-price">
-                                ₹{product.originalPrice.toLocaleString('en-IN')}
-                              </span>
-                            )}
-                            {product.originalPrice && (
-                              <span className="discount-tag">
-                                {Math.round(((product.originalPrice - product.priceINR) / product.originalPrice) * 100)}% OFF
-                              </span>
-                            )}
-                          </>
-                        ) : (
-                          <span className="price-coming-soon">Price Coming Soon</span>
-                        )}
-                      </div>
-                      
-                      <button
-                        id={`add-to-cart-${product.id}`}
-                        className="btn-add"
-                        disabled={!product.inStock || product.priceINR == null}
-                        onClick={() => handleAddToCart(product)}
-                        aria-label={
-                          !product.inStock
-                            ? `${product.title} is out of stock`
-                            : product.priceINR == null
-                            ? `${product.title} — price coming soon`
-                            : `Add ${product.title} to cart`
-                        }
-                      >
-                        {!product.inStock ? 'Out of Stock' : product.priceINR == null ? 'Coming Soon' : '+ Add to Cart'}
-                      </button>
-                    </div>
-                  </div>
-                </article>
+                  product={product}
+                  categoryName={CATEGORIES.find(c => c.id === product.category)?.name || product.category}
+                  occasionTags={product.occasion?.map(occId => OCCASIONS.find(o => o.id === occId)).filter(Boolean)}
+                  onAddToCart={handleAddToCart}
+                />
               ))}
             </div>
           )}
@@ -771,135 +511,91 @@ export default function Home() {
       </section>
 
       {/* ── VALUES ── */}
-      <section id="values" className="values-section reveal" aria-labelledby="values-heading">
+      <section id="values" className="values-section" aria-labelledby="values-heading">
         <div className="container">
-          <div className="section-eyebrow" aria-hidden="true">
-            <span className="eyebrow-line" style={{ background: 'linear-gradient(90deg, transparent, #F0D87A)' }} />
-            <span className="eyebrow-text garamond">Why Choose Us</span>
-            <span className="eyebrow-line right" style={{ background: 'linear-gradient(90deg, #F0D87A, transparent)' }} />
-          </div>
-          <h2 id="values-heading" className="section-title">Built on Timeless Values</h2>
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" style={{ background: 'linear-gradient(90deg, transparent, #F0D87A)' }} />
+              <span className="eyebrow-text garamond">Why Choose Us</span>
+              <span className="eyebrow-line right" style={{ background: 'linear-gradient(90deg, #F0D87A, transparent)' }} />
+            </div>
+            <h2 id="values-heading" className="section-title">Built on Timeless Values</h2>
+          </Reveal>
 
-          <div className="values-grid" role="list">
-            {VALUES.map(v => (
-              <div key={v.name} className="value-card" role="listitem">
-                <div className="value-icon" aria-hidden="true">{v.icon}</div>
-                <h3 className="value-name">{v.name}</h3>
-                <p className="value-desc">{v.desc}</p>
-              </div>
-            ))}
-          </div>
+          <Reveal className="reveal-stagger">
+            <div className="values-grid" role="list">
+              {VALUES.map(v => (
+                <div key={v.name} className="value-card" role="listitem">
+                  <div className="value-icon" aria-hidden="true">{v.icon}</div>
+                  <h3 className="value-name">{v.name}</h3>
+                  <p className="value-desc">{v.desc}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section id="reviews" className="testimonials-section reveal" aria-labelledby="reviews-heading">
+      <section id="reviews" className="testimonials-section" aria-labelledby="reviews-heading">
         <div className="container">
-          <div className="section-eyebrow" aria-hidden="true">
-            <span className="eyebrow-line" />
-            <span className="eyebrow-text garamond">Customer Stories</span>
-            <span className="eyebrow-line right" />
-          </div>
-          <h2 id="reviews-heading" className="section-title">Loved by Many</h2>
-          <p className="section-subtitle">Real stories from real customers who wear their hearts in gold.</p>
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">Customer Stories</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="reviews-heading" className="section-title">Loved by Many</h2>
+            <p className="section-subtitle">Real stories from real customers who wear their hearts in gold.</p>
+          </Reveal>
 
-          <div className="testimonials-grid" role="list">
-            {TESTIMONIALS.map(t => (
-              <blockquote key={t.id} className="testimonial-card" role="listitem">
-                <div className="testimonial-quote" aria-hidden="true">&ldquo;</div>
-                <Stars count={t.stars} />
-                <p className="testimonial-text">{t.text}</p>
-                <footer className="testimonial-author">
-                  <div className="testimonial-avatar" aria-hidden="true">{t.initial}</div>
-                  <div>
-                    <p className="testimonial-name">{t.name}</p>
-                    <p className="testimonial-location">{t.location}</p>
-                  </div>
-                </footer>
-              </blockquote>
-            ))}
-          </div>
+          <Reveal className="reveal-stagger">
+            <div className="testimonials-grid" role="list">
+              {TESTIMONIALS.map(t => (
+                <blockquote key={t.id} className="testimonial-card" role="listitem">
+                  <div className="testimonial-quote" aria-hidden="true">&ldquo;</div>
+                  <Stars count={t.stars} />
+                  <p className="testimonial-text">{t.text}</p>
+                  <footer className="testimonial-author">
+                    <div className="testimonial-avatar" aria-hidden="true">{t.initial}</div>
+                    <div>
+                      <p className="testimonial-name">{t.name}</p>
+                      <p className="testimonial-location">{t.location}</p>
+                    </div>
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── CTA ── */}
-      <section className="cta-section" aria-label="Call to action">
-        <div className="cta-content">
-          <h2 className="cta-title">Begin Your Jewellery Journey</h2>
-          <p className="cta-text">
-            Discover handcrafted pendants rooted in heritage — starting at just ₹399. Gift yourself or someone you love a piece of timeless India.
-          </p>
-          <button
-            id="cta-shop-btn"
-            className="btn-cta"
-            onClick={() => scrollToSection('collection')}
-            aria-label="Explore the full collection"
-          >
-            Explore the Full Collection
-          </button>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="footer" role="contentinfo">
-        <div className="footer-grid">
-          {/* Brand column */}
-          <div>
-            <p className="footer-brand-name">Bilvashree Jewels</p>
-            <p className="footer-brand-desc">
-              Celebrating heritage, ethically handcrafted temple jewellery rooted in the soul of India. Each piece a prayer in gold.
+      <Reveal>
+        <section className="cta-section" aria-label="Call to action">
+          <div className="cta-content">
+            <h2 className="cta-title">Begin Your Jewellery Journey</h2>
+            <p className="cta-text">
+              Discover handcrafted pendants rooted in heritage — starting at just ₹399. Gift yourself or someone you love a piece of timeless India.
             </p>
-            <div className="footer-socials" role="list" aria-label="Social media links">
-              {SOCIAL_LINKS.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  className="social-pill"
-                  role="listitem"
-                  aria-label={social.label}
-                  target={social.external ? '_blank' : undefined}
-                  rel={social.external ? 'noopener noreferrer' : undefined}
-                >
-                  {social.label}
-                </a>
-              ))}
-            </div>
+            <button
+              id="cta-shop-btn"
+              className="btn-cta"
+              onClick={() => scrollToSection('collection')}
+              aria-label="Explore the full collection"
+            >
+              Explore the Full Collection
+            </button>
           </div>
+        </section>
+      </Reveal>
 
-          {/* Quick links */}
-          <div>
-            <h3 className="footer-heading">Quick Links</h3>
-            <ul className="footer-links" role="list">
-              {NAV_LINKS.map(link => (
-                <li key={link.id} role="listitem">
-                  <a href={`#${link.id}`} onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}>
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Info */}
-          <div>
-            <h3 className="footer-heading">Information</h3>
-            <ul className="footer-links" role="list">
-              {['Shipping Policy', 'Return Policy', 'Care Instructions', 'Contact Us', 'Privacy Policy'].map(item => (
-                <li key={item} role="listitem">
-                  <button type="button" className="footer-link-btn" onClick={() => handleInfoClick(item)}>
-                    {item}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <span>© 2026 Bilvashree Jewels. All rights reserved.</span>
-          <span className="footer-bottom-accent">Crafted with devotion ✦</span>
-        </div>
-      </footer>
+      <Footer
+        navLinks={NAV_LINKS}
+        socialLinks={SOCIAL_LINKS}
+        onInfoClick={handleInfoClick}
+        scrollToSection={scrollToSection}
+      />
 
       {/* ── TOAST ── */}
       <div
