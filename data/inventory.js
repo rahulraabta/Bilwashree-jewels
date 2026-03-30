@@ -1,8 +1,5 @@
 // data/inventory.js
-const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-export const BASE_PATH = rawBasePath
-  ? `/${rawBasePath.replace(/^\/+|\/+$/g, '')}`
-  : '';
+export const BASE_PATH = '/Bilwashree-jewels';
 
 /* ─── Product Categories ─────────────────────────────────── */
 export const CATEGORIES = [

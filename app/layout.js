@@ -1,6 +1,6 @@
 import './globals.css';
 
-const fallbackSiteUrl = 'https://bilvash.netlify.app';
+const fallbackSiteUrl = 'https://rahulraabta.github.io/Bilwashree-jewels';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.URL || fallbackSiteUrl;
 
 export const metadata = {
