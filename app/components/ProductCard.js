@@ -41,83 +41,47 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             {product.badge}
           </div>
         )}
-      </div>
 
-      <span className={`stock-badge${!product.inStock ? ' out-of-stock' : ''}`}>
-        {product.inStock ? 'Available' : 'Sold Out'}
-      </span>
-
-      <div className="card-body">
-        <p className="product-category">
-          {categoryName}
-        </p>
-        <h3 className="product-title">{product.title}</h3>
-
-        <div className="product-meta">
-          {product.material && <span className="product-material">{product.material}</span>}
-          {occasionTags && occasionTags.length > 0 && (
-             <div className="card-occasion-strip">
-               {occasionTags.map(occ => (
-                  <span key={occ.id} className="card-occasion-tag">{occ.name}</span>
-               ))}
-             </div>
-          )}
-        </div>
-
-        <div className="product-footer">
-          <div className="price-group">
-            {product.priceINR != null ? (
-              <>
-                <span className="product-price">
-                  ₹{product.priceINR.toLocaleString('en-IN')}
-                </span>
-                {product.originalPrice && (
-                  <span className="original-price">
-                    ₹{product.originalPrice.toLocaleString('en-IN')}
-                  </span>
-                )}
-                {discount > 0 && (
-                  <span className="discount-tag">
-                    {discount}% OFF
-                  </span>
-                )}
-              </>
-            ) : (
-              <span className="price-coming-soon">Price Coming Soon</span>
-            )}
-          </div>
-
+        {/* Floating Actions on Image */}
+        <div className="card-floating-actions">
           <button
-            id={`add-to-cart-${product.id}`}
-            className="btn-add"
-            disabled={!product.inStock || product.priceINR == null}
-            onClick={(e) => {
-              e.stopPropagation();
-              onAddToCart(product);
-            }}
-            aria-label={
-              !product.inStock
-                ? `${product.title} is out of stock`
-                : product.priceINR == null
-                ? `${product.title} — price coming soon`
-                : `Add ${product.title} to cart`
-            }
-          >
-            {!product.inStock ? 'Out of Stock' : product.priceINR == null ? 'Coming Soon' : '+ Add to Cart'}
-          </button>
-
-          <button
-            className="btn-quick-buy"
+            className="btn-wishlist-circle"
             onClick={(e) => {
               e.stopPropagation();
               onView?.();
               const text = encodeURIComponent(`Hi! I'm interested in "${product.title}" (₹${product.priceINR}). Can you help me?`);
               window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
             }}
-            aria-label={`Inquiry about ${product.title} on WhatsApp`}
+            aria-label="Wishlist / Inquiry"
           >
-            Inquiry <span>💬</span>
+            ♡
           </button>
+
+          <button
+            className="btn-add-pill"
+            disabled={!product.inStock || product.priceINR == null}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToCart(product);
+            }}
+            aria-label="Add to cart"
+          >
+            {product.inStock ? 'ADD TO BAG' : 'SOLD OUT'}
+          </button>
+        </div>
+      </div>
+
+      <div className="card-body centered">
+        <h3 className="product-title-clean">{product.title}</h3>
+
+        <div className="price-row-clean">
+          <span className="price-current">₹{product.priceINR?.toLocaleString('en-IN')}</span>
+          {product.originalPrice && (
+            <>
+              <span className="price-original">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+              {discount > 0 && <span className="discount-pct">({discount}%)</span>}
+            </>
+          )}
         </div>
       </div>
     </article>
