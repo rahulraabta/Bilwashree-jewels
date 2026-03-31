@@ -6,7 +6,6 @@ import {
   inventory,
   CATEGORIES,
   OCCASIONS,
-  OFFERS,
   BASE_PATH,
   TESTIMONIALS,
   VALUES,
@@ -24,7 +23,6 @@ import ProductCard from './components/ProductCard';
 import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
 import Reveal from './components/Reveal';
-import LuxuryTrustBar from './components/LuxuryTrustBar';
 import Ornament from './components/Ornament';
 import ProductModal from './components/ProductModal';
 
@@ -296,29 +294,6 @@ export default function Home() {
         onShopClick={() => scrollToSection('collection')}
         onStoryClick={() => scrollToSection('about')}
       />
-
-      <LuxuryTrustBar />
-
-      {/* ── OFFERS BANNER ── */}
-      <Reveal className="offers-banner-reveal">
-        <section className="offers-banner" aria-label="Current promotions">
-          <p className="offers-welcome">
-            Welcome to offers, shipping, and advertisements. Full details will be updated soon.
-          </p>
-          <div className="offers-grid">
-            {OFFERS.map((offer, i) => (
-              <div key={i} className="offer-card">
-                <span className="offer-icon" aria-hidden="true">{offer.icon}</span>
-                <div className="offer-text-group">
-                  <span className="offer-title">{offer.title}</span>
-                  <span className="offer-desc">{offer.description}</span>
-                </div>
-                <span className="offer-highlight">{offer.highlight}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      </Reveal>
 
       {/* ── SHOP BY CATEGORY ── */}
       <section id="categories" className="category-section" aria-labelledby="category-heading">
