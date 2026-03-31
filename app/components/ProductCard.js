@@ -16,8 +16,15 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
       className="glass-card"
       role="listitem"
       aria-label={product.title}
+      tabIndex={0}
       onMouseEnter={onView}
       onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       <div className="card-image-wrap">
         {imageError ? (

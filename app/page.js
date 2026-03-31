@@ -40,6 +40,7 @@ function Stars({ count = 5 }) {
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeOccasion, setActiveOccasion] = useState('all');
+  const [mobileCardsPerView, setMobileCardsPerView] = useState(2);
   const [searchQuery, setSearchQuery] = useState('');
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -493,6 +494,21 @@ export default function Home() {
             </div>
           </Reveal>
 
+          <div className="mobile-view-options" role="group" aria-label="Products visible on mobile">
+            <span className="mobile-view-label">View</span>
+            {[2, 4, 6].map((count) => (
+              <button
+                key={count}
+                type="button"
+                className={`mobile-view-btn ${mobileCardsPerView === count ? 'active' : ''}`}
+                aria-pressed={mobileCardsPerView === count}
+                onClick={() => setMobileCardsPerView(count)}
+              >
+                {count}
+              </button>
+            ))}
+          </div>
+
           {filteredProducts.length === 0 ? (
              <Reveal className="empty-category-state">
                 <div className="empty-icon">✧</div>
@@ -509,7 +525,11 @@ export default function Home() {
                 </button>
              </Reveal>
           ) : (
-            <div className={`product-grid ${isFiltering ? 'filtering' : ''}`} role="list">
+            <div
+              className={`product-grid ${isFiltering ? 'filtering' : ''}`}
+              role="list"
+              style={{ '--mobile-products-per-view': mobileCardsPerView }}
+            >
               {filteredProducts.map(product => (
                 <ProductCard
                   key={product.id}
@@ -727,6 +747,7 @@ export default function Home() {
                   categoryName={CATEGORIES.find(c => c.id === product.category)?.name || product.category}
                   onAddToCart={handleAddToCart}
                   onView={() => {}} // No need to re-add to recent
+                  onClick={() => openProductQuickView(product)}
                 />
               ))}
             </div>
