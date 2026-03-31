@@ -5,7 +5,6 @@ import Image from 'next/image';
 import {
   inventory,
   CATEGORIES,
-  OCCASIONS,
   BASE_PATH,
   TESTIMONIALS,
   VALUES,
@@ -37,7 +36,6 @@ function Stars({ count = 5 }) {
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [activeOccasion, setActiveOccasion] = useState('all');
   const [mobileCardsPerView, setMobileCardsPerView] = useState(2);
   const [searchQuery, setSearchQuery] = useState('');
   const [recentlyViewed, setRecentlyViewed] = useState([]);
@@ -231,22 +229,12 @@ export default function Home() {
     }, 300);
   };
 
-  const changeOccasion = (occId) => {
-    if (occId === activeOccasion) return;
-    setIsFiltering(true);
-    setTimeout(() => {
-      setActiveOccasion(occId);
-      setIsFiltering(false);
-    }, 300);
-  };
-
   const filteredProducts = inventory.filter((product) => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
-    const matchesOccasion = activeOccasion === 'all' || product.occasion?.includes(activeOccasion);
     const matchesSearch = !searchQuery ||
       product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       CATEGORIES.find(c => c.id === product.category)?.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesOccasion && matchesSearch;
+    return matchesCategory && matchesSearch;
   });
 
   const structuredData = {
@@ -426,32 +414,6 @@ export default function Home() {
             <h2 id="collection-heading" className="section-title">Premium Jewelry Catalog</h2>
           </Reveal>
 
-          {/* Shop By Occasion Tags */}
-          <Reveal>
-            <div className="occasion-tags" role="list" aria-label="Shop by occasion">
-              <span className="occasion-label">Occasion:</span>
-              <button
-                className={`occasion-tag ${activeOccasion === 'all' ? 'active' : ''}`}
-                role="listitem"
-                onClick={() => changeOccasion('all')}
-                aria-pressed={activeOccasion === 'all'}
-              >
-                All
-              </button>
-              {OCCASIONS.map(occ => (
-                <button
-                  key={occ.id}
-                  className={`occasion-tag ${activeOccasion === occ.id ? 'active' : ''}`}
-                  role="listitem"
-                  onClick={() => changeOccasion(occ.id)}
-                  aria-pressed={activeOccasion === occ.id}
-                >
-                  <span aria-hidden="true">{occ.icon}</span> {occ.name}
-                </button>
-              ))}
-            </div>
-          </Reveal>
-
           {/* Category Filter Pills */}
           <Reveal>
             <div className="category-filters" role="tablist" aria-label="Product categories">
@@ -493,7 +455,6 @@ export default function Home() {
                   className="btn-empty"
                   onClick={() => {
                     setActiveCategory('pendants');
-                    setActiveOccasion('all');
                   }}
                 >
                   View Available Pendants
@@ -510,7 +471,6 @@ export default function Home() {
                   key={product.id}
                   product={product}
                   categoryName={CATEGORIES.find(c => c.id === product.category)?.name || product.category}
-                  occasionTags={product.occasion?.map(occId => OCCASIONS.find(o => o.id === occId)).filter(Boolean)}
                   onAddToCart={handleAddToCart}
                   onView={() => addToRecent(product)}
                   onClick={() => openProductQuickView(product)}
@@ -536,7 +496,7 @@ export default function Home() {
 
           <Reveal className="reveal-stagger">
             <div className="gifting-grid">
-              <div className="gift-card" onClick={() => { setActiveOccasion('festive'); scrollToSection('collection'); }}>
+              <div className="gift-card" onClick={() => { scrollToSection('collection'); }}>
                 <div className="gift-bg">
                   <Image src={`${BASE_PATH}/images/pendant-2.jpg.jpeg`} alt="Gifts for Her" fill style={{ objectFit: 'cover' }} unoptimized />
                 </div>
@@ -548,7 +508,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="gift-card" onClick={() => { setActiveOccasion('bridal'); scrollToSection('collection'); }}>
+              <div className="gift-card" onClick={() => { scrollToSection('collection'); }}>
                 <div className="gift-bg">
                   <Image src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`} alt="Wedding Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
                 </div>
@@ -560,7 +520,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="gift-card" onClick={() => { setActiveOccasion('daily'); scrollToSection('collection'); }}>
+              <div className="gift-card" onClick={() => { scrollToSection('collection'); }}>
                 <div className="gift-bg">
                   <Image src={`${BASE_PATH}/images/pendant-5.jpg.jpeg`} alt="Anniversary Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
                 </div>
