@@ -1,7 +1,7 @@
 import fitz
 import os
 
-pdf_path = r"C:\Users\INTEL\Desktop\Bilwashree jewels\public\images\allimages.pdf"
+pdf_path = r"C:\Users\INTEL\Desktop\Bilwashree jewels\public\images\new,original images.pdf"
 out_dir = r"C:\Users\INTEL\Desktop\Bilwashree jewels\public\images\extracted"
 
 if not os.path.exists(out_dir):
