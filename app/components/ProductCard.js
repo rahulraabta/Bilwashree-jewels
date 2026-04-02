@@ -9,10 +9,6 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
   const hasPrice = Number.isFinite(product.priceINR);
   const hasOriginalPrice = Number.isFinite(product.originalPrice);
 
-  const discount = hasOriginalPrice && hasPrice
-    ? Math.round(((product.originalPrice - product.priceINR) / product.originalPrice) * 100)
-    : 0;
-
   return (
     <article
       className="glass-card"
@@ -98,7 +94,6 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           {hasOriginalPrice && hasPrice && (
             <>
               <span className="price-original">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-              {discount > 0 && <span className="discount-pct">({discount}%)</span>}
             </>
           )}
         </div>
