@@ -7,6 +7,11 @@ export default function Reveal({ children, className = '', delay = 0, threshold 
   const ref = useRef(null);
 
   useEffect(() => {
+    if (!('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -22,11 +27,7 @@ export default function Reveal({ children, className = '', delay = 0, threshold 
       observer.observe(currentRef);
     }
 
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    return () => observer?.disconnect();
   }, [threshold]);
 
   return (

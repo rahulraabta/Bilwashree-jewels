@@ -15,7 +15,6 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
       role="listitem"
       aria-label={product.title}
       tabIndex={0}
-      onMouseEnter={onView}
       onClick={onClick}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {

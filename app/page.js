@@ -45,6 +45,7 @@ export default function Home() {
   const [toastMessage, setToastMessage] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
   const toastTimeoutRef = useRef(null);
+  const filterTimeoutRef = useRef(null);
 
   /* Scrollbar width calculation for smooth body lock */
   useEffect(() => {
@@ -136,6 +137,9 @@ export default function Home() {
       if (toastTimeoutRef.current) {
         clearTimeout(toastTimeoutRef.current);
       }
+      if (filterTimeoutRef.current) {
+        clearTimeout(filterTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -205,9 +209,9 @@ export default function Home() {
 
   /* Smooth scroll helpers */
   const scrollToSection = (id) => {
-    setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    const element = document.getElementById(id);
+    if (!element) return;
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const NAV_LINKS = [
@@ -222,8 +226,11 @@ export default function Home() {
   /* Filter with smooth transition */
   const changeCategory = (catId) => {
     if (catId === activeCategory) return;
+    if (filterTimeoutRef.current) {
+      clearTimeout(filterTimeoutRef.current);
+    }
     setIsFiltering(true);
-    setTimeout(() => {
+    filterTimeoutRef.current = setTimeout(() => {
       setActiveCategory(catId);
       setIsFiltering(false);
     }, 300);
