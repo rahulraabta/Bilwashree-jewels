@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { extractCodeLabel, resolveNameFromImageMap } from './product-name-rules.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,28 +12,10 @@ const mod = await import(pathToFileURL(inventoryPath).href);
 
 const esc = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-const codeFrom = (product) => {
-  const match = `${product.title || ''} ${product.id || ''}`.match(/NK-(\d+)/i);
-  if (match) return `NK ${match[1]}`;
-
-  const prodMatch = String(product.id || '').match(/^prod_(\d+)$/i);
-  if (prodMatch) return `NK ${prodMatch[1]}`;
-
-  return null;
-};
-
 const normalizedName = (product) => {
-  const code = codeFrom(product);
-  const text = `${product.title || ''} ${product.material || ''}`.toLowerCase();
-  const hasDollar = product.category === 'pendants' && /dollar/.test(text);
-  const hasJadauKundan = /jadau|jadu\s*kundan|kundan|jadvikandan/.test(text);
-  const isReversible = /reversible/.test(text);
-
-  if (hasDollar) return `Dollar ${code || ''}`.trim();
-  if (hasJadauKundan) {
-    return `${isReversible ? 'Jadau Kundan Reversible' : 'Jadau Kundan'} ${code || ''}`.trim();
-  }
-  return code || product.title;
+  const code = extractCodeLabel(product);
+  if (!code) return product.title;
+  return resolveNameFromImageMap(product, code);
 };
 
 let changed = 0;

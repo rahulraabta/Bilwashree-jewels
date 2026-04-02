@@ -440,6 +440,62 @@
     "sourceId": "nk-146-earrings"
   },
   {
+    "productId": "NK-1",
+    "category": "pendants",
+    "itemName": "NK 1",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_1"
+  },
+  {
+    "productId": "NK-2",
+    "category": "pendants",
+    "itemName": "NK 2",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_2"
+  },
+  {
+    "productId": "NK-3",
+    "category": "pendants",
+    "itemName": "NK 3",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_3"
+  },
+  {
+    "productId": "NK-4",
+    "category": "pendants",
+    "itemName": "NK 4",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_4"
+  },
+  {
+    "productId": "NK-5",
+    "category": "pendants",
+    "itemName": "NK 5",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_5"
+  },
+  {
+    "productId": "NK-6",
+    "category": "pendants",
+    "itemName": "NK 6",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_6"
+  },
+  {
+    "productId": "NK-7",
+    "category": "pendants",
+    "itemName": "NK 7",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_7"
+  },
+  {
     "productId": "NK-8",
     "category": "pendants",
     "itemName": "Dollar NK 8",

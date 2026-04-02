@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inventory } from '../data/inventory.js';
+import { extractCodeLabel, resolveNameFromImageMap } from './product-name-rules.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,14 +20,6 @@ const CATEGORY_LABELS = {
 const categoryOrder = ['necklaces', 'harams', 'bangles', 'earrings', 'pendants', 'accessories'];
 const structureOrder = ['Short', 'Medium', 'Long', 'Standard'];
 
-const codeRegex = /NK-\d+/i;
-
-function extractCode(product) {
-  const fromTitle = String(product.title || '').match(codeRegex)?.[0];
-  const fromId = String(product.id || '').match(codeRegex)?.[0];
-  return (fromTitle || fromId || '').toUpperCase();
-}
-
 function normalizeStructure(product) {
   const category = String(product.category || '').toLowerCase();
   const structure = String(product.structure || '').toLowerCase();
@@ -38,43 +31,17 @@ function normalizeStructure(product) {
   return 'Standard';
 }
 
-function cleanedTitle(title, code) {
-  return String(title || '')
-    .replace(new RegExp(code, 'ig'), '')
-    .replace(/[()]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
 function normalizedName(product, code) {
-  const codeLabel = code.replace('-', ' ');
-  const source = `${product.title || ''} ${product.material || ''}`.toLowerCase();
-  const hasDollar = /dollar/.test(source);
-  const hasJadauKundan = /jadau|jadu\s*kundan|kundan|jadvikandan/.test(source);
-  const isReversible = /reversible/.test(source);
-
-  if (hasDollar && hasJadauKundan) {
-    return `Dollar ${isReversible ? 'Jadau Kundan Reversible' : 'Jadau Kundan'} ${codeLabel}`;
-  }
-
-  if (hasDollar) {
-    return `Dollar ${codeLabel}`;
-  }
-
-  if (hasJadauKundan) {
-    return `${isReversible ? 'Jadau Kundan Reversible' : 'Jadau Kundan'} ${codeLabel}`;
-  }
-
-  return codeLabel;
+  return resolveNameFromImageMap(product, code);
 }
 
 const processed = inventory
   .map((product) => {
-    const code = extractCode(product);
+    const code = extractCodeLabel(product);
     if (!code) return null;
 
     return {
-      productId: code,
+      productId: code.replace(' ', '-'),
       category: String(product.category || '').toLowerCase(),
       itemName: normalizedName(product, code),
       structure: normalizeStructure(product),
