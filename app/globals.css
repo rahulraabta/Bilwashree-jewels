@@ -1859,6 +1859,7 @@ section[id] {
     border-radius: 12px;
     background: rgba(30, 26, 21, 0.32);
     backdrop-filter: blur(3px);
+    text-align: center;
   }
   .hero-title {
     font-size: clamp(1.55rem, 7.4vw, 2.15rem);
@@ -1870,8 +1871,12 @@ section[id] {
     margin-bottom: 1.2rem;
     max-width: none;
   }
-  .hero-actions { flex-direction: column; align-items: stretch; }
-  .hero-eyebrow { justify-content: flex-start; }
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-eyebrow { justify-content: center; }
   .hero-scroll-hint {
     right: 0.8rem;
     bottom: 0.7rem;
@@ -1881,7 +1886,7 @@ section[id] {
   .btn-hero-primary,
   .btn-hero-secondary {
     width: 100%;
-    max-width: none;
+    max-width: 320px;
     margin: 0 auto;
     padding: 0.75rem 1rem;
     font-size: 0.88rem;
