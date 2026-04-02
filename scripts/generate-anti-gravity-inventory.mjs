@@ -47,13 +47,24 @@ function cleanedTitle(title, code) {
 }
 
 function normalizedName(product, code) {
+  const codeLabel = code.replace('-', '');
   const source = `${product.title || ''} ${product.material || ''}`.toLowerCase();
-  if (/dollar|jadau|jadu\s*kundan|kundan/.test(source)) {
-    return `Jadu kundan ${code}`;
+  const hasDollar = /dollar/.test(source);
+  const hasJaduKundan = /jadau|jadu\s*kundan|kundan/.test(source);
+
+  if (hasDollar && hasJaduKundan) {
+    return `Dollar Jadu Ikundan ${codeLabel}`;
   }
 
-  const base = cleanedTitle(product.title, code);
-  return `${code} ${base}`.trim();
+  if (hasDollar) {
+    return `Dollar ${codeLabel}`;
+  }
+
+  if (hasJaduKundan) {
+    return `Jadu Ikundan ${codeLabel}`;
+  }
+
+  return codeLabel;
 }
 
 const processed = inventory
