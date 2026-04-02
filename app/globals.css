@@ -2299,6 +2299,13 @@ section[id] {
   font-weight: 500;
 }
 
+.price-request {
+  font-size: 0.85rem;
+  color: var(--accent-deep);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
 /* Palmonas Filters Style */
 .category-filters {
   display: flex;
@@ -2565,6 +2572,12 @@ section[id] {
   text-decoration: line-through;
 }
 
+.modal-price-request {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+}
+
 .modal-description {
   font-size: 1.05rem;
   line-height: 1.8;
@@ -2652,6 +2665,12 @@ section[id] {
   font-size: 0.8rem;
   color: var(--text-muted);
   letter-spacing: 0.5px;
+}
+
+.recommendation-section {
+  padding: 4.5rem 0 5rem;
+  border-top: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent);
 }
 
 /* ============================
@@ -2950,6 +2969,11 @@ em {
     white-space: normal;
   }
 
+  .collection-section .product-grid .price-request {
+    font-size: 0.7rem;
+    text-align: center;
+  }
+
   .modal-backdrop {
     padding: 0;
     align-items: flex-end;
@@ -2987,6 +3011,10 @@ em {
 
   .modal-price-row {
     margin-bottom: 1rem;
+  }
+
+  .modal-price-request {
+    font-size: 1rem;
   }
 
   .modal-description {

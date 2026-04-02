@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import {
   inventory,
@@ -236,6 +236,18 @@ export default function Home() {
       CATEGORIES.find(c => c.id === product.category)?.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const recommendedProducts = useMemo(() => {
+    const seedCategory = selectedProduct?.category || (activeCategory !== 'all' ? activeCategory : recentlyViewed[0]?.category);
+    const filtered = inventory.filter((product) => {
+      if (selectedProduct?.id && product.id === selectedProduct.id) return false;
+      if (seedCategory && product.category !== seedCategory) return false;
+      return true;
+    });
+
+    const fallback = inventory.filter((product) => product.id !== selectedProduct?.id);
+    return (filtered.length ? filtered : fallback).slice(0, 6);
+  }, [activeCategory, recentlyViewed, selectedProduct]);
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -480,6 +492,38 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* ── RECOMMENDATIONS ── */}
+      {recommendedProducts.length > 0 && (
+        <section className="recommendation-section" aria-labelledby="recommendation-heading">
+          <div className="container">
+            <Reveal>
+              <div className="section-eyebrow" aria-hidden="true">
+                <span className="eyebrow-line" />
+                <span className="eyebrow-text garamond">Suggestions</span>
+                <span className="eyebrow-line right" />
+              </div>
+              <h2 id="recommendation-heading" className="section-title">You May Also Like</h2>
+              <p className="section-subtitle">
+                Handpicked pieces based on your browsing.
+              </p>
+            </Reveal>
+
+            <div className="product-grid mini-grid" role="list">
+              {recommendedProducts.map((product) => (
+                <ProductCard
+                  key={`recommended-${product.id}`}
+                  product={product}
+                  categoryName={CATEGORIES.find((c) => c.id === product.category)?.name || product.category}
+                  onAddToCart={handleAddToCart}
+                  onView={() => addToRecent(product)}
+                  onClick={() => openProductQuickView(product)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── GIFTING GUIDE ── */}
       <section id="gifting" className="gifting-section" aria-labelledby="gifting-heading">

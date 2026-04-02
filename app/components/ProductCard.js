@@ -6,8 +6,10 @@ import { DEMO_PHONE } from '../../data/inventory';
 
 export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
+  const hasPrice = Number.isFinite(product.priceINR);
+  const hasOriginalPrice = Number.isFinite(product.originalPrice);
 
-  const discount = product.originalPrice && product.priceINR
+  const discount = hasOriginalPrice && hasPrice
     ? Math.round(((product.originalPrice - product.priceINR) / product.originalPrice) * 100)
     : 0;
 
@@ -66,14 +68,20 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
 
           <button
             className="btn-add-pill"
-            disabled={!product.inStock || product.priceINR == null}
+            disabled={!product.inStock}
             onClick={(e) => {
               e.stopPropagation();
+              if (!hasPrice) {
+                onView?.();
+                const text = encodeURIComponent(`Hi! I'm interested in "${product.title}". Please share the latest price and details.`);
+                window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
+                return;
+              }
               onAddToCart(product);
             }}
             aria-label="Add to cart"
           >
-            {product.inStock ? 'ADD TO BAG' : 'SOLD OUT'}
+            {!product.inStock ? 'SOLD OUT' : hasPrice ? 'ADD TO BAG' : 'REQUEST PRICE'}
           </button>
         </div>
       </div>
@@ -82,8 +90,12 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
         <h3 className="product-title-clean">{product.title}</h3>
 
         <div className="price-row-clean">
-          <span className="price-current">₹{product.priceINR?.toLocaleString('en-IN')}</span>
-          {product.originalPrice && (
+          {hasPrice ? (
+            <span className="price-current">₹{product.priceINR.toLocaleString('en-IN')}</span>
+          ) : (
+            <span className="price-request">Price on Request</span>
+          )}
+          {hasOriginalPrice && hasPrice && (
             <>
               <span className="price-original">₹{product.originalPrice.toLocaleString('en-IN')}</span>
               {discount > 0 && <span className="discount-pct">({discount}%)</span>}

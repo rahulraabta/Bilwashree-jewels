@@ -6,6 +6,7 @@ import { DEMO_PHONE } from '../../data/inventory';
 
 export default function ProductModal({ product, categoryName, onClose, onAddToCart }) {
   const modalRef = useRef(null);
+  const hasPrice = Number.isFinite(product?.priceINR);
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -26,7 +27,8 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
   };
 
   const whatsappInquiry = () => {
-    const text = encodeURIComponent(`Hi Bilvashree Jewels! I'm interested in the "${product.title}" (₹${product.priceINR}). Can you please share more details?`);
+    const pricePart = hasPrice ? ` (₹${product.priceINR})` : '';
+    const text = encodeURIComponent(`Hi Bilvashree Jewels! I'm interested in the "${product.title}"${pricePart}. Can you please share more details?`);
     window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
   };
 
@@ -61,8 +63,12 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
             <h2 className="modal-title">{product.title}</h2>
 
             <div className="modal-price-row">
-              <span className="modal-price">₹{product.priceINR?.toLocaleString('en-IN')}</span>
-              {product.originalPrice && (
+              {hasPrice ? (
+                <span className="modal-price">₹{product.priceINR.toLocaleString('en-IN')}</span>
+              ) : (
+                <span className="modal-price-request">Price on Request</span>
+              )}
+              {Number.isFinite(product.originalPrice) && hasPrice && (
                 <span className="modal-original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
               )}
             </div>
@@ -90,12 +96,16 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
               <button
                 className="btn-modal-add"
                 onClick={() => {
+                  if (!hasPrice) {
+                    whatsappInquiry();
+                    return;
+                  }
                   onAddToCart(product);
                   onClose();
                 }}
-                disabled={!product.inStock}
+                disabled={!product.inStock && hasPrice}
               >
-                {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                {!product.inStock && hasPrice ? 'Out of Stock' : hasPrice ? 'Add to Cart' : 'Request Price'}
               </button>
               <button
                 className="btn-modal-wa"
