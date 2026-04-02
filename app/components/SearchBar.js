@@ -10,13 +10,6 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
   const focusTimeoutRef = useRef(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onSearch(query);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [query, onSearch]);
-
-  useEffect(() => {
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
         if (!query) setIsExpanded(false);
@@ -46,6 +39,8 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
             setIsExpanded(true);
           } else if (query.trim()) {
             onSearch(query.trim());
+          } else {
+            onSearch('');
           }
 
           if (focusTimeoutRef.current) {
@@ -73,7 +68,11 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
         className="search-input"
         placeholder={placeholder}
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          const value = e.target.value;
+          setQuery(value);
+          onSearch(value);
+        }}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
@@ -88,6 +87,7 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
           className="search-clear-btn"
           onClick={() => {
             setQuery('');
+            onSearch('');
             inputRef.current?.focus();
           }}
           aria-label="Clear search"

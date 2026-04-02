@@ -295,6 +295,10 @@ export default function Home() {
     setSearchQuery(nextQuery);
 
     if (nextQuery.trim()) {
+      if (!searchQuery.trim()) {
+        scrollToSection('collection');
+      }
+
       if (activeCategory !== 'all') {
         setActiveCategory('all');
       }
@@ -302,7 +306,7 @@ export default function Home() {
         setActiveVibe('all');
       }
     }
-  }, [activeCategory, activeVibe]);
+  }, [activeCategory, activeVibe, searchQuery]);
 
   const categoryNameById = useMemo(() => {
     return CATEGORIES.reduce((acc, category) => {
