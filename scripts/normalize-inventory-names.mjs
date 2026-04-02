@@ -25,10 +25,13 @@ const normalizedName = (product) => {
   const code = codeFrom(product);
   const text = `${product.title || ''} ${product.material || ''}`.toLowerCase();
   const hasDollar = product.category === 'pendants' && /dollar/.test(text);
-  const hasJadvikandan = /jadau|jadu\s*kundan|kundan|jadvikandan/.test(text);
+  const hasJadauKundan = /jadau|jadu\s*kundan|kundan|jadvikandan/.test(text);
+  const isReversible = /reversible/.test(text);
 
   if (hasDollar) return `Dollar ${code || ''}`.trim();
-  if (hasJadvikandan) return `Jadvikandan ${code || ''}`.trim();
+  if (hasJadauKundan) {
+    return `${isReversible ? 'Jadau Kundan Reversible' : 'Jadau Kundan'} ${code || ''}`.trim();
+  }
   return code || product.title;
 };
 

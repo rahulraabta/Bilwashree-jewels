@@ -553,10 +553,10 @@ export const inventory = [
   },
   {
     id: "nk-465-haram",
-    title: "Jadvikandan NK 465",
+    title: "Jadau Kundan Reversible NK 465",
     category: "harams",
     structure: "Haram",
-    material: "Jadau Kundan Premium",
+    material: "Jadau Kundan Reversible Premium",
     priceINR: 4799,
     originalPrice: null,
     badge: "Premium",
@@ -685,7 +685,7 @@ export const inventory = [
   },
   {
     id: "nk-125-earrings",
-    title: "Jadvikandan NK 125",
+    title: "Jadau Kundan NK 125",
     category: "earrings",
     material: "Jadau Kundan with Green Beads",
     priceINR: null,
@@ -697,7 +697,7 @@ export const inventory = [
   },
   {
     id: "nk-146-earrings",
-    title: "Jadvikandan NK 146",
+    title: "Jadau Kundan NK 146",
     category: "earrings",
     material: "Jadau Kundan with Emerald",
     priceINR: null,

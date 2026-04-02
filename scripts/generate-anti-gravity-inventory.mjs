@@ -50,18 +50,19 @@ function normalizedName(product, code) {
   const codeLabel = code.replace('-', ' ');
   const source = `${product.title || ''} ${product.material || ''}`.toLowerCase();
   const hasDollar = /dollar/.test(source);
-  const hasJaduKundan = /jadau|jadu\s*kundan|kundan|jadvikandan/.test(source);
+  const hasJadauKundan = /jadau|jadu\s*kundan|kundan|jadvikandan/.test(source);
+  const isReversible = /reversible/.test(source);
 
-  if (hasDollar && hasJaduKundan) {
-    return `Dollar Jadvikandan ${codeLabel}`;
+  if (hasDollar && hasJadauKundan) {
+    return `Dollar ${isReversible ? 'Jadau Kundan Reversible' : 'Jadau Kundan'} ${codeLabel}`;
   }
 
   if (hasDollar) {
     return `Dollar ${codeLabel}`;
   }
 
-  if (hasJaduKundan) {
-    return `Jadvikandan ${codeLabel}`;
+  if (hasJadauKundan) {
+    return `${isReversible ? 'Jadau Kundan Reversible' : 'Jadau Kundan'} ${codeLabel}`;
   }
 
   return codeLabel;
