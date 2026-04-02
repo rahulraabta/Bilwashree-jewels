@@ -8,7 +8,9 @@ export default function Navbar({
   cartCount,
   onCartOpen,
   scrollToSection,
-  onSearch
+  onSearch,
+  searchSuggestions,
+  onSearchSuggestionSelect,
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,7 +79,11 @@ export default function Navbar({
         </ul>
 
         <div className="navbar-actions">
-          <SearchBar onSearch={onSearch} />
+          <SearchBar
+            onSearch={onSearch}
+            suggestions={searchSuggestions}
+            onSuggestionSelect={onSearchSuggestionSelect}
+          />
           <button
             id="navbar-cart-button"
             className="navbar-cart-btn"

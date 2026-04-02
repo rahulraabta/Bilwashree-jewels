@@ -43,6 +43,15 @@ const VIBE_FILTERS = [
   { id: 'office', label: 'Work Chic', icon: '💼' },
 ];
 
+const CATEGORY_SEARCH_ALIASES = {
+  necklaces: ['necklace', 'necklaces', 'neck', 'chain', 'choker', 'c'],
+  earrings: ['ear', 'ears', 'earring', 'earrings', 'stud', 'jhumka'],
+  pendants: ['pendant', 'pendants', 'dollar'],
+  bangles: ['bangle', 'bangles', 'kada', 'bracelet'],
+  harams: ['haram', 'harams', 'long necklace'],
+  accessories: ['accessory', 'accessories', 'anklet', 'maang tikka'],
+};
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeVibe, setActiveVibe] = useState('all');
@@ -308,6 +317,27 @@ export default function Home() {
     }
   }, [activeCategory, activeVibe, searchQuery]);
 
+  const searchSuggestions = useMemo(() => {
+    return CATEGORIES
+      .filter((category) => category.id !== 'all')
+      .map((category) => ({
+        id: `category-${category.id}`,
+        label: category.name,
+        type: 'Category',
+        categoryId: category.id,
+        keywords: CATEGORY_SEARCH_ALIASES[category.id] || [category.name.toLowerCase()],
+      }));
+  }, []);
+
+  const handleSearchSuggestionSelect = useCallback((suggestion) => {
+    if (!suggestion?.categoryId) return;
+
+    setSearchQuery(suggestion.label);
+    setActiveVibe('all');
+    setActiveCategory(suggestion.categoryId);
+    scrollToSection('collection');
+  }, []);
+
   const categoryNameById = useMemo(() => {
     return CATEGORIES.reduce((acc, category) => {
       acc[category.id] = category.name;
@@ -399,6 +429,8 @@ export default function Home() {
         onCartOpen={() => setIsCartOpen(true)}
         scrollToSection={scrollToSection}
         onSearch={handleSearchQuery}
+        searchSuggestions={searchSuggestions}
+        onSearchSuggestionSelect={handleSearchSuggestionSelect}
       />
 
       <CartDrawer

@@ -2,7 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-export default function SearchBar({ onSearch, placeholder = "Search for necklaces, pendants..." }) {
+export default function SearchBar({
+  onSearch,
+  onSuggestionSelect,
+  suggestions = [],
+  placeholder = "Search for necklaces, pendants...",
+}) {
   const [query, setQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef(null);
@@ -26,6 +31,17 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
       }
     };
   }, []);
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredSuggestions = normalizedQuery
+    ? suggestions
+      .filter((item) => {
+        const label = (item.label || '').toLowerCase();
+        const keywords = (item.keywords || []).join(' ').toLowerCase();
+        return label.includes(normalizedQuery) || keywords.includes(normalizedQuery);
+      })
+      .slice(0, 6)
+    : [];
 
   return (
     <div
@@ -76,11 +92,42 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
+            if (filteredSuggestions[0] && onSuggestionSelect) {
+              onSuggestionSelect(filteredSuggestions[0]);
+              setQuery(filteredSuggestions[0].label);
+              setIsExpanded(false);
+              return;
+            }
             onSearch(query.trim());
           }
         }}
         aria-label="Search products"
       />
+
+      {isExpanded && filteredSuggestions.length > 0 && (
+        <div className="search-suggestions" role="listbox" aria-label="Search suggestions">
+          {filteredSuggestions.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="option"
+              aria-selected="false"
+              className="search-suggestion-item"
+              onClick={() => {
+                setQuery(item.label);
+                onSearch(item.label);
+                if (onSuggestionSelect) {
+                  onSuggestionSelect(item);
+                }
+                setIsExpanded(false);
+              }}
+            >
+              <span className="suggestion-label">{item.label}</span>
+              <span className="suggestion-type">{item.type}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {query && (
         <button
