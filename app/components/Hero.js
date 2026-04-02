@@ -54,8 +54,16 @@ export default function Hero({ onShopClick, onStoryClick }) {
 
       <div
         className="hero-scroll-hint"
-        aria-hidden="true"
+        role="button"
+        tabIndex={0}
+        aria-label="Scroll to collection"
         onClick={onShopClick}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            onShopClick();
+          }
+        }}
       >
         <span className="hero-scroll-arrow">↓</span>
         Scroll

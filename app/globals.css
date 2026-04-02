@@ -63,7 +63,8 @@ body {
 
 /* ── Scroll Reveal ── */
 body.nav-open,
-body.cart-open {
+body.cart-open,
+body.modal-open {
   overflow: hidden;
   padding-right: var(--scrollbar-width, 0px);
 }
@@ -71,6 +72,7 @@ body.cart-open {
 .reveal {
   opacity: 0;
   transform: translateY(30px);
+  will-change: transform, opacity;
   transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -130,6 +132,7 @@ body.cart-open {
 /* Smooth filtering transition */
 .product-grid {
   transition: opacity 0.3s ease;
+  will-change: opacity;
 }
 
 .product-grid.filtering {
@@ -598,6 +601,8 @@ button:focus-visible {
   animation: none;
   cursor: pointer;
   opacity: 1;
+  border: none;
+  background: transparent;
 }
 
 .hero-scroll-arrow {
@@ -2721,6 +2726,9 @@ section[id] {
   aspect-ratio: 4/5;
   cursor: pointer;
   group: hover;
+  border: none;
+  background: transparent;
+  will-change: transform;
 }
 
 .gift-bg {
@@ -2755,6 +2763,19 @@ section[id] {
 
 .gift-card:hover .gift-content {
   transform: translateY(0);
+}
+
+.gift-card:focus-visible .gift-content {
+  transform: translateY(0);
+}
+
+.gift-card:focus-visible .gift-bg {
+  transform: scale(1.08);
+}
+
+.gift-card:focus-visible .gift-btn {
+  background: var(--accent);
+  color: var(--white);
 }
 
 .gift-title {

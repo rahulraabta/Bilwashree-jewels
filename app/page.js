@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo, useDeferredValue } from 'react';
 import Image from 'next/image';
 import {
   inventory,
@@ -43,6 +43,7 @@ export default function Home() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const toastTimeoutRef = useRef(null);
   const filterTimeoutRef = useRef(null);
 
@@ -92,7 +93,11 @@ export default function Home() {
     setRecentlyViewed(prev => {
       const filtered = prev.filter(p => p.id !== product.id);
       const updated = [product, ...filtered].slice(0, 6);
-      window.localStorage.setItem('bilvashree_recent_v1', JSON.stringify(updated));
+      try {
+        window.localStorage.setItem('bilvashree_recent_v1', JSON.stringify(updated));
+      } catch {
+        // Ignore storage errors silently
+      }
       return updated;
     });
   }, []);
@@ -107,6 +112,18 @@ export default function Home() {
       document.body.classList.remove('nav-open');
     };
   }, [isCartOpen]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [selectedProduct]);
 
   /* ESC closes open drawers */
   useEffect(() => {
@@ -235,13 +252,27 @@ export default function Home() {
     }, 300);
   };
 
-  const filteredProducts = inventory.filter((product) => {
-    const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
-    const matchesSearch = !searchQuery ||
-      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      CATEGORIES.find(c => c.id === product.category)?.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const categoryNameById = useMemo(() => {
+    return CATEGORIES.reduce((acc, category) => {
+      acc[category.id] = category.name;
+      return acc;
+    }, {});
+  }, []);
+
+  const normalizedSearchQuery = deferredSearchQuery.trim().toLowerCase();
+
+  const filteredProducts = useMemo(() => {
+    return inventory.filter((product) => {
+      const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
+      const categoryName = (categoryNameById[product.category] || product.category || '').toLowerCase();
+      const title = (product.title || '').toLowerCase();
+      const matchesSearch = !normalizedSearchQuery ||
+        title.includes(normalizedSearchQuery) ||
+        categoryName.includes(normalizedSearchQuery);
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, categoryNameById, normalizedSearchQuery]);
 
   const recommendedProducts = useMemo(() => {
     const seedCategory = selectedProduct?.category || (activeCategory !== 'all' ? activeCategory : recentlyViewed[0]?.category);
@@ -453,7 +484,7 @@ export default function Home() {
              <Reveal className="empty-category-state">
                 <div className="empty-icon">✧</div>
                 <h3>New Designs Coming Soon</h3>
-                <p>We are currently handcrafting new {CATEGORIES.find(c => c.id === activeCategory)?.name.toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
+                <p>We are currently handcrafting new {(categoryNameById[activeCategory] || activeCategory).toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
                 <button
                   className="btn-empty"
                   onClick={() => {
@@ -472,7 +503,7 @@ export default function Home() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  categoryName={CATEGORIES.find(c => c.id === product.category)?.name || product.category}
+                  categoryName={categoryNameById[product.category] || product.category}
                   onAddToCart={handleAddToCart}
                   onView={() => addToRecent(product)}
                   onClick={() => openProductQuickView(product)}
@@ -504,7 +535,7 @@ export default function Home() {
                 <ProductCard
                   key={`recommended-${product.id}`}
                   product={product}
-                  categoryName={CATEGORIES.find((c) => c.id === product.category)?.name || product.category}
+                  categoryName={categoryNameById[product.category] || product.category}
                   onAddToCart={handleAddToCart}
                   onView={() => addToRecent(product)}
                   onClick={() => openProductQuickView(product)}
@@ -530,7 +561,18 @@ export default function Home() {
 
           <Reveal className="reveal-stagger">
             <div className="gifting-grid">
-              <div className="gift-card" onClick={() => { scrollToSection('collection'); }}>
+              <div
+                className="gift-card"
+                role="button"
+                tabIndex={0}
+                onClick={() => { scrollToSection('collection'); }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    scrollToSection('collection');
+                  }
+                }}
+              >
                 <div className="gift-bg">
                   <Image src={`${BASE_PATH}/images/pendant-2.jpg.jpeg`} alt="Gifts for Her" fill style={{ objectFit: 'cover' }} unoptimized />
                 </div>
@@ -542,7 +584,18 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="gift-card" onClick={() => { scrollToSection('collection'); }}>
+              <div
+                className="gift-card"
+                role="button"
+                tabIndex={0}
+                onClick={() => { scrollToSection('collection'); }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    scrollToSection('collection');
+                  }
+                }}
+              >
                 <div className="gift-bg">
                   <Image src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`} alt="Wedding Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
                 </div>
@@ -554,7 +607,18 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="gift-card" onClick={() => { scrollToSection('collection'); }}>
+              <div
+                className="gift-card"
+                role="button"
+                tabIndex={0}
+                onClick={() => { scrollToSection('collection'); }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    scrollToSection('collection');
+                  }
+                }}
+              >
                 <div className="gift-bg">
                   <Image src={`${BASE_PATH}/images/pendant-5.jpg.jpeg`} alt="Anniversary Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
                 </div>
@@ -713,7 +777,7 @@ export default function Home() {
                 <ProductCard
                   key={`recent-${product.id}`}
                   product={product}
-                  categoryName={CATEGORIES.find(c => c.id === product.category)?.name || product.category}
+                  categoryName={categoryNameById[product.category] || product.category}
                   onAddToCart={handleAddToCart}
                   onView={() => {}} // No need to re-add to recent
                   onClick={() => openProductQuickView(product)}
@@ -735,7 +799,7 @@ export default function Home() {
       {selectedProduct && (
         <ProductModal
           product={selectedProduct}
-          categoryName={CATEGORIES.find(c => c.id === selectedProduct.category)?.name || selectedProduct.category}
+          categoryName={categoryNameById[selectedProduct.category] || selectedProduct.category}
           onClose={() => setSelectedProduct(null)}
           onAddToCart={handleAddToCart}
         />

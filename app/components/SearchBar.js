@@ -7,6 +7,7 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef(null);
   const containerRef = useRef(null);
+  const focusTimeoutRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,9 +22,17 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
         if (!query) setIsExpanded(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('pointerdown', handleClickOutside);
+    return () => document.removeEventListener('pointerdown', handleClickOutside);
   }, [query]);
+
+  useEffect(() => {
+    return () => {
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div
@@ -34,7 +43,12 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
         className="search-toggle-btn"
         onClick={() => {
           setIsExpanded(!isExpanded);
-          if (!isExpanded) setTimeout(() => inputRef.current?.focus(), 100);
+          if (!isExpanded) {
+            if (focusTimeoutRef.current) {
+              clearTimeout(focusTimeoutRef.current);
+            }
+            focusTimeoutRef.current = setTimeout(() => inputRef.current?.focus(), 100);
+          }
         }}
         aria-label="Toggle search"
       >

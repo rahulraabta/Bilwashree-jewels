@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SearchBar from './SearchBar';
 
 export default function Navbar({
@@ -14,20 +14,12 @@ export default function Navbar({
   const [isScrolled, setIsScrolled] = useState(false);
   const navRef = useRef(null);
 
-  const handleScroll = useCallback(() => {
-    if (window.scrollY > 80) {
-      if (!isScrolled) setIsScrolled(true);
-    } else {
-      if (isScrolled) setIsScrolled(false);
-    }
-  }, [isScrolled]);
-
   useEffect(() => {
     let ticking = false;
     const scrollListener = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          handleScroll();
+          setIsScrolled(window.scrollY > 80);
           ticking = false;
         });
         ticking = true;
@@ -35,8 +27,9 @@ export default function Navbar({
     };
 
     window.addEventListener('scroll', scrollListener, { passive: true });
+    scrollListener();
     return () => window.removeEventListener('scroll', scrollListener);
-  }, [handleScroll]);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
