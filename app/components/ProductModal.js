@@ -77,21 +77,6 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
               <p>Experience the elegance of handcrafted jewellery. This piece is meticulously designed with refined detailing and a premium finish for modern styling.</p>
             </div>
 
-            <div className="modal-specs">
-              <div className="spec-item">
-                <span className="spec-label">Material</span>
-                <span className="spec-value">{product.material || 'Premium Gold Plated'}</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-label">Purity</span>
-                <span className="spec-value">Premium Finished</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-label">Dispatch</span>
-                <span className="spec-value">Within 24-48 Hours</span>
-              </div>
-            </div>
-
             <div className="modal-actions">
               <button
                 className="btn-modal-add"
