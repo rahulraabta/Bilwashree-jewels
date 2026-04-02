@@ -25,7 +25,7 @@ export const inventory = [
   /* ── ORIGINAL PENDANT PRODUCTS ───────────────────────── */
   {
     id: "prod_1",
-    title: "Goddess Lakshmi Gold Pendant",
+    title: "NK 1",
     category: "pendants",
     material: "22Kt Gold Plated with Semi-Precious Stones",
     priceINR: 399,
@@ -37,7 +37,7 @@ export const inventory = [
   },
   {
     id: "prod_2",
-    title: "Antique Temple Goddess Pendant",
+    title: "NK 2",
     category: "pendants",
     material: "Antique Finish with Ruby Accents",
     priceINR: 399,
@@ -49,7 +49,7 @@ export const inventory = [
   },
   {
     id: "prod_3",
-    title: "Peacock Motif Temple Pendant",
+    title: "NK 3",
     category: "pendants",
     material: "Meenakari Enamel & Gold Finish",
     priceINR: 399,
@@ -61,7 +61,7 @@ export const inventory = [
   },
   {
     id: "prod_4",
-    title: "Lakshmi Divine Crown Pendant",
+    title: "NK 4",
     category: "pendants",
     material: "Gold Plated Temple Art",
     priceINR: 399,
@@ -73,7 +73,7 @@ export const inventory = [
   },
   {
     id: "prod_5",
-    title: "Divine Gold Pendant",
+    title: "NK 5",
     category: "pendants",
     material: "Premium Gold Plated",
     priceINR: 399,
@@ -85,7 +85,7 @@ export const inventory = [
   },
   {
     id: "prod_6",
-    title: "Traditional Motif Pendant",
+    title: "NK 6",
     category: "pendants",
     material: "22Kt Gold Plated Brass",
     priceINR: 399,
@@ -97,7 +97,7 @@ export const inventory = [
   },
   {
     id: "prod_7",
-    title: "Auspicious Heritage Pendant",
+    title: "NK 7",
     category: "pendants",
     material: "Antique Finish with Emerald Stones",
     priceINR: 399,
@@ -114,7 +114,7 @@ export const inventory = [
      ══════════════════════════════════════════════════════════ */
   {
     id: "nk-55-choker-green",
-    title: "Pearl Chain Choker NK-55 (Green)",
+    title: "NK 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Green Stones",
@@ -127,7 +127,7 @@ export const inventory = [
   },
   {
     id: "nk-55-choker-red",
-    title: "Pearl Chain Choker NK-55 (Red)",
+    title: "NK 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Red Stones",
@@ -140,7 +140,7 @@ export const inventory = [
   },
   {
     id: "nk-55-choker-pink",
-    title: "Pearl Chain Choker NK-55 (Pink)",
+    title: "NK 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Pink Stones",
@@ -153,7 +153,7 @@ export const inventory = [
   },
   {
     id: "nk-55-choker-teal",
-    title: "Pearl Chain Choker NK-55 (Teal)",
+    title: "NK 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Teal Stones",
@@ -166,7 +166,7 @@ export const inventory = [
   },
   {
     id: "nk-50-choker-red",
-    title: "Pearl Chain Choker NK-50 (Red)",
+    title: "NK 50",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Red Stones",
@@ -179,7 +179,7 @@ export const inventory = [
   },
   {
     id: "nk-50-choker-rose",
-    title: "Pearl Chain Choker NK-50 (Rose)",
+    title: "NK 50",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Rose Stones",
@@ -192,7 +192,7 @@ export const inventory = [
   },
   {
     id: "nk-50-choker-green",
-    title: "Pearl Chain Choker NK-50 (Green)",
+    title: "NK 50",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Green Stones",
@@ -205,7 +205,7 @@ export const inventory = [
   },
   {
     id: "nk-19-choker",
-    title: "Pearl Kemp Choker NK-19",
+    title: "NK 19",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & Kemp Stone",
@@ -218,7 +218,7 @@ export const inventory = [
   },
   {
     id: "nk-12-choker",
-    title: "Pearl Flower Choker NK-12",
+    title: "NK 12",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl Chain with Flower Motif",
@@ -231,7 +231,7 @@ export const inventory = [
   },
   {
     id: "nk-12-choker-red",
-    title: "Pearl Flower Choker NK-12 (Red)",
+    title: "NK 12",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl Chain with Red Flower Motif",
@@ -249,7 +249,7 @@ export const inventory = [
      ══════════════════════════════════════════════════════════ */
   {
     id: "nk-10-necklace",
-    title: "CZ Temple Necklace NK-10",
+    title: "NK 10",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ Stone & Gold Plated",
@@ -262,7 +262,7 @@ export const inventory = [
   },
   {
     id: "nk-13-necklace",
-    title: "Flower Chain Necklace NK-13",
+    title: "NK 13",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Kemp Stones",
@@ -275,7 +275,7 @@ export const inventory = [
   },
   {
     id: "nk-18-necklace",
-    title: "Temple Chain Necklace NK-18",
+    title: "NK 18",
     category: "necklaces",
     structure: "Necklace",
     material: "Antique Gold with Coral Stones",
@@ -288,7 +288,7 @@ export const inventory = [
   },
   {
     id: "nk-19-necklace",
-    title: "Meenakari Lotus Necklace NK-19",
+    title: "NK 19",
     category: "necklaces",
     structure: "Necklace",
     material: "Meenakari Enamel & Gold",
@@ -301,7 +301,7 @@ export const inventory = [
   },
   {
     id: "nk-20-necklace",
-    title: "Classic Coin Necklace NK-20",
+    title: "NK 20",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated Coin Design",
@@ -314,7 +314,7 @@ export const inventory = [
   },
   {
     id: "nk-22-necklace",
-    title: "Antique Flower Ruby Necklace NK-22",
+    title: "NK 22",
     category: "necklaces",
     structure: "Necklace",
     material: "Antique Gold with Ruby Squares",
@@ -327,7 +327,7 @@ export const inventory = [
   },
   {
     id: "nk-24-necklace",
-    title: "Handcrafted Kemp Necklace NK-24",
+    title: "NK 24",
     category: "necklaces",
     structure: "Necklace",
     material: "Temple Style with Kemp Stones",
@@ -340,7 +340,7 @@ export const inventory = [
   },
   {
     id: "nk-25-necklace",
-    title: "Premium Temple Necklace NK-25",
+    title: "NK 25",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Multicolor Stones",
@@ -353,7 +353,7 @@ export const inventory = [
   },
   {
     id: "nk-26-necklace",
-    title: "CZ Ruby Leaf Necklace NK-26",
+    title: "NK 26",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ & Ruby with Gold Chain",
@@ -366,7 +366,7 @@ export const inventory = [
   },
   {
     id: "nk-27-necklace",
-    title: "Reversible Temple Necklace NK-27",
+    title: "NK 27",
     category: "necklaces",
     structure: "Necklace",
     material: "Reversible Gold Plated",
@@ -379,7 +379,7 @@ export const inventory = [
   },
   {
     id: "nk-28-necklace",
-    title: "Gold Kasumala Necklace NK-28",
+    title: "NK 28",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Coin Design",
@@ -392,7 +392,7 @@ export const inventory = [
   },
   {
     id: "nk-30-necklace",
-    title: "Traditional Temple Necklace NK-30",
+    title: "NK 30",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated Temple Style",
@@ -405,7 +405,7 @@ export const inventory = [
   },
   {
     id: "nk-32-necklace",
-    title: "Gold Kasumala Coin Necklace NK-32",
+    title: "NK 32",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Coin with Colored Stones",
@@ -418,7 +418,7 @@ export const inventory = [
   },
   {
     id: "nk-34-necklace",
-    title: "Green Paisley Temple Necklace NK-34",
+    title: "NK 34",
     category: "necklaces",
     structure: "Necklace",
     material: "Kemp Stone with Green Drops",
@@ -431,7 +431,7 @@ export const inventory = [
   },
   {
     id: "nk-36-necklace",
-    title: "Pearl Temple Necklace NK-36",
+    title: "NK 36",
     category: "necklaces",
     structure: "Necklace",
     material: "Pearl Chain with Temple Motif",
@@ -444,7 +444,7 @@ export const inventory = [
   },
   {
     id: "nk-39-necklace",
-    title: "Temple Coin Necklace NK-39",
+    title: "NK 39",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Coin with Kemp Stones",
@@ -457,7 +457,7 @@ export const inventory = [
   },
   {
     id: "nk-40-necklace",
-    title: "Temple Gold Necklace NK-40",
+    title: "NK 40",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Green Drops",
@@ -470,7 +470,7 @@ export const inventory = [
   },
   {
     id: "nk-45-necklace",
-    title: "Elephant Temple Necklace NK-45",
+    title: "NK 45",
     category: "necklaces",
     structure: "Necklace",
     material: "Antique Gold with Temple Motif",
@@ -483,7 +483,7 @@ export const inventory = [
   },
   {
     id: "nk-46-necklace",
-    title: "CZ Multi-Stone Necklace NK-46",
+    title: "NK 46",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ with Multi-Color Stones",
@@ -496,7 +496,7 @@ export const inventory = [
   },
   {
     id: "nk-50-necklace",
-    title: "CZ Emerald Necklace NK-50",
+    title: "NK 50",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ with Emerald Stones",
@@ -509,7 +509,7 @@ export const inventory = [
   },
   {
     id: "nk-54-necklace",
-    title: "Temple Kemp Necklace NK-54",
+    title: "NK 54",
     category: "necklaces",
     structure: "Necklace",
     material: "Kemp Stone Temple Style",
@@ -522,7 +522,7 @@ export const inventory = [
   },
   {
     id: "nk-55-necklace",
-    title: "Temple Gold Necklace NK-55",
+    title: "NK 55",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Kemp Drops",
@@ -540,7 +540,7 @@ export const inventory = [
      ══════════════════════════════════════════════════════════ */
   {
     id: "nk-42-haram",
-    title: "Long Antique Coin Haram NK-42",
+    title: "NK 42",
     category: "harams",
     structure: "Haram",
     material: "Antique Gold Coin Design",
@@ -553,7 +553,7 @@ export const inventory = [
   },
   {
     id: "nk-465-haram",
-    title: "Jadau Kundan Reversible Haram NK-465",
+    title: "Jadvikandan NK 465",
     category: "harams",
     structure: "Haram",
     material: "Jadau Kundan Premium",
@@ -566,7 +566,7 @@ export const inventory = [
   },
   {
     id: "nk-57-haram",
-    title: "Beaded Temple Haram NK-57",
+    title: "NK 57",
     category: "harams",
     structure: "Haram",
     material: "Green Beads with Temple Pendant",
@@ -579,7 +579,7 @@ export const inventory = [
   },
   {
     id: "nk-72-haram",
-    title: "Grand Bridal Temple Haram NK-72",
+    title: "NK 72",
     category: "harams",
     structure: "Haram",
     material: "Gold with Kemp & Beaded Chain",
@@ -592,7 +592,7 @@ export const inventory = [
   },
   {
     id: "nk-78-haram",
-    title: "Grand Red Bridal Haram NK-78",
+    title: "NK 78",
     category: "harams",
     structure: "Haram",
     material: "Red Beads with Temple Motif",
@@ -605,7 +605,7 @@ export const inventory = [
   },
   {
     id: "nk-60-haram",
-    title: "Temple Long Haram NK-60",
+    title: "NK 60",
     category: "harams",
     structure: "Haram",
     material: "Red Beads with Temple Pendant",
@@ -618,7 +618,7 @@ export const inventory = [
   },
   {
     id: "nk-62-haram",
-    title: "Green Beaded Temple Haram NK-62",
+    title: "NK 62",
     category: "harams",
     structure: "Haram",
     material: "Green Beads & Gold Temple",
@@ -631,7 +631,7 @@ export const inventory = [
   },
   {
     id: "nk-50-haram",
-    title: "Long Green Pendant Haram NK-50",
+    title: "NK 50",
     category: "harams",
     structure: "Haram",
     material: "Green Beads with Lakshmi Pendant",
@@ -644,7 +644,7 @@ export const inventory = [
   },
   {
     id: "nk-24-haram",
-    title: "Antique Chain Haram NK-24",
+    title: "NK 24",
     category: "harams",
     structure: "Haram",
     material: "Antique Gold Chain Design",
@@ -661,7 +661,7 @@ export const inventory = [
      ══════════════════════════════════════════════════════════ */
   {
     id: "nk-10-earrings",
-    title: "CZ Crystal Ear Climber NK-10",
+    title: "NK 10",
     category: "earrings",
     material: "CZ Crystal with Gold Setting",
     priceINR: null,
@@ -673,7 +673,7 @@ export const inventory = [
   },
   {
     id: "nk-12-earrings",
-    title: "CZ Flower Hook Earrings NK-12",
+    title: "NK 12",
     category: "earrings",
     material: "CZ with Flower Motif",
     priceINR: 320,
@@ -685,7 +685,7 @@ export const inventory = [
   },
   {
     id: "nk-125-earrings",
-    title: "Jadau Kundan Round Stud NK-125",
+    title: "Jadvikandan NK 125",
     category: "earrings",
     material: "Jadau Kundan with Green Beads",
     priceINR: null,
@@ -697,7 +697,7 @@ export const inventory = [
   },
   {
     id: "nk-146-earrings",
-    title: "Jadau Kundan Jhumka NK-146",
+    title: "Jadvikandan NK 146",
     category: "earrings",
     material: "Jadau Kundan with Emerald",
     priceINR: null,
@@ -709,7 +709,7 @@ export const inventory = [
   },
   {
     id: "nk-25-earrings",
-    title: "Temple Jhumka Earrings NK-25",
+    title: "NK 25",
     category: "earrings",
     material: "Antique Gold Temple Style",
     priceINR: null,
@@ -721,7 +721,7 @@ export const inventory = [
   },
   {
     id: "nk-28-earrings",
-    title: "Temple Drop Earrings NK-28",
+    title: "NK 28",
     category: "earrings",
     material: "Gold with Pearl Drops",
     priceINR: null,
@@ -733,7 +733,7 @@ export const inventory = [
   },
   {
     id: "nk-45-earrings",
-    title: "Temple Gold Jhumka NK-45",
+    title: "NK 45",
     category: "earrings",
     material: "Gold Plated Jhumka Style",
     priceINR: null,
@@ -745,7 +745,7 @@ export const inventory = [
   },
   {
     id: "nk-46-earrings",
-    title: "CZ Dangler Earrings NK-46",
+    title: "NK 46",
     category: "earrings",
     material: "CZ with Chain",
     priceINR: null,
@@ -757,7 +757,7 @@ export const inventory = [
   },
   {
     id: "nk-18-earrings",
-    title: "CZ Drop Earrings NK-18",
+    title: "NK 18",
     category: "earrings",
     material: "CZ Crystal Drop",
     priceINR: null,
@@ -769,7 +769,7 @@ export const inventory = [
   },
   {
     id: "nk-40-earrings",
-    title: "Leaf Ruby Earrings NK-40",
+    title: "NK 40",
     category: "earrings",
     material: "Gold with Ruby Leaf Design",
     priceINR: null,
@@ -785,7 +785,7 @@ export const inventory = [
      ══════════════════════════════════════════════════════════ */
   {
     id: "nk-14-bangles",
-    title: "Temple Lakshmi Kada Bangles NK-14",
+    title: "NK 14",
     category: "bangles",
     material: "Antique Gold Temple Design",
     priceINR: 350,
@@ -797,7 +797,7 @@ export const inventory = [
   },
   {
     id: "nk-15-bangles",
-    title: "Heritage Temple Bangle Set NK-15",
+    title: "NK 15",
     category: "bangles",
     material: "Gold Plated with Emerald Stones",
     priceINR: null,
@@ -809,7 +809,7 @@ export const inventory = [
   },
   {
     id: "nk-18-bangles",
-    title: "Traditional Temple Bangle Set NK-18",
+    title: "NK 18",
     category: "bangles",
     material: "Gold Plated with Multi Stones",
     priceINR: null,
@@ -821,7 +821,7 @@ export const inventory = [
   },
   {
     id: "nk-19-bangles",
-    title: "Reversible Temple Bangles NK-19",
+    title: "NK 19",
     category: "bangles",
     material: "Reversible Gold Plated",
     priceINR: null,
@@ -837,7 +837,7 @@ export const inventory = [
      ══════════════════════════════════════════════════════════ */
   {
     id: "nk-8-dollar",
-    title: "Temple Lakshmi Dollar NK-8",
+    title: "Dollar NK 8",
     category: "pendants",
     material: "Antique Gold Temple Art",
     priceINR: 399,
@@ -849,7 +849,7 @@ export const inventory = [
   },
   {
     id: "nk-10-dollar",
-    title: "Divine Dollar Pendant NK-10",
+    title: "Dollar NK 10",
     category: "pendants",
     material: "Gold Plated Temple Style",
     priceINR: null,
@@ -861,7 +861,7 @@ export const inventory = [
   },
   {
     id: "nk-40-dollar",
-    title: "Temple Large Dollar NK-40",
+    title: "Dollar NK 40",
     category: "pendants",
     material: "Large Temple Art Pendant",
     priceINR: null,
@@ -877,7 +877,7 @@ export const inventory = [
      ══════════════════════════════════════════════════════════ */
   {
     id: "nk-48-tikka",
-    title: "Pearl Maang Tikka NK-48",
+    title: "NK 48",
     category: "accessories",
     material: "Pearl & Gold",
     priceINR: null,
@@ -889,7 +889,7 @@ export const inventory = [
   },
   {
     id: "nk-42-tikka",
-    title: "Temple Layered Maang Tikka NK-42",
+    title: "NK 42",
     category: "accessories",
     material: "Gold Plated Temple Art",
     priceINR: 820,
@@ -901,7 +901,7 @@ export const inventory = [
   },
   {
     id: "nk-50-tikka",
-    title: "CZ Bridal Maang Tikka NK-50",
+    title: "NK 50",
     category: "accessories",
     material: "CZ Crystal with Ruby Stone",
     priceINR: null,
@@ -913,7 +913,7 @@ export const inventory = [
   },
   {
     id: "nk-54-tikka",
-    title: "CZ Layered Maang Tikka NK-54",
+    title: "NK 54",
     category: "accessories",
     material: "CZ Crystal Layered Design",
     priceINR: null,
@@ -925,7 +925,7 @@ export const inventory = [
   },
   {
     id: "nk-54-anklet",
-    title: "Pearl CZ Anklet (Payal) NK-54",
+    title: "NK 54",
     category: "accessories",
     material: "Pearl & CZ Crystal",
     priceINR: 860,
@@ -941,7 +941,7 @@ export const inventory = [
 export const TESTIMONIALS = [
   {
     id: 1,
-    text: "Ordered the Goddess Lakshmi pendant for my mother and she was moved to tears. The craftsmanship is absolutely stunning — you can feel the care in every detail.",
+    text: "Ordered one of the NK series pendants for my mother and she was moved to tears. The craftsmanship is absolutely stunning — you can feel the care in every detail.",
     name: "Ananya R.",
     location: "Bengaluru, Karnataka",
     initial: "A",

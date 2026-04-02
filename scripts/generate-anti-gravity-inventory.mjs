@@ -47,13 +47,13 @@ function cleanedTitle(title, code) {
 }
 
 function normalizedName(product, code) {
-  const codeLabel = code.replace('-', '');
+  const codeLabel = code.replace('-', ' ');
   const source = `${product.title || ''} ${product.material || ''}`.toLowerCase();
   const hasDollar = /dollar/.test(source);
-  const hasJaduKundan = /jadau|jadu\s*kundan|kundan/.test(source);
+  const hasJaduKundan = /jadau|jadu\s*kundan|kundan|jadvikandan/.test(source);
 
   if (hasDollar && hasJaduKundan) {
-    return `Dollar Jadu Ikundan ${codeLabel}`;
+    return `Dollar Jadvikandan ${codeLabel}`;
   }
 
   if (hasDollar) {
@@ -61,7 +61,7 @@ function normalizedName(product, code) {
   }
 
   if (hasJaduKundan) {
-    return `Jadu Ikundan ${codeLabel}`;
+    return `Jadvikandan ${codeLabel}`;
   }
 
   return codeLabel;

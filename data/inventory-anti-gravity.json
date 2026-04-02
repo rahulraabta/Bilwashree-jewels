@@ -2,7 +2,7 @@
   {
     "productId": "NK-12",
     "category": "necklaces",
-    "itemName": "NK12",
+    "itemName": "NK 12",
     "structure": "Short",
     "unitPrice": 320,
     "sourceId": "nk-12-choker"
@@ -10,7 +10,7 @@
   {
     "productId": "NK-12",
     "category": "necklaces",
-    "itemName": "NK12",
+    "itemName": "NK 12",
     "structure": "Short",
     "unitPrice": 320,
     "sourceId": "nk-12-choker-red"
@@ -18,7 +18,7 @@
   {
     "productId": "NK-19",
     "category": "necklaces",
-    "itemName": "NK19",
+    "itemName": "NK 19",
     "structure": "Short",
     "unitPrice": 420,
     "sourceId": "nk-19-choker"
@@ -26,7 +26,7 @@
   {
     "productId": "NK-50",
     "category": "necklaces",
-    "itemName": "NK50",
+    "itemName": "NK 50",
     "structure": "Short",
     "unitPrice": 920,
     "sourceId": "nk-50-choker-red"
@@ -34,7 +34,7 @@
   {
     "productId": "NK-50",
     "category": "necklaces",
-    "itemName": "NK50",
+    "itemName": "NK 50",
     "structure": "Short",
     "unitPrice": 920,
     "sourceId": "nk-50-choker-rose"
@@ -42,7 +42,7 @@
   {
     "productId": "NK-50",
     "category": "necklaces",
-    "itemName": "NK50",
+    "itemName": "NK 50",
     "structure": "Short",
     "unitPrice": 920,
     "sourceId": "nk-50-choker-green"
@@ -50,7 +50,7 @@
   {
     "productId": "NK-55",
     "category": "necklaces",
-    "itemName": "NK55",
+    "itemName": "NK 55",
     "structure": "Short",
     "unitPrice": 930,
     "sourceId": "nk-55-choker-green"
@@ -58,7 +58,7 @@
   {
     "productId": "NK-55",
     "category": "necklaces",
-    "itemName": "NK55",
+    "itemName": "NK 55",
     "structure": "Short",
     "unitPrice": 930,
     "sourceId": "nk-55-choker-red"
@@ -66,7 +66,7 @@
   {
     "productId": "NK-55",
     "category": "necklaces",
-    "itemName": "NK55",
+    "itemName": "NK 55",
     "structure": "Short",
     "unitPrice": 930,
     "sourceId": "nk-55-choker-pink"
@@ -74,7 +74,7 @@
   {
     "productId": "NK-55",
     "category": "necklaces",
-    "itemName": "NK55",
+    "itemName": "NK 55",
     "structure": "Short",
     "unitPrice": 930,
     "sourceId": "nk-55-choker-teal"
@@ -82,7 +82,7 @@
   {
     "productId": "NK-10",
     "category": "necklaces",
-    "itemName": "NK10",
+    "itemName": "NK 10",
     "structure": "Medium",
     "unitPrice": null,
     "sourceId": "nk-10-necklace"
@@ -90,7 +90,7 @@
   {
     "productId": "NK-13",
     "category": "necklaces",
-    "itemName": "NK13",
+    "itemName": "NK 13",
     "structure": "Medium",
     "unitPrice": null,
     "sourceId": "nk-13-necklace"
@@ -98,7 +98,7 @@
   {
     "productId": "NK-18",
     "category": "necklaces",
-    "itemName": "NK18",
+    "itemName": "NK 18",
     "structure": "Medium",
     "unitPrice": null,
     "sourceId": "nk-18-necklace"
@@ -106,7 +106,7 @@
   {
     "productId": "NK-19",
     "category": "necklaces",
-    "itemName": "NK19",
+    "itemName": "NK 19",
     "structure": "Medium",
     "unitPrice": 420,
     "sourceId": "nk-19-necklace"
@@ -114,7 +114,7 @@
   {
     "productId": "NK-20",
     "category": "necklaces",
-    "itemName": "NK20",
+    "itemName": "NK 20",
     "structure": "Medium",
     "unitPrice": 450,
     "sourceId": "nk-20-necklace"
@@ -122,7 +122,7 @@
   {
     "productId": "NK-22",
     "category": "necklaces",
-    "itemName": "NK22",
+    "itemName": "NK 22",
     "structure": "Medium",
     "unitPrice": 450,
     "sourceId": "nk-22-necklace"
@@ -130,7 +130,7 @@
   {
     "productId": "NK-24",
     "category": "necklaces",
-    "itemName": "NK24",
+    "itemName": "NK 24",
     "structure": "Medium",
     "unitPrice": 450,
     "sourceId": "nk-24-necklace"
@@ -138,7 +138,7 @@
   {
     "productId": "NK-25",
     "category": "necklaces",
-    "itemName": "NK25",
+    "itemName": "NK 25",
     "structure": "Medium",
     "unitPrice": 450,
     "sourceId": "nk-25-necklace"
@@ -146,7 +146,7 @@
   {
     "productId": "NK-26",
     "category": "necklaces",
-    "itemName": "NK26",
+    "itemName": "NK 26",
     "structure": "Medium",
     "unitPrice": 470,
     "sourceId": "nk-26-necklace"
@@ -154,7 +154,7 @@
   {
     "productId": "NK-27",
     "category": "necklaces",
-    "itemName": "NK27",
+    "itemName": "NK 27",
     "structure": "Medium",
     "unitPrice": 450,
     "sourceId": "nk-27-necklace"
@@ -162,7 +162,7 @@
   {
     "productId": "NK-28",
     "category": "necklaces",
-    "itemName": "NK28",
+    "itemName": "NK 28",
     "structure": "Medium",
     "unitPrice": 499,
     "sourceId": "nk-28-necklace"
@@ -170,7 +170,7 @@
   {
     "productId": "NK-30",
     "category": "necklaces",
-    "itemName": "NK30",
+    "itemName": "NK 30",
     "structure": "Medium",
     "unitPrice": 699,
     "sourceId": "nk-30-necklace"
@@ -178,7 +178,7 @@
   {
     "productId": "NK-32",
     "category": "necklaces",
-    "itemName": "NK32",
+    "itemName": "NK 32",
     "structure": "Medium",
     "unitPrice": null,
     "sourceId": "nk-32-necklace"
@@ -186,7 +186,7 @@
   {
     "productId": "NK-34",
     "category": "necklaces",
-    "itemName": "NK34",
+    "itemName": "NK 34",
     "structure": "Medium",
     "unitPrice": 699,
     "sourceId": "nk-34-necklace"
@@ -194,7 +194,7 @@
   {
     "productId": "NK-36",
     "category": "necklaces",
-    "itemName": "NK36",
+    "itemName": "NK 36",
     "structure": "Medium",
     "unitPrice": 799,
     "sourceId": "nk-36-necklace"
@@ -202,7 +202,7 @@
   {
     "productId": "NK-39",
     "category": "necklaces",
-    "itemName": "NK39",
+    "itemName": "NK 39",
     "structure": "Medium",
     "unitPrice": 750,
     "sourceId": "nk-39-necklace"
@@ -210,7 +210,7 @@
   {
     "productId": "NK-40",
     "category": "necklaces",
-    "itemName": "NK40",
+    "itemName": "NK 40",
     "structure": "Medium",
     "unitPrice": 450,
     "sourceId": "nk-40-necklace"
@@ -218,7 +218,7 @@
   {
     "productId": "NK-45",
     "category": "necklaces",
-    "itemName": "NK45",
+    "itemName": "NK 45",
     "structure": "Medium",
     "unitPrice": 840,
     "sourceId": "nk-45-necklace"
@@ -226,7 +226,7 @@
   {
     "productId": "NK-46",
     "category": "necklaces",
-    "itemName": "NK46",
+    "itemName": "NK 46",
     "structure": "Medium",
     "unitPrice": null,
     "sourceId": "nk-46-necklace"
@@ -234,7 +234,7 @@
   {
     "productId": "NK-50",
     "category": "necklaces",
-    "itemName": "NK50",
+    "itemName": "NK 50",
     "structure": "Medium",
     "unitPrice": 920,
     "sourceId": "nk-50-necklace"
@@ -242,7 +242,7 @@
   {
     "productId": "NK-54",
     "category": "necklaces",
-    "itemName": "NK54",
+    "itemName": "NK 54",
     "structure": "Medium",
     "unitPrice": null,
     "sourceId": "nk-54-necklace"
@@ -250,7 +250,7 @@
   {
     "productId": "NK-55",
     "category": "necklaces",
-    "itemName": "NK55",
+    "itemName": "NK 55",
     "structure": "Medium",
     "unitPrice": 930,
     "sourceId": "nk-55-necklace"
@@ -258,7 +258,7 @@
   {
     "productId": "NK-24",
     "category": "harams",
-    "itemName": "NK24",
+    "itemName": "NK 24",
     "structure": "Long",
     "unitPrice": null,
     "sourceId": "nk-24-haram"
@@ -266,7 +266,7 @@
   {
     "productId": "NK-42",
     "category": "harams",
-    "itemName": "NK42",
+    "itemName": "NK 42",
     "structure": "Long",
     "unitPrice": 880,
     "sourceId": "nk-42-haram"
@@ -274,7 +274,7 @@
   {
     "productId": "NK-50",
     "category": "harams",
-    "itemName": "NK50",
+    "itemName": "NK 50",
     "structure": "Long",
     "unitPrice": 950,
     "sourceId": "nk-50-haram"
@@ -282,7 +282,7 @@
   {
     "productId": "NK-57",
     "category": "harams",
-    "itemName": "NK57",
+    "itemName": "NK 57",
     "structure": "Long",
     "unitPrice": 999,
     "sourceId": "nk-57-haram"
@@ -290,7 +290,7 @@
   {
     "productId": "NK-60",
     "category": "harams",
-    "itemName": "NK60",
+    "itemName": "NK 60",
     "structure": "Long",
     "unitPrice": null,
     "sourceId": "nk-60-haram"
@@ -298,7 +298,7 @@
   {
     "productId": "NK-62",
     "category": "harams",
-    "itemName": "NK62",
+    "itemName": "NK 62",
     "structure": "Long",
     "unitPrice": null,
     "sourceId": "nk-62-haram"
@@ -306,7 +306,7 @@
   {
     "productId": "NK-72",
     "category": "harams",
-    "itemName": "NK72",
+    "itemName": "NK 72",
     "structure": "Long",
     "unitPrice": 1299,
     "sourceId": "nk-72-haram"
@@ -314,7 +314,7 @@
   {
     "productId": "NK-78",
     "category": "harams",
-    "itemName": "NK78",
+    "itemName": "NK 78",
     "structure": "Long",
     "unitPrice": 1360,
     "sourceId": "nk-78-haram"
@@ -322,7 +322,7 @@
   {
     "productId": "NK-465",
     "category": "harams",
-    "itemName": "Jadu Ikundan NK465",
+    "itemName": "Jadvikandan NK 465",
     "structure": "Long",
     "unitPrice": 4799,
     "sourceId": "nk-465-haram"
@@ -330,7 +330,7 @@
   {
     "productId": "NK-14",
     "category": "bangles",
-    "itemName": "NK14",
+    "itemName": "NK 14",
     "structure": "Standard",
     "unitPrice": 350,
     "sourceId": "nk-14-bangles"
@@ -338,7 +338,7 @@
   {
     "productId": "NK-15",
     "category": "bangles",
-    "itemName": "NK15",
+    "itemName": "NK 15",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-15-bangles"
@@ -346,7 +346,7 @@
   {
     "productId": "NK-18",
     "category": "bangles",
-    "itemName": "NK18",
+    "itemName": "NK 18",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-18-bangles"
@@ -354,7 +354,7 @@
   {
     "productId": "NK-19",
     "category": "bangles",
-    "itemName": "NK19",
+    "itemName": "NK 19",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-19-bangles"
@@ -362,7 +362,7 @@
   {
     "productId": "NK-10",
     "category": "earrings",
-    "itemName": "NK10",
+    "itemName": "NK 10",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-10-earrings"
@@ -370,7 +370,7 @@
   {
     "productId": "NK-12",
     "category": "earrings",
-    "itemName": "NK12",
+    "itemName": "NK 12",
     "structure": "Standard",
     "unitPrice": 320,
     "sourceId": "nk-12-earrings"
@@ -378,7 +378,7 @@
   {
     "productId": "NK-18",
     "category": "earrings",
-    "itemName": "NK18",
+    "itemName": "NK 18",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-18-earrings"
@@ -386,7 +386,7 @@
   {
     "productId": "NK-25",
     "category": "earrings",
-    "itemName": "NK25",
+    "itemName": "NK 25",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-25-earrings"
@@ -394,7 +394,7 @@
   {
     "productId": "NK-28",
     "category": "earrings",
-    "itemName": "NK28",
+    "itemName": "NK 28",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-28-earrings"
@@ -402,7 +402,7 @@
   {
     "productId": "NK-40",
     "category": "earrings",
-    "itemName": "NK40",
+    "itemName": "NK 40",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-40-earrings"
@@ -410,7 +410,7 @@
   {
     "productId": "NK-45",
     "category": "earrings",
-    "itemName": "NK45",
+    "itemName": "NK 45",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-45-earrings"
@@ -418,7 +418,7 @@
   {
     "productId": "NK-46",
     "category": "earrings",
-    "itemName": "NK46",
+    "itemName": "NK 46",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-46-earrings"
@@ -426,7 +426,7 @@
   {
     "productId": "NK-125",
     "category": "earrings",
-    "itemName": "Jadu Ikundan NK125",
+    "itemName": "Jadvikandan NK 125",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-125-earrings"
@@ -434,7 +434,7 @@
   {
     "productId": "NK-146",
     "category": "earrings",
-    "itemName": "Jadu Ikundan NK146",
+    "itemName": "Jadvikandan NK 146",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-146-earrings"
@@ -442,7 +442,7 @@
   {
     "productId": "NK-8",
     "category": "pendants",
-    "itemName": "Dollar NK8",
+    "itemName": "Dollar NK 8",
     "structure": "Standard",
     "unitPrice": 399,
     "sourceId": "nk-8-dollar"
@@ -450,7 +450,7 @@
   {
     "productId": "NK-10",
     "category": "pendants",
-    "itemName": "Dollar NK10",
+    "itemName": "Dollar NK 10",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-10-dollar"
@@ -458,7 +458,7 @@
   {
     "productId": "NK-40",
     "category": "pendants",
-    "itemName": "Dollar NK40",
+    "itemName": "Dollar NK 40",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-40-dollar"
@@ -466,7 +466,7 @@
   {
     "productId": "NK-42",
     "category": "accessories",
-    "itemName": "NK42",
+    "itemName": "NK 42",
     "structure": "Standard",
     "unitPrice": 820,
     "sourceId": "nk-42-tikka"
@@ -474,7 +474,7 @@
   {
     "productId": "NK-48",
     "category": "accessories",
-    "itemName": "NK48",
+    "itemName": "NK 48",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-48-tikka"
@@ -482,7 +482,7 @@
   {
     "productId": "NK-50",
     "category": "accessories",
-    "itemName": "NK50",
+    "itemName": "NK 50",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-50-tikka"
@@ -490,7 +490,7 @@
   {
     "productId": "NK-54",
     "category": "accessories",
-    "itemName": "NK54",
+    "itemName": "NK 54",
     "structure": "Standard",
     "unitPrice": null,
     "sourceId": "nk-54-tikka"
@@ -498,7 +498,7 @@
   {
     "productId": "NK-54",
     "category": "accessories",
-    "itemName": "NK54",
+    "itemName": "NK 54",
     "structure": "Standard",
     "unitPrice": 860,
     "sourceId": "nk-54-anklet"
