@@ -34,8 +34,18 @@ function Stars({ count = 5 }) {
   );
 }
 
+const VIBE_FILTERS = [
+  { id: 'all', label: 'All Vibes', icon: '✨' },
+  { id: 'daily', label: 'Daily Glow', icon: '☀️' },
+  { id: 'party', label: 'Evening Spark', icon: '🌙' },
+  { id: 'festive', label: 'Festive Aura', icon: '🎉' },
+  { id: 'bridal', label: 'Bridal Drama', icon: '👑' },
+  { id: 'office', label: 'Work Chic', icon: '💼' },
+];
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeVibe, setActiveVibe] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -43,6 +53,8 @@ export default function Home() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [dailyDropSeed, setDailyDropSeed] = useState(() => Math.floor(Math.random() * 100000));
   const deferredSearchQuery = useDeferredValue(searchQuery);
   const toastTimeoutRef = useRef(null);
   const filterTimeoutRef = useRef(null);
@@ -124,6 +136,32 @@ export default function Home() {
       document.body.classList.remove('modal-open');
     };
   }, [selectedProduct]);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const updateProgress = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const nextProgress = scrollHeight <= 0 ? 0 : Math.min(100, (scrollTop / scrollHeight) * 100);
+      setScrollProgress(nextProgress);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateProgress();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
 
   /* ESC closes open drawers */
   useEffect(() => {
@@ -264,15 +302,41 @@ export default function Home() {
   const filteredProducts = useMemo(() => {
     return inventory.filter((product) => {
       const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
+      const matchesVibe = activeVibe === 'all' || product.occasion?.includes(activeVibe);
       const categoryName = (categoryNameById[product.category] || product.category || '').toLowerCase();
       const title = (product.title || '').toLowerCase();
       const matchesSearch = !normalizedSearchQuery ||
         title.includes(normalizedSearchQuery) ||
         categoryName.includes(normalizedSearchQuery);
 
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesVibe && matchesSearch;
     });
-  }, [activeCategory, categoryNameById, normalizedSearchQuery]);
+  }, [activeCategory, activeVibe, categoryNameById, normalizedSearchQuery]);
+
+  const vibeCounts = useMemo(() => {
+    return VIBE_FILTERS.reduce((acc, vibe) => {
+      if (vibe.id === 'all') {
+        acc[vibe.id] = inventory.length;
+        return acc;
+      }
+
+      acc[vibe.id] = inventory.filter((product) => product.occasion?.includes(vibe.id)).length;
+      return acc;
+    }, {});
+  }, []);
+
+  const dailyDropProduct = useMemo(() => {
+    const vibeMatchedPool = activeVibe === 'all'
+      ? inventory
+      : inventory.filter((product) => product.occasion?.includes(activeVibe));
+    const eligiblePool = vibeMatchedPool.length ? vibeMatchedPool : inventory;
+    if (!eligiblePool.length) return null;
+    return eligiblePool[dailyDropSeed % eligiblePool.length];
+  }, [activeVibe, dailyDropSeed]);
+
+  const progressRingRadius = 22;
+  const progressRingLength = 2 * Math.PI * progressRingRadius;
+  const progressRingOffset = progressRingLength - (scrollProgress / 100) * progressRingLength;
 
   const recommendedProducts = useMemo(() => {
     const seedCategory = selectedProduct?.category || (activeCategory !== 'all' ? activeCategory : recentlyViewed[0]?.category);
@@ -462,6 +526,75 @@ export default function Home() {
             </div>
             <h2 id="collection-heading" className="section-title">Premium Jewelry Catalog</h2>
           </Reveal>
+
+          {dailyDropProduct && (
+            <Reveal className="vibe-lab">
+              <article className="daily-drop-card" aria-labelledby="daily-drop-title">
+                <div className="daily-drop-media">
+                  <Image
+                    src={dailyDropProduct.imageURL}
+                    alt={dailyDropProduct.title}
+                    fill
+                    sizes="(max-width: 980px) 100vw, 280px"
+                    style={{ objectFit: 'cover' }}
+                    unoptimized
+                  />
+                </div>
+                <div className="daily-drop-content">
+                  <p className="daily-drop-tag">Fresh Pick</p>
+                  <h3 id="daily-drop-title">Today&apos;s Signature Spark</h3>
+                  <p className="daily-drop-name">{dailyDropProduct.title}</p>
+                  <p className="daily-drop-price">
+                    {Number.isFinite(dailyDropProduct.priceINR)
+                      ? `₹${dailyDropProduct.priceINR.toLocaleString('en-IN')}`
+                      : 'Price on Request'}
+                  </p>
+                  <div className="daily-drop-actions">
+                    <button
+                      type="button"
+                      className="btn-drop-refresh"
+                      onClick={() => {
+                        setDailyDropSeed((prev) => prev + 7);
+                        showToast('✨ New signature pick unlocked!');
+                      }}
+                    >
+                      Surprise Me
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-drop-view"
+                      onClick={() => openProductQuickView(dailyDropProduct)}
+                    >
+                      View Piece
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <div className="vibe-filter-card" role="region" aria-label="Filter by vibe">
+                <div className="vibe-filter-head">
+                  <h3>Choose Your Vibe</h3>
+                  <p>Instantly reshape the catalog by mood and occasion.</p>
+                </div>
+                <div className="vibe-chip-grid" role="tablist" aria-label="Vibe filters">
+                  {VIBE_FILTERS.map((vibe) => (
+                    <button
+                      key={vibe.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeVibe === vibe.id}
+                      className={`vibe-chip ${activeVibe === vibe.id ? 'active' : ''}`}
+                      onClick={() => setActiveVibe(vibe.id)}
+                    >
+                      <span aria-hidden="true">{vibe.icon}</span>
+                      <span>{vibe.label}</span>
+                      <span className="vibe-count">{vibeCounts[vibe.id] || 0}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          )}
 
           {/* Category Filter Pills */}
           <Reveal>
@@ -804,6 +937,28 @@ export default function Home() {
           onAddToCart={handleAddToCart}
         />
       )}
+
+      <button
+        type="button"
+        className={`scroll-progress-btn ${scrollProgress > 8 ? 'show' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Back to top"
+      >
+        <svg viewBox="0 0 52 52" aria-hidden="true">
+          <circle className="ring-track" cx="26" cy="26" r={progressRingRadius} />
+          <circle
+            className="ring-fill"
+            cx="26"
+            cy="26"
+            r={progressRingRadius}
+            style={{
+              strokeDasharray: progressRingLength,
+              strokeDashoffset: progressRingOffset,
+            }}
+          />
+        </svg>
+        <span className="scroll-progress-value">{Math.round(scrollProgress)}%</span>
+      </button>
 
       {/* ── TOAST ── */}
       <div
