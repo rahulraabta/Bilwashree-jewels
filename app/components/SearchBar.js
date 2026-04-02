@@ -44,6 +44,8 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
         onClick={() => {
           if (!isExpanded) {
             setIsExpanded(true);
+          } else if (query.trim()) {
+            onSearch(query.trim());
           }
 
           if (focusTimeoutRef.current) {

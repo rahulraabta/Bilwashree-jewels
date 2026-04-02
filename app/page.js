@@ -290,6 +290,20 @@ export default function Home() {
     }, 300);
   };
 
+  const handleSearchQuery = useCallback((value) => {
+    const nextQuery = value || '';
+    setSearchQuery(nextQuery);
+
+    if (nextQuery.trim()) {
+      if (activeCategory !== 'all') {
+        setActiveCategory('all');
+      }
+      if (activeVibe !== 'all') {
+        setActiveVibe('all');
+      }
+    }
+  }, [activeCategory, activeVibe]);
+
   const categoryNameById = useMemo(() => {
     return CATEGORIES.reduce((acc, category) => {
       acc[category.id] = category.name;
@@ -305,9 +319,13 @@ export default function Home() {
       const matchesVibe = activeVibe === 'all' || product.occasion?.includes(activeVibe);
       const categoryName = (categoryNameById[product.category] || product.category || '').toLowerCase();
       const title = (product.title || '').toLowerCase();
+      const material = (product.material || '').toLowerCase();
+      const structure = (product.structure || '').toLowerCase();
       const matchesSearch = !normalizedSearchQuery ||
         title.includes(normalizedSearchQuery) ||
-        categoryName.includes(normalizedSearchQuery);
+        categoryName.includes(normalizedSearchQuery) ||
+        material.includes(normalizedSearchQuery) ||
+        structure.includes(normalizedSearchQuery);
 
       return matchesCategory && matchesVibe && matchesSearch;
     });
@@ -376,7 +394,7 @@ export default function Home() {
         cartCount={cartCount}
         onCartOpen={() => setIsCartOpen(true)}
         scrollToSection={scrollToSection}
-        onSearch={setSearchQuery}
+        onSearch={handleSearchQuery}
       />
 
       <CartDrawer
