@@ -5,10 +5,10 @@ export const BASE_PATH = '/Bilwashree-jewels';
 export const CATEGORIES = [
   { id: 'all',         name: 'All',          icon: '✦', description: 'Browse our entire collection' },
   { id: 'necklaces',   name: 'Necklaces',    icon: '📿', description: 'Elegant necklaces for every occasion' },
-  { id: 'harams',      name: 'Harams',       icon: '🪷', description: 'Long temple harams for bridal & festive wear' },
+  { id: 'harams',      name: 'Harams',       icon: '🪷', description: 'Long layered harams for bridal & festive wear' },
   { id: 'earrings',    name: 'Earrings',     icon: '✧',  description: 'Studs, jhumkas, chandbalis & more' },
   { id: 'bangles',     name: 'Bangles',      icon: '◎', description: 'Traditional kadas & modern bangles' },
-  { id: 'pendants',    name: 'Pendants',     icon: '◆', description: 'Sacred temple-inspired pendants' },
+  { id: 'pendants',    name: 'Pendants',     icon: '◆', description: 'Elegant statement and daily-wear pendants' },
   { id: 'accessories', name: 'Accessories',  icon: '❖',  description: 'Maang tikka, anklets & more' },
 ];
 
@@ -941,7 +941,7 @@ export const inventory = [
 export const TESTIMONIALS = [
   {
     id: 1,
-    text: "Ordered the Goddess Lakshmi pendant for my mother and she was moved to tears. The craftsmanship is absolutely divine — you can feel the love in every detail.",
+    text: "Ordered the Goddess Lakshmi pendant for my mother and she was moved to tears. The craftsmanship is absolutely stunning — you can feel the care in every detail.",
     name: "Ananya R.",
     location: "Bengaluru, Karnataka",
     initial: "A",
@@ -966,14 +966,14 @@ export const TESTIMONIALS = [
 ];
 
 export const VALUES = [
-  { icon: "✦", name: "Heritage Craftsmanship", desc: "Every pendant honours centuries of South Indian temple jewellery artistry." },
+  { icon: "✦", name: "Fine Craftsmanship", desc: "Every piece is handcrafted with close attention to detail and finish." },
   { icon: "⬡", name: "Ethical Sourcing", desc: "Materials are sourced responsibly, supporting fair-wage artisan communities." },
   { icon: "♻", name: "Sustainability", desc: "Eco-minded packaging and low-waste production processes at our core." },
   { icon: "❧", name: "Timeless Elegance", desc: "Designs that transcend seasons — pieces you will cherish for a lifetime." },
 ];
 
 export const PROCESS_STEPS = [
-  { num: "01", icon: "✎", name: "Design", desc: "Inspired by temple art & sacred geometry" },
+  { num: "01", icon: "✎", name: "Design", desc: "Inspired by modern styling and timeless silhouettes" },
   { num: "02", icon: "🤲", name: "Handcraft", desc: "Skilled artisans shape every detail" },
   { num: "03", icon: "✓", name: "Quality Check", desc: "Rigorous inspection for flawless finish" },
   { num: "04", icon: "🎁", name: "Delivered", desc: "Premium packaging, straight to your door" },

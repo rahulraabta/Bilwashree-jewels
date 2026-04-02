@@ -13,7 +13,7 @@ export default function Footer({
         <div>
           <p className="footer-brand-name">Bilvashree Jewels</p>
           <p className="footer-brand-desc">
-            Celebrating heritage, ethically handcrafted temple jewellery rooted in the soul of India. Each piece a prayer in gold.
+            Celebrating elegant, ethically handcrafted jewellery for modern celebrations. Each piece is made to be worn and loved every day.
           </p>
           <div className="footer-socials" role="list" aria-label="Social media links">
             {socialLinks.map((social) => (

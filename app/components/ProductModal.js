@@ -74,7 +74,7 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
             </div>
 
             <div className="modal-description">
-              <p>Experience the divine elegance of handcrafted temple jewellery. This piece is meticulously designed with traditional motifs, bringing the soul of South Indian heritage to your collection.</p>
+              <p>Experience the elegance of handcrafted jewellery. This piece is meticulously designed with refined detailing and a premium finish for modern styling.</p>
             </div>
 
             <div className="modal-specs">
@@ -84,7 +84,7 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
               </div>
               <div className="spec-item">
                 <span className="spec-label">Purity</span>
-                <span className="spec-value">Temple Finished</span>
+                <span className="spec-value">Premium Finished</span>
               </div>
               <div className="spec-item">
                 <span className="spec-label">Dispatch</span>

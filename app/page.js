@@ -253,7 +253,7 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'JewelryStore',
     name: 'Bilvashree Jewels',
-    description: 'Handcrafted South Indian temple jewellery with ethical craftsmanship and premium finishing.',
+    description: 'Handcrafted fine jewellery with ethical craftsmanship and premium finishing.',
     telephone: `+${DEMO_PHONE}`,
     email: DEMO_EMAIL,
     priceRange: 'INR 399+',
@@ -262,7 +262,7 @@ export default function Home() {
       priceCurrency: 'INR',
       lowPrice: 399,
       availability: 'https://schema.org/InStock',
-      category: 'Temple Jewellery',
+      category: 'Fine Jewellery',
     },
   };
 
@@ -370,13 +370,13 @@ export default function Home() {
               Morality &amp; Purpose<br />at Our Heart
             </h2>
             <p className="about-description">
-              At Bilvashree Jewels, we believe that true elegance lies not in ostentation, but in the purity of intent. Our designs are born from the rich vocabulary of South Indian temple iconography — peacocks, lotus blooms, divine goddesses — lovingly reimagined for modern wear.
+              At Bilvashree Jewels, we believe that true elegance lies not in ostentation, but in the purity of intent. Our designs are inspired by timeless forms, graceful motifs, and modern wearability for every occasion.
             </p>
             <p className="about-description">
-              Every piece we create is a quiet promise: to respect our artisans, to honour our heritage, and to deliver something that feels as sacred as it looks. We do not simply sell jewellery; we celebrate shared values and timeless beauty.
+              Every piece we create is a quiet promise: to respect our artisans, deliver reliable quality, and offer jewellery that feels as beautiful as it looks. We do not simply sell jewellery; we celebrate confidence, style, and timeless beauty.
             </p>
             <div className="about-pillars" role="list">
-              {['Heritage Design', 'Ethical Craft', 'Lasting Quality', 'Fair Pricing'].map(p => (
+              {['Elegant Design', 'Ethical Craft', 'Lasting Quality', 'Fair Pricing'].map(p => (
                 <span key={p} className="about-pillar" role="listitem">✦ {p}</span>
               ))}
             </div>
@@ -559,7 +559,7 @@ export default function Home() {
                 <div className="gift-overlay" />
                 <div className="gift-content">
                   <h3 className="gift-title">The Bride</h3>
-                  <p className="gift-desc">Divine temple sets for the most sacred day of her life.</p>
+                  <p className="gift-desc">Statement bridal sets for the most special day of her life.</p>
                   <span className="gift-btn">Explore Bridal</span>
                 </div>
               </div>
@@ -571,7 +571,7 @@ export default function Home() {
                 <div className="gift-overlay" />
                 <div className="gift-content">
                   <h3 className="gift-title">Daily Elegance</h3>
-                  <p className="gift-desc">Minimalistic heritage designs for her everyday celebrations.</p>
+                  <p className="gift-desc">Minimal and stylish designs for her everyday celebrations.</p>
                   <span className="gift-btn">Explore Collection</span>
                 </div>
               </div>
@@ -590,7 +590,7 @@ export default function Home() {
               <span className="eyebrow-line right" />
             </div>
             <h2 id="care-heading" className="section-title">Jewellery Care Guide</h2>
-            <p className="section-subtitle">A little care goes a long way in preserving the sacred luster of your Bilvashree pieces.</p>
+            <p className="section-subtitle">A little care goes a long way in preserving the lasting shine of your Bilvashree pieces.</p>
           </Reveal>
 
           <Reveal className="reveal-stagger">
@@ -673,7 +673,7 @@ export default function Home() {
           <div className="cta-content">
             <h2 className="cta-title">Begin Your Jewellery Journey</h2>
             <p className="cta-text">
-              Discover handcrafted pendants rooted in heritage — starting at just ₹399. Gift yourself or someone you love a piece of timeless India.
+              Discover handcrafted jewellery made for everyday elegance — starting at just ₹399. Gift yourself or someone you love a piece that feels timeless.
             </p>
             <button
               id="cta-shop-btn"
@@ -692,7 +692,7 @@ export default function Home() {
         <div className="container">
           <Reveal className="newsletter-content">
             <h2 className="newsletter-title">Join the Bilvashree Circle</h2>
-            <p className="newsletter-desc">Be the first to discover our new collections, heritage stories, and exclusive offers.</p>
+            <p className="newsletter-desc">Be the first to discover our new collections, styling stories, and exclusive offers.</p>
             <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); showToast('✨ Welcome to the circle!'); }}>
               <input
                 type="email"

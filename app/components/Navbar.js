@@ -64,7 +64,7 @@ export default function Navbar({
       >
         <div className="navbar-brand">
           <span className="navbar-brand-name">Bilvashree Jewels</span>
-          <span className="navbar-brand-tagline">Premium Temple Jewellery</span>
+          <span className="navbar-brand-tagline">Premium Everyday Jewellery</span>
         </div>
 
         <ul className="navbar-links">

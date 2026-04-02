@@ -21,15 +21,15 @@ export default function Hero({ onShopClick, onStoryClick }) {
       <div className="hero-content">
         <div className="hero-eyebrow" aria-hidden="true">
           <span className="hero-eyebrow-dot" />
-          Temple Heritage Collection
+          Signature Jewellery Collection
         </div>
 
         <h1 className="hero-title">
-          Temple Jewellery with <em>Timeless Impact</em>
+          Fine Jewellery with <em>Timeless Impact</em>
         </h1>
 
         <p className="hero-subtitle">
-          Let the craftsmanship speak first - heritage-inspired pieces designed to elevate every celebration.
+          Let the craftsmanship speak first - elegant pieces designed to elevate every celebration.
         </p>
 
         <div className="hero-actions">
