@@ -66,9 +66,6 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
               ) : (
                 <span className="modal-price-request">Price on Request</span>
               )}
-              {Number.isFinite(product.originalPrice) && hasPrice && (
-                <span className="modal-original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-              )}
             </div>
 
             <div className="modal-description">

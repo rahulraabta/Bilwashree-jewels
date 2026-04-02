@@ -7,7 +7,6 @@ import { DEMO_PHONE } from '../../data/inventory';
 export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
   const hasPrice = Number.isFinite(product.priceINR);
-  const hasOriginalPrice = Number.isFinite(product.originalPrice);
 
   return (
     <article
@@ -89,11 +88,6 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             <span className="price-current">₹{product.priceINR.toLocaleString('en-IN')}</span>
           ) : (
             <span className="price-request">Price on Request</span>
-          )}
-          {hasOriginalPrice && hasPrice && (
-            <>
-              <span className="price-original">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-            </>
           )}
         </div>
       </div>
