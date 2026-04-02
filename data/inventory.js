@@ -949,7 +949,7 @@ export const TESTIMONIALS = [
   },
   {
     id: 2,
-    text: "The packaging alone felt luxurious. Got the Peacock Motif pendant for my wedding anniversary and my wife hasn't taken it off since. Truly beautiful work.",
+    text: "The packaging alone felt luxurious. Got an NK series piece for my wedding anniversary and my wife hasn't taken it off since. Truly beautiful work.",
     name: "Vikram S.",
     location: "Chennai, Tamil Nadu",
     initial: "V",
