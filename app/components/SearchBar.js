@@ -42,13 +42,20 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
       <button
         className="search-toggle-btn"
         onClick={() => {
-          setIsExpanded(!isExpanded);
           if (!isExpanded) {
-            if (focusTimeoutRef.current) {
-              clearTimeout(focusTimeoutRef.current);
-            }
-            focusTimeoutRef.current = setTimeout(() => inputRef.current?.focus(), 100);
+            setIsExpanded(true);
           }
+
+          if (focusTimeoutRef.current) {
+            clearTimeout(focusTimeoutRef.current);
+          }
+
+          focusTimeoutRef.current = setTimeout(() => {
+            inputRef.current?.focus();
+            if (isExpanded && query) {
+              inputRef.current?.select();
+            }
+          }, 100);
         }}
         aria-label="Toggle search"
       >
@@ -65,6 +72,12 @@ export default function SearchBar({ onSearch, placeholder = "Search for necklace
         placeholder={placeholder}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            onSearch(query.trim());
+          }
+        }}
         aria-label="Search products"
       />
 
