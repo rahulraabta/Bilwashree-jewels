@@ -1,0 +1,676 @@
+{
+  "totalProducts": 70,
+  "matched": 70,
+  "mismatched": [],
+  "missingImageCode": [],
+  "uniqueImageCodes": [
+    "NK 8",
+    "NK 10",
+    "NK 12",
+    "NK 13",
+    "NK 14",
+    "NK 15",
+    "NK 18",
+    "NK 19",
+    "NK 20",
+    "NK 22",
+    "NK 24",
+    "NK 25",
+    "NK 26",
+    "NK 27",
+    "NK 28",
+    "NK 30",
+    "NK 32",
+    "NK 34",
+    "NK 36",
+    "NK 39",
+    "NK 40",
+    "NK 42",
+    "NK 45",
+    "NK 46",
+    "NK 48",
+    "NK 50",
+    "NK 54",
+    "NK 55",
+    "NK 57",
+    "NK 60",
+    "NK 62",
+    "NK 72",
+    "NK 78",
+    "NK 125",
+    "NK 146",
+    "NK 465"
+  ],
+  "rows": [
+    {
+      "id": "prod_1",
+      "title": "Dollar NK 8",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/pendant-1.jpg.jpeg",
+      "imageCode": "NK 8",
+      "titleCode": "NK 8",
+      "matches": true
+    },
+    {
+      "id": "prod_2",
+      "title": "Dollar NK 10",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/pendant-2.jpg.jpeg",
+      "imageCode": "NK 10",
+      "titleCode": "NK 10",
+      "matches": true
+    },
+    {
+      "id": "prod_3",
+      "title": "Dollar NK 8",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/pendant-3.jpg.jpeg",
+      "imageCode": "NK 8",
+      "titleCode": "NK 8",
+      "matches": true
+    },
+    {
+      "id": "prod_4",
+      "title": "Dollar NK 8",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/pendant-4.jpg.jpeg",
+      "imageCode": "NK 8",
+      "titleCode": "NK 8",
+      "matches": true
+    },
+    {
+      "id": "prod_5",
+      "title": "Dollar NK 8",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/pendant-5.jpg.jpeg",
+      "imageCode": "NK 8",
+      "titleCode": "NK 8",
+      "matches": true
+    },
+    {
+      "id": "prod_6",
+      "title": "Dollar NK 10",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/pendant-6.jpg (2).jpeg",
+      "imageCode": "NK 10",
+      "titleCode": "NK 10",
+      "matches": true
+    },
+    {
+      "id": "prod_7",
+      "title": "Dollar NK 8",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/pendant-7.jpg.jpeg",
+      "imageCode": "NK 8",
+      "titleCode": "NK 8",
+      "matches": true
+    },
+    {
+      "id": "nk-55-choker-green",
+      "title": "NK 55",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-55_choker-green.jpg",
+      "imageCode": "NK 55",
+      "titleCode": "NK 55",
+      "matches": true
+    },
+    {
+      "id": "nk-55-choker-red",
+      "title": "NK 55",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-55_choker-red.jpg",
+      "imageCode": "NK 55",
+      "titleCode": "NK 55",
+      "matches": true
+    },
+    {
+      "id": "nk-55-choker-pink",
+      "title": "NK 55",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-55_choker-pink.jpg",
+      "imageCode": "NK 55",
+      "titleCode": "NK 55",
+      "matches": true
+    },
+    {
+      "id": "nk-55-choker-teal",
+      "title": "NK 55",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-55_choker-teal.jpg",
+      "imageCode": "NK 55",
+      "titleCode": "NK 55",
+      "matches": true
+    },
+    {
+      "id": "nk-50-choker-red",
+      "title": "NK 50",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-50_choker-red.jpg",
+      "imageCode": "NK 50",
+      "titleCode": "NK 50",
+      "matches": true
+    },
+    {
+      "id": "nk-50-choker-rose",
+      "title": "NK 50",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-50_choker-rose.jpg",
+      "imageCode": "NK 50",
+      "titleCode": "NK 50",
+      "matches": true
+    },
+    {
+      "id": "nk-50-choker-green",
+      "title": "NK 50",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-50_choker-green.jpg",
+      "imageCode": "NK 50",
+      "titleCode": "NK 50",
+      "matches": true
+    },
+    {
+      "id": "nk-19-choker",
+      "title": "NK 19",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-19_choker-pearl.jpg",
+      "imageCode": "NK 19",
+      "titleCode": "NK 19",
+      "matches": true
+    },
+    {
+      "id": "nk-12-choker",
+      "title": "NK 12",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-12_choker-flower.jpg",
+      "imageCode": "NK 12",
+      "titleCode": "NK 12",
+      "matches": true
+    },
+    {
+      "id": "nk-12-choker-red",
+      "title": "NK 12",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-12_choker-flower-red.jpg",
+      "imageCode": "NK 12",
+      "titleCode": "NK 12",
+      "matches": true
+    },
+    {
+      "id": "nk-10-necklace",
+      "title": "NK 10",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-10_medium.jpg",
+      "imageCode": "NK 10",
+      "titleCode": "NK 10",
+      "matches": true
+    },
+    {
+      "id": "nk-13-necklace",
+      "title": "NK 13",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-13_flower-mixed.jpg",
+      "imageCode": "NK 13",
+      "titleCode": "NK 13",
+      "matches": true
+    },
+    {
+      "id": "nk-18-necklace",
+      "title": "NK 18",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-18_medium-temple.jpg",
+      "imageCode": "NK 18",
+      "titleCode": "NK 18",
+      "matches": true
+    },
+    {
+      "id": "nk-19-necklace",
+      "title": "NK 19",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-19_meenakari.jpg",
+      "imageCode": "NK 19",
+      "titleCode": "NK 19",
+      "matches": true
+    },
+    {
+      "id": "nk-20-necklace",
+      "title": "NK 20",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-20_medium-coin.jpg",
+      "imageCode": "NK 20",
+      "titleCode": "NK 20",
+      "matches": true
+    },
+    {
+      "id": "nk-22-necklace",
+      "title": "NK 22",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-22_flower-ruby.jpg",
+      "imageCode": "NK 22",
+      "titleCode": "NK 22",
+      "matches": true
+    },
+    {
+      "id": "nk-24-necklace",
+      "title": "NK 24",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-24_medium-kemp.jpg",
+      "imageCode": "NK 24",
+      "titleCode": "NK 24",
+      "matches": true
+    },
+    {
+      "id": "nk-25-necklace",
+      "title": "NK 25",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-25_medium.jpg",
+      "imageCode": "NK 25",
+      "titleCode": "NK 25",
+      "matches": true
+    },
+    {
+      "id": "nk-26-necklace",
+      "title": "NK 26",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-26_medium-cz-ruby.jpg",
+      "imageCode": "NK 26",
+      "titleCode": "NK 26",
+      "matches": true
+    },
+    {
+      "id": "nk-27-necklace",
+      "title": "NK 27",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-27_reversible.jpg",
+      "imageCode": "NK 27",
+      "titleCode": "NK 27",
+      "matches": true
+    },
+    {
+      "id": "nk-28-necklace",
+      "title": "NK 28",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-28_kasumala.jpg",
+      "imageCode": "NK 28",
+      "titleCode": "NK 28",
+      "matches": true
+    },
+    {
+      "id": "nk-30-necklace",
+      "title": "NK 30",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-30_medium.jpg",
+      "imageCode": "NK 30",
+      "titleCode": "NK 30",
+      "matches": true
+    },
+    {
+      "id": "nk-32-necklace",
+      "title": "NK 32",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-32_kasumala-red.jpg",
+      "imageCode": "NK 32",
+      "titleCode": "NK 32",
+      "matches": true
+    },
+    {
+      "id": "nk-34-necklace",
+      "title": "NK 34",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-34_medium.jpg",
+      "imageCode": "NK 34",
+      "titleCode": "NK 34",
+      "matches": true
+    },
+    {
+      "id": "nk-36-necklace",
+      "title": "NK 36",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-36_medium.jpg",
+      "imageCode": "NK 36",
+      "titleCode": "NK 36",
+      "matches": true
+    },
+    {
+      "id": "nk-39-necklace",
+      "title": "NK 39",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-39_medium-kemp.jpg",
+      "imageCode": "NK 39",
+      "titleCode": "NK 39",
+      "matches": true
+    },
+    {
+      "id": "nk-40-necklace",
+      "title": "NK 40",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-40_medium.jpg",
+      "imageCode": "NK 40",
+      "titleCode": "NK 40",
+      "matches": true
+    },
+    {
+      "id": "nk-45-necklace",
+      "title": "NK 45",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-45_medium.jpg",
+      "imageCode": "NK 45",
+      "titleCode": "NK 45",
+      "matches": true
+    },
+    {
+      "id": "nk-46-necklace",
+      "title": "NK 46",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-46_medium-cz-multi.jpg",
+      "imageCode": "NK 46",
+      "titleCode": "NK 46",
+      "matches": true
+    },
+    {
+      "id": "nk-50-necklace",
+      "title": "NK 50",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-50_medium-cz-green.jpg",
+      "imageCode": "NK 50",
+      "titleCode": "NK 50",
+      "matches": true
+    },
+    {
+      "id": "nk-54-necklace",
+      "title": "NK 54",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-54_medium.jpg",
+      "imageCode": "NK 54",
+      "titleCode": "NK 54",
+      "matches": true
+    },
+    {
+      "id": "nk-55-necklace",
+      "title": "NK 55",
+      "category": "necklaces",
+      "imageURL": "/Bilwashree-jewels/images/products/necklaces/nk-55_medium-temple.jpg",
+      "imageCode": "NK 55",
+      "titleCode": "NK 55",
+      "matches": true
+    },
+    {
+      "id": "nk-42-haram",
+      "title": "NK 42",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-42_long-coin.jpg",
+      "imageCode": "NK 42",
+      "titleCode": "NK 42",
+      "matches": true
+    },
+    {
+      "id": "nk-465-haram",
+      "title": "Jadau Kundan Reversible NK 465",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-465_jadau-kundan.jpg",
+      "imageCode": "NK 465",
+      "titleCode": "NK 465",
+      "matches": true
+    },
+    {
+      "id": "nk-57-haram",
+      "title": "NK 57",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-57_long-green.jpg",
+      "imageCode": "NK 57",
+      "titleCode": "NK 57",
+      "matches": true
+    },
+    {
+      "id": "nk-72-haram",
+      "title": "NK 72",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-72_long-red.jpg",
+      "imageCode": "NK 72",
+      "titleCode": "NK 72",
+      "matches": true
+    },
+    {
+      "id": "nk-78-haram",
+      "title": "NK 78",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-78_long-red.jpg",
+      "imageCode": "NK 78",
+      "titleCode": "NK 78",
+      "matches": true
+    },
+    {
+      "id": "nk-60-haram",
+      "title": "NK 60",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-60_long-red.jpg",
+      "imageCode": "NK 60",
+      "titleCode": "NK 60",
+      "matches": true
+    },
+    {
+      "id": "nk-62-haram",
+      "title": "NK 62",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-62_long-green.jpg",
+      "imageCode": "NK 62",
+      "titleCode": "NK 62",
+      "matches": true
+    },
+    {
+      "id": "nk-50-haram",
+      "title": "NK 50",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-50_long-green.jpg",
+      "imageCode": "NK 50",
+      "titleCode": "NK 50",
+      "matches": true
+    },
+    {
+      "id": "nk-24-haram",
+      "title": "NK 24",
+      "category": "harams",
+      "imageURL": "/Bilwashree-jewels/images/products/harams/nk-24_long-chain.jpg",
+      "imageCode": "NK 24",
+      "titleCode": "NK 24",
+      "matches": true
+    },
+    {
+      "id": "nk-10-earrings",
+      "title": "NK 10",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-10_cz-climber.jpg",
+      "imageCode": "NK 10",
+      "titleCode": "NK 10",
+      "matches": true
+    },
+    {
+      "id": "nk-12-earrings",
+      "title": "NK 12",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-12_flower-pink.jpg",
+      "imageCode": "NK 12",
+      "titleCode": "NK 12",
+      "matches": true
+    },
+    {
+      "id": "nk-125-earrings",
+      "title": "Jadau Kundan NK 125",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-125_jadau-stud.jpg",
+      "imageCode": "NK 125",
+      "titleCode": "NK 125",
+      "matches": true
+    },
+    {
+      "id": "nk-146-earrings",
+      "title": "Jadau Kundan NK 146",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-146_jadau-jhumka.jpg",
+      "imageCode": "NK 146",
+      "titleCode": "NK 146",
+      "matches": true
+    },
+    {
+      "id": "nk-25-earrings",
+      "title": "NK 25",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-25_temple-jhumka.jpg",
+      "imageCode": "NK 25",
+      "titleCode": "NK 25",
+      "matches": true
+    },
+    {
+      "id": "nk-28-earrings",
+      "title": "NK 28",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-28_temple-drop.jpg",
+      "imageCode": "NK 28",
+      "titleCode": "NK 28",
+      "matches": true
+    },
+    {
+      "id": "nk-45-earrings",
+      "title": "NK 45",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-45_temple-jhumka.jpg",
+      "imageCode": "NK 45",
+      "titleCode": "NK 45",
+      "matches": true
+    },
+    {
+      "id": "nk-46-earrings",
+      "title": "NK 46",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-46_cz-danglers.jpg",
+      "imageCode": "NK 46",
+      "titleCode": "NK 46",
+      "matches": true
+    },
+    {
+      "id": "nk-18-earrings",
+      "title": "NK 18",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-18_cz-drop.jpg",
+      "imageCode": "NK 18",
+      "titleCode": "NK 18",
+      "matches": true
+    },
+    {
+      "id": "nk-40-earrings",
+      "title": "NK 40",
+      "category": "earrings",
+      "imageURL": "/Bilwashree-jewels/images/products/earrings/nk-40_leaf-ruby.jpg",
+      "imageCode": "NK 40",
+      "titleCode": "NK 40",
+      "matches": true
+    },
+    {
+      "id": "nk-14-bangles",
+      "title": "NK 14",
+      "category": "bangles",
+      "imageURL": "/Bilwashree-jewels/images/products/bangles/nk-14_temple-kada.jpg",
+      "imageCode": "NK 14",
+      "titleCode": "NK 14",
+      "matches": true
+    },
+    {
+      "id": "nk-15-bangles",
+      "title": "NK 15",
+      "category": "bangles",
+      "imageURL": "/Bilwashree-jewels/images/products/bangles/nk-15_temple-set.jpg",
+      "imageCode": "NK 15",
+      "titleCode": "NK 15",
+      "matches": true
+    },
+    {
+      "id": "nk-18-bangles",
+      "title": "NK 18",
+      "category": "bangles",
+      "imageURL": "/Bilwashree-jewels/images/products/bangles/nk-18_temple-bangle.jpg",
+      "imageCode": "NK 18",
+      "titleCode": "NK 18",
+      "matches": true
+    },
+    {
+      "id": "nk-19-bangles",
+      "title": "NK 19",
+      "category": "bangles",
+      "imageURL": "/Bilwashree-jewels/images/products/bangles/nk-19_reverse-bangle.jpg",
+      "imageCode": "NK 19",
+      "titleCode": "NK 19",
+      "matches": true
+    },
+    {
+      "id": "nk-8-dollar",
+      "title": "Dollar NK 8",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/products/pendants/dollar-nk-8_lakshmi-1.jpg",
+      "imageCode": "NK 8",
+      "titleCode": "NK 8",
+      "matches": true
+    },
+    {
+      "id": "nk-10-dollar",
+      "title": "Dollar NK 10",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/products/pendants/dollar-nk-10_lakshmi-2.jpg",
+      "imageCode": "NK 10",
+      "titleCode": "NK 10",
+      "matches": true
+    },
+    {
+      "id": "nk-40-dollar",
+      "title": "Dollar NK 40",
+      "category": "pendants",
+      "imageURL": "/Bilwashree-jewels/images/products/pendants/dollar-nk-40_temple-large.jpg",
+      "imageCode": "NK 40",
+      "titleCode": "NK 40",
+      "matches": true
+    },
+    {
+      "id": "nk-48-tikka",
+      "title": "NK 48",
+      "category": "accessories",
+      "imageURL": "/Bilwashree-jewels/images/products/accessories/nk-48_maang-tikka.jpg",
+      "imageCode": "NK 48",
+      "titleCode": "NK 48",
+      "matches": true
+    },
+    {
+      "id": "nk-42-tikka",
+      "title": "NK 42",
+      "category": "accessories",
+      "imageURL": "/Bilwashree-jewels/images/products/accessories/nk-42_maang-tikka.jpg",
+      "imageCode": "NK 42",
+      "titleCode": "NK 42",
+      "matches": true
+    },
+    {
+      "id": "nk-50-tikka",
+      "title": "NK 50",
+      "category": "accessories",
+      "imageURL": "/Bilwashree-jewels/images/products/accessories/nk-50_maang-tikka.jpg",
+      "imageCode": "NK 50",
+      "titleCode": "NK 50",
+      "matches": true
+    },
+    {
+      "id": "nk-54-tikka",
+      "title": "NK 54",
+      "category": "accessories",
+      "imageURL": "/Bilwashree-jewels/images/products/accessories/nk-54_maang-tikka.jpg",
+      "imageCode": "NK 54",
+      "titleCode": "NK 54",
+      "matches": true
+    },
+    {
+      "id": "nk-54-anklet",
+      "title": "NK 54",
+      "category": "accessories",
+      "imageURL": "/Bilwashree-jewels/images/products/accessories/nk-54_anklet-payal.jpg",
+      "imageCode": "NK 54",
+      "titleCode": "NK 54",
+      "matches": true
+    }
+  ]
+}

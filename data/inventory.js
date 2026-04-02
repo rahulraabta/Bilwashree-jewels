@@ -25,7 +25,7 @@ export const inventory = [
   /* ── ORIGINAL PENDANT PRODUCTS ───────────────────────── */
   {
     id: "prod_1",
-    title: "NK 1",
+    title: "Dollar NK 8",
     category: "pendants",
     material: "22Kt Gold Plated with Semi-Precious Stones",
     priceINR: 399,
@@ -37,7 +37,7 @@ export const inventory = [
   },
   {
     id: "prod_2",
-    title: "NK 2",
+    title: "Dollar NK 10",
     category: "pendants",
     material: "Antique Finish with Ruby Accents",
     priceINR: 399,
@@ -49,7 +49,7 @@ export const inventory = [
   },
   {
     id: "prod_3",
-    title: "NK 3",
+    title: "Dollar NK 8",
     category: "pendants",
     material: "Meenakari Enamel & Gold Finish",
     priceINR: 399,
@@ -61,7 +61,7 @@ export const inventory = [
   },
   {
     id: "prod_4",
-    title: "NK 4",
+    title: "Dollar NK 8",
     category: "pendants",
     material: "Gold Plated Temple Art",
     priceINR: 399,
@@ -73,7 +73,7 @@ export const inventory = [
   },
   {
     id: "prod_5",
-    title: "NK 5",
+    title: "Dollar NK 8",
     category: "pendants",
     material: "Premium Gold Plated",
     priceINR: 399,
@@ -85,7 +85,7 @@ export const inventory = [
   },
   {
     id: "prod_6",
-    title: "NK 6",
+    title: "Dollar NK 10",
     category: "pendants",
     material: "22Kt Gold Plated Brass",
     priceINR: 399,
@@ -97,7 +97,7 @@ export const inventory = [
   },
   {
     id: "prod_7",
-    title: "NK 7",
+    title: "Dollar NK 8",
     category: "pendants",
     material: "Antique Finish with Emerald Stones",
     priceINR: 399,
