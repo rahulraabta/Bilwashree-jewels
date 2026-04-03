@@ -24,10 +24,15 @@ export default function SearchBar({
     return () => document.removeEventListener('pointerdown', handleClickOutside);
   }, [query]);
 
+  const searchTimeoutRef = useRef(null);
+
   useEffect(() => {
     return () => {
       if (focusTimeoutRef.current) {
         clearTimeout(focusTimeoutRef.current);
+      }
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
       }
     };
   }, []);
@@ -87,7 +92,15 @@ export default function SearchBar({
         onChange={(e) => {
           const value = e.target.value;
           setQuery(value);
-          onSearch(value);
+
+          // Debounce the search to improve performance
+          if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+          }
+
+          searchTimeoutRef.current = setTimeout(() => {
+            onSearch(value);
+          }, 150); // 150ms debounce delay
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {

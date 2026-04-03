@@ -34,8 +34,8 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             loading="lazy"
             decoding="async"
             style={{ objectFit: 'cover' }}
-            unoptimized
             onError={() => setImageError(true)}
+            onLoadingComplete={(img) => img.classList.add('loaded')}
           />
         )}
 

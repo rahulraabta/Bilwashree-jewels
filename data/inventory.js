@@ -13,7 +13,7 @@ export const CATEGORIES = [
 ];
 
 /* ─── Products Inventory ─────────────────────────────────── */
-export const inventory = [
+const curatedInventory = [
 
   /* ── ORIGINAL PENDANT PRODUCTS ───────────────────────── */
   {
@@ -929,6 +929,200 @@ export const inventory = [
     inStock: true
   },
 ];
+
+const AUTO_VARIANT_IMAGE_FILES = {
+  earrings: [
+    'nk-10_cz-climber.jpg',
+    'nk-10_cz-green.jpg',
+    'nk-10_cz-green2.jpg',
+    'nk-10_cz-red.jpg',
+    'nk-12_cz-emerald.jpg',
+    'nk-12_flower-pink.jpg',
+    'nk-12_flower-purple.jpg',
+    'nk-12_flower-teal.jpg',
+    'nk-12_flower-violet.jpg',
+    'nk-18_cz-drop.jpg',
+    'nk-25_temple-jhumka.jpg',
+    'nk-28_temple-drop.jpg',
+    'nk-40_leaf-ruby.jpg',
+    'nk-45_temple-jhumka.jpg',
+    'nk-46_cz-danglers.jpg',
+    'nk-46_CZ-long.jpg',
+    'nk-125_jadau-stud.jpg',
+    'nk-146_jadau-jhumka.jpg',
+  ],
+  necklaces: [
+    'nk-10_medium.jpg',
+    'nk-10_medium-chain.jpg',
+    'nk-12_choker-flower.jpg',
+    'nk-12_choker-flower-red.jpg',
+    'nk-13_flower-mixed.jpg',
+    'nk-18_medium-chain-ruby.jpg',
+    'nk-18_medium-collar.jpg',
+    'nk-18_medium-emerald.jpg',
+    'nk-18_medium-temple.jpg',
+    'nk-18_medium-temple2.jpg',
+    'nk-18_medium-temple3.jpg',
+    'nk-19_choker-pearl.jpg',
+    'nk-19_choker-pearl2.jpg',
+    'nk-19_flower-kemp.jpg',
+    'nk-19_flower-red.jpg',
+    'nk-19_meenakari.jpg',
+    'nk-19_medium-chain2.jpg',
+    'nk-20_medium-coin.jpg',
+    'nk-20_medium-cz.jpg',
+    'nk-20_medium-pendant.jpg',
+    'nk-22_flower-green.jpg',
+    'nk-22_flower-red.jpg',
+    'nk-22_flower-ruby.jpg',
+    'nk-22_hand-coin.jpg',
+    'nk-24_medium-chain.jpg',
+    'nk-24_medium-kemp.jpg',
+    'nk-24_medium-pendant.jpg',
+    'nk-25_hand-kemp-green.jpg',
+    'nk-25_hand-kemp-red.jpg',
+    'nk-25_medium.jpg',
+    'nk-25_medium-chain.jpg',
+    'nk-26_kasumala.jpg',
+    'nk-26_medium-cz-green.jpg',
+    'nk-26_medium-cz-mixed.jpg',
+    'nk-26_medium-cz-pendant.jpg',
+    'nk-26_medium-cz-pink.jpg',
+    'nk-26_medium-cz-ruby.jpg',
+    'nk-26_medium-cz-ruby2.jpg',
+    'nk-27_reversible.jpg',
+    'nk-28_kasumala.jpg',
+    'nk-28_medium-kemp.jpg',
+    'nk-30_medium.jpg',
+    'nk-30_medium-cz.jpg',
+    'nk-32_kasumala-green.jpg',
+    'nk-32_kasumala-red.jpg',
+    'nk-32_kasumala-red2.jpg',
+    'nk-34_medium.jpg',
+    'nk-36_medium.jpg',
+    'nk-36_medium-cz.jpg',
+    'nk-39_medium-gold.jpg',
+    'nk-39_medium-green.jpg',
+    'nk-39_medium-kemp.jpg',
+    'nk-40_medium.jpg',
+    'nk-40_medium-antique.jpg',
+    'nk-40_medium-chain.jpg',
+    'nk-40_medium-emerald.jpg',
+    'nk-40_medium-flower.jpg',
+    'nk-40_medium-temple2.jpg',
+    'nk-40_meenakari-blue.jpg',
+    'nk-40_meenakari-lotus.jpg',
+    'nk-45_elephant.jpg',
+    'nk-45_flower-red.jpg',
+    'nk-45_medium.jpg',
+    'nk-45_medium-kemp.jpg',
+    'nk-45_medium-temple2.jpg',
+    'nk-45_meenakari-blue.jpg',
+    'nk-45_meenakari.jpg',
+    'nk-46_medium-cz-multi.jpg',
+    'nk-50_choker-green.jpg',
+    'nk-50_choker-red.jpg',
+    'nk-50_choker-rose.jpg',
+    'nk-50_medium-cz-emerald.jpg',
+    'nk-50_medium-cz-green.jpg',
+    'nk-50_medium-purple.jpg',
+    'nk-54_medium.jpg',
+    'nk-54_medium-cz-layered.jpg',
+    'nk-54_medium-kemp.jpg',
+    'nk-55_choker-green.jpg',
+    'nk-55_choker-pink.jpg',
+    'nk-55_choker-red.jpg',
+    'nk-55_choker-teal.jpg',
+    'nk-55_medium-flower-green.jpg',
+    'nk-55_medium-temple.jpg',
+    'nk-55_medium-temple-green.jpg',
+  ],
+  pendants: [
+    'dollar-nk-8_lakshmi-1.jpg',
+    'dollar-nk-8_lakshmi-2.jpg',
+    'dollar-nk-8_lakshmi-3.jpg',
+    'dollar-nk-10_lakshmi-2.jpg',
+    'dollar-nk-40_temple-large.jpg',
+  ],
+};
+
+const AUTO_VARIANT_DEFAULTS = {
+  earrings: { material: 'Gold Plated Earring Design', occasion: ['festive', 'party'] },
+  necklaces: { material: 'Gold Plated Necklace Design', occasion: ['festive', 'bridal'] },
+  pendants: { material: 'Gold Plated Pendant Design', occasion: ['daily', 'festive'] },
+};
+
+const extractCodeFromText = (text) => {
+  const match = String(text || '').match(/NK\s*(\d+)/i);
+  return match ? `NK ${match[1]}` : null;
+};
+
+const existingImageNames = new Set(
+  curatedInventory
+    .map((product) => String(product.imageURL || '').split('/').pop().toLowerCase())
+    .filter(Boolean)
+);
+
+const metadataByCategoryCode = curatedInventory.reduce((acc, product) => {
+  const code = extractCodeFromText(product.title) || extractCodeFromText(product.id);
+  if (!code) return acc;
+
+  const key = `${product.category}|${code}`;
+  if (!acc[key]) {
+    acc[key] = {
+      material: product.material || null,
+      occasion: Array.isArray(product.occasion) && product.occasion.length ? product.occasion : null,
+      price: Number.isFinite(product.priceINR) ? product.priceINR : null,
+    };
+  } else {
+    if (!acc[key].material && product.material) acc[key].material = product.material;
+    if (!acc[key].occasion && Array.isArray(product.occasion) && product.occasion.length) acc[key].occasion = product.occasion;
+    if (acc[key].price == null && Number.isFinite(product.priceINR)) acc[key].price = product.priceINR;
+  }
+
+  return acc;
+}, {});
+
+const existingIds = new Set(curatedInventory.map((product) => product.id));
+
+const generatedInventoryVariants = Object.entries(AUTO_VARIANT_IMAGE_FILES).flatMap(([category, files]) => {
+  return files
+    .filter((fileName) => !existingImageNames.has(fileName.toLowerCase()))
+    .map((fileName) => {
+      const codeMatch = fileName.match(/nk-(\d+)/i);
+      if (!codeMatch) return null;
+
+      const code = `NK ${Number(codeMatch[1])}`;
+      const metadataKey = `${category}|${code}`;
+      const metadata = metadataByCategoryCode[metadataKey] || AUTO_VARIANT_DEFAULTS[category];
+
+      const rawId = `${category}-variant-${fileName.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      let id = rawId;
+      let suffix = 2;
+      while (existingIds.has(id)) {
+        id = `${rawId}-${suffix}`;
+        suffix += 1;
+      }
+      existingIds.add(id);
+
+      return {
+        id,
+        title: category === 'pendants' ? `Dollar ${code}` : code,
+        category,
+        ...(category === 'necklaces' ? { structure: fileName.includes('choker') ? 'Choker' : 'Necklace' } : {}),
+        material: metadata.material,
+        priceINR: metadata.price ?? null,
+        originalPrice: null,
+        badge: null,
+        occasion: metadata.occasion,
+        imageURL: `${BASE_PATH}/images/products/${category}/${fileName}`,
+        inStock: true,
+      };
+    })
+    .filter(Boolean);
+});
+
+export const inventory = [...curatedInventory, ...generatedInventoryVariants];
 
 /* ─── Static Data — Extra Content ────────────────────────── */
 export const TESTIMONIALS = [

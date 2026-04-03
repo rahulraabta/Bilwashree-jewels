@@ -14,7 +14,6 @@ export default function Hero({ onShopClick, onStoryClick }) {
         fill
         sizes="100vw"
         style={{ objectFit: 'cover' }}
-        unoptimized
       />
       <div className="hero-overlay" aria-hidden="true" />
 

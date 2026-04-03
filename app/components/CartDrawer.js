@@ -57,7 +57,6 @@ export default function CartDrawer({
                   loading="lazy"
                   decoding="async"
                   style={{ objectFit: 'cover' }}
-                  unoptimized
                 />
                 <div className="cart-item-details">
                   <h4 className="cart-item-title">{item.product.title}</h4>

@@ -269,11 +269,26 @@ export default function Home() {
     showToast(`${label} page is coming soon. Please message us on WhatsApp for details.`);
   };
 
-  /* Smooth scroll helpers */
+  /* Smooth scroll helpers with better timing and fallback */
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (!element) return;
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Calculate offset for navbar
+    const navbarHeight = 72; // matches --navbar-height
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - navbarHeight - 16;
+
+    // Use native smooth scrolling if available
+    if ('scrollBehavior' in document.documentElement.style) {
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    } else {
+      // Fallback for older browsers
+      window.scrollTo(0, offsetPosition);
+    }
   };
 
   const NAV_LINKS = [
@@ -506,7 +521,6 @@ export default function Home() {
                 width={600}
                 height={800}
                 style={{ objectFit: 'cover' }}
-                unoptimized
               />
             </div>
             <div className="about-badge" aria-hidden="true">
@@ -590,7 +604,6 @@ export default function Home() {
                     fill
                     sizes="(max-width: 980px) 100vw, 280px"
                     style={{ objectFit: 'cover' }}
-                    unoptimized
                   />
                 </div>
                 <div className="daily-drop-content">
@@ -667,19 +680,19 @@ export default function Home() {
           </Reveal>
 
           {filteredProducts.length === 0 ? (
-             <Reveal className="empty-category-state">
-                <div className="empty-icon">✧</div>
-                <h3>New Designs Coming Soon</h3>
-                <p>We are currently handcrafting new {(categoryNameById[activeCategory] || activeCategory).toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
-                <button
-                  className="btn-empty"
-                  onClick={() => {
-                    setActiveCategory('pendants');
-                  }}
-                >
-                  View Available Pendants
-                </button>
-             </Reveal>
+            <Reveal className="empty-category-state">
+              <div className="empty-icon">✧</div>
+              <h3>New Designs Coming Soon</h3>
+              <p>We are currently handcrafting new {(categoryNameById[activeCategory] || activeCategory).toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
+              <button
+                className="btn-empty"
+                onClick={() => {
+                  setActiveCategory('pendants');
+                }}
+              >
+                View Available Pendants
+              </button>
+            </Reveal>
           ) : (
             <div
               className={`product-grid ${isFiltering ? 'filtering' : ''}`}
@@ -760,7 +773,7 @@ export default function Home() {
                 }}
               >
                 <div className="gift-bg">
-                  <Image src={`${BASE_PATH}/images/pendant-2.jpg.jpeg`} alt="Gifts for Her" fill style={{ objectFit: 'cover' }} unoptimized />
+                  <Image src={`${BASE_PATH}/images/pendant-2.jpg.jpeg`} alt="Gifts for Her" fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div className="gift-overlay" />
                 <div className="gift-content">
@@ -783,7 +796,7 @@ export default function Home() {
                 }}
               >
                 <div className="gift-bg">
-                  <Image src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`} alt="Wedding Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
+                  <Image src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`} alt="Wedding Gifts" fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div className="gift-overlay" />
                 <div className="gift-content">
@@ -806,7 +819,7 @@ export default function Home() {
                 }}
               >
                 <div className="gift-bg">
-                  <Image src={`${BASE_PATH}/images/pendant-5.jpg.jpeg`} alt="Anniversary Gifts" fill style={{ objectFit: 'cover' }} unoptimized />
+                  <Image src={`${BASE_PATH}/images/pendant-5.jpg.jpeg`} alt="Anniversary Gifts" fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div className="gift-overlay" />
                 <div className="gift-content">
@@ -965,7 +978,7 @@ export default function Home() {
                   product={product}
                   categoryName={categoryNameById[product.category] || product.category}
                   onAddToCart={handleAddToCart}
-                  onView={() => {}} // No need to re-add to recent
+                  onView={() => { }} // No need to re-add to recent
                   onClick={() => openProductQuickView(product)}
                 />
               ))}

@@ -4,7 +4,11 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(gh repo:*)"
+      "Bash(gh repo:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:www.tanishq.co.in)",
+      "WebSearch",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }

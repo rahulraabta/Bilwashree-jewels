@@ -49,7 +49,6 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
               width={600}
               height={600}
               style={{ objectFit: 'cover' }}
-              unoptimized
             />
           </div>
 
