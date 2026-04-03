@@ -80,13 +80,18 @@ body.modal-open {
     transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Smooth image loading */
-img {
+/* Smooth image loading — scoped to product cards only */
+.card-image-wrap img {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-img.loaded {
+.card-image-wrap img.loaded,
+.hero-bg-image,
+.about-image-card img,
+.gift-bg img,
+.daily-drop-media img,
+.modal-image-wrap img {
   opacity: 1;
 }
 

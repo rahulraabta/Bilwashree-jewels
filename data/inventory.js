@@ -931,6 +931,27 @@ const curatedInventory = [
 ];
 
 const AUTO_VARIANT_IMAGE_FILES = {
+  accessories: [
+    'nk-36_jadau-tikka.jpg',
+    'nk-42_maang-tikka.jpg',
+    'nk-48_maang-tikka.jpg',
+    'nk-50_maang-tikka.jpg',
+    'nk-50_maang-tikka2.jpg',
+    'nk-54_anklet-payal.jpg',
+    'nk-54_maang-tikka.jpg',
+    'nk-54_maang-tikka2.jpg',
+  ],
+  bangles: [
+    'nk-14_temple-kada.jpg',
+    'nk-14_temple-kada2.jpg',
+    'nk-14_temple-kada3.jpg',
+    'nk-15_temple-set.jpg',
+    'nk-18_temple-bangle.jpg',
+    'nk-18_temple-bangle2.jpg',
+    'nk-18_temple-bangle3.jpg',
+    'nk-18_temple-bangle4.jpg',
+    'nk-19_reverse-bangle.jpg',
+  ],
   earrings: [
     'nk-10_cz-climber.jpg',
     'nk-10_cz-green.jpg',
@@ -950,6 +971,30 @@ const AUTO_VARIANT_IMAGE_FILES = {
     'nk-46_CZ-long.jpg',
     'nk-125_jadau-stud.jpg',
     'nk-146_jadau-jhumka.jpg',
+  ],
+  harams: [
+    'nk-24_long-antique.jpg',
+    'nk-24_long-chain.jpg',
+    'nk-42_long-coin.jpg',
+    'nk-465_jadau-kundan.jpg',
+    'nk-50_long-green.jpg',
+    'nk-57_long-green.jpg',
+    'nk-57_long-green-red.jpg',
+    'nk-57_long-green2.jpg',
+    'nk-57_long-red.jpg',
+    'nk-60_long-red.jpg',
+    'nk-60_long-temple.jpg',
+    'nk-62_long-green.jpg',
+    'nk-72_long-green.jpg',
+    'nk-72_long-red.jpg',
+    'nk-78_long-red.jpg',
+  ],
+  'maang-tikka': [
+    'NK-42-4.jpg',
+    'NK-48.jpg',
+    'NK-50-8.jpg',
+    'NK-50-9.jpg',
+    'NK-54-4.jpg',
   ],
   necklaces: [
     'nk-10_medium.jpg',
@@ -1047,7 +1092,11 @@ const AUTO_VARIANT_IMAGE_FILES = {
 };
 
 const AUTO_VARIANT_DEFAULTS = {
+  accessories: { material: 'Gold Plated Accessory Design', occasion: ['bridal', 'festive'] },
+  bangles: { material: 'Antique Gold Temple Bangle', occasion: ['festive', 'bridal'] },
   earrings: { material: 'Gold Plated Earring Design', occasion: ['festive', 'party'] },
+  harams: { material: 'Gold Plated Long Haram Design', occasion: ['bridal', 'festive'] },
+  'maang-tikka': { material: 'Gold Plated Maang Tikka', occasion: ['bridal', 'festive'] },
   necklaces: { material: 'Gold Plated Necklace Design', occasion: ['festive', 'bridal'] },
   pendants: { material: 'Gold Plated Pendant Design', occasion: ['daily', 'festive'] },
 };
