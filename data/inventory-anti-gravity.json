@@ -84,7 +84,7 @@
     "category": "necklaces",
     "itemName": "NK 10",
     "structure": "Medium",
-    "unitPrice": null,
+    "unitPrice": 399,
     "sourceId": "nk-10-necklace"
   },
   {
@@ -244,7 +244,7 @@
     "category": "necklaces",
     "itemName": "NK 54",
     "structure": "Medium",
-    "unitPrice": null,
+    "unitPrice": 950,
     "sourceId": "nk-54-necklace"
   },
   {
@@ -260,7 +260,7 @@
     "category": "harams",
     "itemName": "NK 24",
     "structure": "Long",
-    "unitPrice": null,
+    "unitPrice": 450,
     "sourceId": "nk-24-haram"
   },
   {
@@ -356,7 +356,7 @@
     "category": "bangles",
     "itemName": "NK 19",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 420,
     "sourceId": "nk-19-bangles"
   },
   {
@@ -364,7 +364,7 @@
     "category": "earrings",
     "itemName": "NK 10",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 399,
     "sourceId": "nk-10-earrings"
   },
   {
@@ -388,7 +388,7 @@
     "category": "earrings",
     "itemName": "NK 25",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 450,
     "sourceId": "nk-25-earrings"
   },
   {
@@ -396,7 +396,7 @@
     "category": "earrings",
     "itemName": "NK 28",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 499,
     "sourceId": "nk-28-earrings"
   },
   {
@@ -404,7 +404,7 @@
     "category": "earrings",
     "itemName": "NK 40",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 450,
     "sourceId": "nk-40-earrings"
   },
   {
@@ -412,7 +412,7 @@
     "category": "earrings",
     "itemName": "NK 45",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 840,
     "sourceId": "nk-45-earrings"
   },
   {
@@ -440,57 +440,41 @@
     "sourceId": "nk-146-earrings"
   },
   {
-    "productId": "NK-1",
+    "productId": "NK-8",
     "category": "pendants",
-    "itemName": "NK 1",
+    "itemName": "Dollar NK 8",
     "structure": "Standard",
     "unitPrice": 399,
     "sourceId": "prod_1"
   },
   {
-    "productId": "NK-2",
+    "productId": "NK-8",
     "category": "pendants",
-    "itemName": "NK 2",
-    "structure": "Standard",
-    "unitPrice": 399,
-    "sourceId": "prod_2"
-  },
-  {
-    "productId": "NK-3",
-    "category": "pendants",
-    "itemName": "NK 3",
+    "itemName": "Dollar NK 8",
     "structure": "Standard",
     "unitPrice": 399,
     "sourceId": "prod_3"
   },
   {
-    "productId": "NK-4",
+    "productId": "NK-8",
     "category": "pendants",
-    "itemName": "NK 4",
+    "itemName": "Dollar NK 8",
     "structure": "Standard",
     "unitPrice": 399,
     "sourceId": "prod_4"
   },
   {
-    "productId": "NK-5",
+    "productId": "NK-8",
     "category": "pendants",
-    "itemName": "NK 5",
+    "itemName": "Dollar NK 8",
     "structure": "Standard",
     "unitPrice": 399,
     "sourceId": "prod_5"
   },
   {
-    "productId": "NK-6",
+    "productId": "NK-8",
     "category": "pendants",
-    "itemName": "NK 6",
-    "structure": "Standard",
-    "unitPrice": 399,
-    "sourceId": "prod_6"
-  },
-  {
-    "productId": "NK-7",
-    "category": "pendants",
-    "itemName": "NK 7",
+    "itemName": "Dollar NK 8",
     "structure": "Standard",
     "unitPrice": 399,
     "sourceId": "prod_7"
@@ -508,7 +492,23 @@
     "category": "pendants",
     "itemName": "Dollar NK 10",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 399,
+    "sourceId": "prod_2"
+  },
+  {
+    "productId": "NK-10",
+    "category": "pendants",
+    "itemName": "Dollar NK 10",
+    "structure": "Standard",
+    "unitPrice": 399,
+    "sourceId": "prod_6"
+  },
+  {
+    "productId": "NK-10",
+    "category": "pendants",
+    "itemName": "Dollar NK 10",
+    "structure": "Standard",
+    "unitPrice": 399,
     "sourceId": "nk-10-dollar"
   },
   {
@@ -516,7 +516,7 @@
     "category": "pendants",
     "itemName": "Dollar NK 40",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 450,
     "sourceId": "nk-40-dollar"
   },
   {
@@ -540,7 +540,7 @@
     "category": "accessories",
     "itemName": "NK 50",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 899,
     "sourceId": "nk-50-tikka"
   },
   {
@@ -548,7 +548,7 @@
     "category": "accessories",
     "itemName": "NK 54",
     "structure": "Standard",
-    "unitPrice": null,
+    "unitPrice": 860,
     "sourceId": "nk-54-tikka"
   },
   {
