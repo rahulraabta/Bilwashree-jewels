@@ -18,7 +18,7 @@ const curatedInventory = [
   /* ── ORIGINAL PENDANT PRODUCTS ───────────────────────── */
   {
     id: "prod_1",
-    title: "Dollar NK 8",
+    title: "Dollar BS 8",
     category: "pendants",
     material: "22Kt Gold Plated with Semi-Precious Stones",
     priceINR: 399,
@@ -30,7 +30,7 @@ const curatedInventory = [
   },
   {
     id: "prod_2",
-    title: "Dollar NK 10",
+    title: "Dollar BS 10",
     category: "pendants",
     material: "Antique Finish with Ruby Accents",
     priceINR: 399,
@@ -42,7 +42,7 @@ const curatedInventory = [
   },
   {
     id: "prod_3",
-    title: "Dollar NK 8",
+    title: "Dollar BS 8",
     category: "pendants",
     material: "Meenakari Enamel & Gold Finish",
     priceINR: 399,
@@ -54,7 +54,7 @@ const curatedInventory = [
   },
   {
     id: "prod_4",
-    title: "Dollar NK 8",
+    title: "Dollar BS 8",
     category: "pendants",
     material: "Gold Plated Temple Art",
     priceINR: 399,
@@ -66,7 +66,7 @@ const curatedInventory = [
   },
   {
     id: "prod_5",
-    title: "Dollar NK 8",
+    title: "Dollar BS 8",
     category: "pendants",
     material: "Premium Gold Plated",
     priceINR: 399,
@@ -78,7 +78,7 @@ const curatedInventory = [
   },
   {
     id: "prod_6",
-    title: "Dollar NK 10",
+    title: "Dollar BS 10",
     category: "pendants",
     material: "22Kt Gold Plated Brass",
     priceINR: 399,
@@ -90,7 +90,7 @@ const curatedInventory = [
   },
   {
     id: "prod_7",
-    title: "Dollar NK 8",
+    title: "Dollar BS 8",
     category: "pendants",
     material: "Antique Finish with Emerald Stones",
     priceINR: 399,
@@ -106,8 +106,8 @@ const curatedInventory = [
      Pearl-chain or tight-fit necklaces, sit close to collarbone
      ══════════════════════════════════════════════════════════ */
   {
-    id: "nk-55-choker-green",
-    title: "NK 55",
+    id: "bs-55-choker-green",
+    title: "BS 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Green Stones",
@@ -119,8 +119,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-55-choker-red",
-    title: "NK 55",
+    id: "bs-55-choker-red",
+    title: "BS 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Red Stones",
@@ -132,8 +132,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-55-choker-pink",
-    title: "NK 55",
+    id: "bs-55-choker-pink",
+    title: "BS 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Pink Stones",
@@ -145,8 +145,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-55-choker-teal",
-    title: "NK 55",
+    id: "bs-55-choker-teal",
+    title: "BS 55",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Teal Stones",
@@ -158,8 +158,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-50-choker-red",
-    title: "NK 50",
+    id: "bs-50-choker-red",
+    title: "BS 50",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Red Stones",
@@ -171,8 +171,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-50-choker-rose",
-    title: "NK 50",
+    id: "bs-50-choker-rose",
+    title: "BS 50",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Rose Stones",
@@ -184,8 +184,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-50-choker-green",
-    title: "NK 50",
+    id: "bs-50-choker-green",
+    title: "BS 50",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & CZ with Green Stones",
@@ -197,8 +197,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-19-choker",
-    title: "NK 19",
+    id: "bs-19-choker",
+    title: "BS 19",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl & Kemp Stone",
@@ -210,8 +210,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-12-choker",
-    title: "NK 12",
+    id: "bs-12-choker",
+    title: "BS 12",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl Chain with Flower Motif",
@@ -223,8 +223,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-12-choker-red",
-    title: "NK 12",
+    id: "bs-12-choker-red",
+    title: "BS 12",
     category: "necklaces",
     structure: "Choker",
     material: "Pearl Chain with Red Flower Motif",
@@ -241,8 +241,8 @@ const curatedInventory = [
      Traditional temple necklaces of standard length
      ══════════════════════════════════════════════════════════ */
   {
-    id: "nk-10-necklace",
-    title: "NK 10",
+    id: "bs-10-necklace",
+    title: "BS 10",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ Stone & Gold Plated",
@@ -254,8 +254,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-13-necklace",
-    title: "NK 13",
+    id: "bs-13-necklace",
+    title: "BS 13",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Kemp Stones",
@@ -267,8 +267,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-18-necklace",
-    title: "NK 18",
+    id: "bs-18-necklace",
+    title: "BS 18",
     category: "necklaces",
     structure: "Necklace",
     material: "Antique Gold with Coral Stones",
@@ -280,8 +280,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-19-necklace",
-    title: "NK 19",
+    id: "bs-19-necklace",
+    title: "BS 19",
     category: "necklaces",
     structure: "Necklace",
     material: "Meenakari Enamel & Gold",
@@ -293,8 +293,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-20-necklace",
-    title: "NK 20",
+    id: "bs-20-necklace",
+    title: "BS 20",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated Coin Design",
@@ -306,8 +306,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-22-necklace",
-    title: "NK 22",
+    id: "bs-22-necklace",
+    title: "BS 22",
     category: "necklaces",
     structure: "Necklace",
     material: "Antique Gold with Ruby Squares",
@@ -319,8 +319,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-24-necklace",
-    title: "NK 24",
+    id: "bs-24-necklace",
+    title: "BS 24",
     category: "necklaces",
     structure: "Necklace",
     material: "Temple Style with Kemp Stones",
@@ -332,8 +332,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-25-necklace",
-    title: "NK 25",
+    id: "bs-25-necklace",
+    title: "BS 25",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Multicolor Stones",
@@ -345,8 +345,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-26-necklace",
-    title: "NK 26",
+    id: "bs-26-necklace",
+    title: "BS 26",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ & Ruby with Gold Chain",
@@ -358,8 +358,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-27-necklace",
-    title: "NK 27",
+    id: "bs-27-necklace",
+    title: "BS 27",
     category: "necklaces",
     structure: "Necklace",
     material: "Reversible Gold Plated",
@@ -371,8 +371,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-28-necklace",
-    title: "NK 28",
+    id: "bs-28-necklace",
+    title: "BS 28",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Coin Design",
@@ -384,8 +384,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-30-necklace",
-    title: "NK 30",
+    id: "bs-30-necklace",
+    title: "BS 30",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated Temple Style",
@@ -397,8 +397,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-32-necklace",
-    title: "NK 32",
+    id: "bs-32-necklace",
+    title: "BS 32",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Coin with Colored Stones",
@@ -410,7 +410,7 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-34-necklace",
+    id: "bs-34-necklace",
     title: "BS 34",
     category: "necklaces",
     structure: "Necklace",
@@ -423,7 +423,7 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-36-necklace",
+    id: "bs-36-necklace",
     title: "BS 36",
     category: "necklaces",
     structure: "Necklace",
@@ -436,8 +436,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-39-necklace",
-    title: "NK 39",
+    id: "bs-39-necklace",
+    title: "BS 39",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Coin with Kemp Stones",
@@ -449,8 +449,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-40-necklace",
-    title: "NK 40",
+    id: "bs-40-necklace",
+    title: "BS 40",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Green Drops",
@@ -462,8 +462,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-45-necklace",
-    title: "NK 45",
+    id: "bs-45-necklace",
+    title: "BS 45",
     category: "necklaces",
     structure: "Necklace",
     material: "Antique Gold with Temple Motif",
@@ -475,8 +475,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-46-necklace",
-    title: "NK 46",
+    id: "bs-46-necklace",
+    title: "BS 46",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ with Multi-Color Stones",
@@ -488,8 +488,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-50-necklace",
-    title: "NK 50",
+    id: "bs-50-necklace",
+    title: "BS 50",
     category: "necklaces",
     structure: "Necklace",
     material: "CZ with Emerald Stones",
@@ -501,8 +501,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-54-necklace",
-    title: "NK 54",
+    id: "bs-54-necklace",
+    title: "BS 54",
     category: "necklaces",
     structure: "Necklace",
     material: "Kemp Stone Temple Style",
@@ -514,8 +514,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-55-necklace",
-    title: "NK 55",
+    id: "bs-55-necklace",
+    title: "BS 55",
     category: "necklaces",
     structure: "Necklace",
     material: "Gold Plated with Kemp Drops",
@@ -532,8 +532,8 @@ const curatedInventory = [
      Long necklaces for bridal and festive wear
      ══════════════════════════════════════════════════════════ */
   {
-    id: "nk-42-haram",
-    title: "NK 42",
+    id: "bs-42-haram",
+    title: "BS 42",
     category: "harams",
     structure: "Haram",
     material: "Antique Gold Coin Design",
@@ -545,8 +545,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-465-haram",
-    title: "Jadau Kundan Reversible NK 465",
+    id: "bs-465-haram",
+    title: "Jadau Kundan Reversible BS 465",
     category: "harams",
     structure: "Haram",
     material: "Jadau Kundan Reversible Premium",
@@ -558,8 +558,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-57-haram",
-    title: "NK 57",
+    id: "bs-57-haram",
+    title: "BS 57",
     category: "harams",
     structure: "Haram",
     material: "Green Beads with Temple Pendant",
@@ -571,8 +571,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-72-haram",
-    title: "NK 72",
+    id: "bs-72-haram",
+    title: "BS 72",
     category: "harams",
     structure: "Haram",
     material: "Gold with Kemp & Beaded Chain",
@@ -584,8 +584,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-78-haram",
-    title: "NK 78",
+    id: "bs-78-haram",
+    title: "BS 78",
     category: "harams",
     structure: "Haram",
     material: "Red Beads with Temple Motif",
@@ -597,8 +597,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-60-haram",
-    title: "NK 60",
+    id: "bs-60-haram",
+    title: "BS 60",
     category: "harams",
     structure: "Haram",
     material: "Red Beads with Temple Pendant",
@@ -610,8 +610,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-62-haram",
-    title: "NK 62",
+    id: "bs-62-haram",
+    title: "BS 62",
     category: "harams",
     structure: "Haram",
     material: "Green Beads & Gold Temple",
@@ -623,8 +623,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-50-haram",
-    title: "NK 50",
+    id: "bs-50-haram",
+    title: "BS 50",
     category: "harams",
     structure: "Haram",
     material: "Green Beads with Lakshmi Pendant",
@@ -636,8 +636,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-24-haram",
-    title: "NK 24",
+    id: "bs-24-haram",
+    title: "BS 24",
     category: "harams",
     structure: "Haram",
     material: "Antique Gold Chain Design",
@@ -653,8 +653,8 @@ const curatedInventory = [
      EARRINGS
      ══════════════════════════════════════════════════════════ */
   {
-    id: "nk-10-earrings",
-    title: "NK 10",
+    id: "bs-10-earrings",
+    title: "BS 10",
     category: "earrings",
     material: "CZ Crystal with Gold Setting",
     priceINR: 399,
@@ -665,8 +665,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-12-earrings",
-    title: "NK 12",
+    id: "bs-12-earrings",
+    title: "BS 12",
     category: "earrings",
     material: "CZ with Flower Motif",
     priceINR: 320,
@@ -677,8 +677,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-125-earrings",
-    title: "Jadau Kundan NK 125",
+    id: "bs-125-earrings",
+    title: "Jadau Kundan BS 125",
     category: "earrings",
     material: "Jadau Kundan with Green Beads",
     priceINR: null,
@@ -689,8 +689,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-146-earrings",
-    title: "Jadau Kundan NK 146",
+    id: "bs-146-earrings",
+    title: "Jadau Kundan BS 146",
     category: "earrings",
     material: "Jadau Kundan with Emerald",
     priceINR: null,
@@ -701,8 +701,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-25-earrings",
-    title: "NK 25",
+    id: "bs-25-earrings",
+    title: "BS 25",
     category: "earrings",
     material: "Antique Gold Temple Style",
     priceINR: 450,
@@ -713,8 +713,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-28-earrings",
-    title: "NK 28",
+    id: "bs-28-earrings",
+    title: "BS 28",
     category: "earrings",
     material: "Gold with Pearl Drops",
     priceINR: 499,
@@ -725,8 +725,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-45-earrings",
-    title: "NK 45",
+    id: "bs-45-earrings",
+    title: "BS 45",
     category: "earrings",
     material: "Gold Plated Jhumka Style",
     priceINR: 840,
@@ -737,8 +737,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-46-earrings",
-    title: "NK 46",
+    id: "bs-46-earrings",
+    title: "BS 46",
     category: "earrings",
     material: "CZ with Chain",
     priceINR: null,
@@ -749,8 +749,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-18-earrings",
-    title: "NK 18",
+    id: "bs-18-earrings",
+    title: "BS 18",
     category: "earrings",
     material: "CZ Crystal Drop",
     priceINR: null,
@@ -761,8 +761,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-40-earrings",
-    title: "NK 40",
+    id: "bs-40-earrings",
+    title: "BS 40",
     category: "earrings",
     material: "Gold with Ruby Leaf Design",
     priceINR: 450,
@@ -777,8 +777,8 @@ const curatedInventory = [
      BANGLES
      ══════════════════════════════════════════════════════════ */
   {
-    id: "nk-14-bangles",
-    title: "NK 14",
+    id: "bs-14-bangles",
+    title: "BS 14",
     category: "bangles",
     material: "Antique Gold Temple Design",
     priceINR: 350,
@@ -789,8 +789,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-15-bangles",
-    title: "NK 15",
+    id: "bs-15-bangles",
+    title: "BS 15",
     category: "bangles",
     material: "Gold Plated with Emerald Stones",
     priceINR: null,
@@ -801,8 +801,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-18-bangles",
-    title: "NK 18",
+    id: "bs-18-bangles",
+    title: "BS 18",
     category: "bangles",
     material: "Gold Plated with Multi Stones",
     priceINR: null,
@@ -813,8 +813,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-19-bangles",
-    title: "NK 19",
+    id: "bs-19-bangles",
+    title: "BS 19",
     category: "bangles",
     material: "Reversible Gold Plated",
     priceINR: 420,
@@ -829,8 +829,8 @@ const curatedInventory = [
      PENDANTS (Dollars) — from PDF catalog
      ══════════════════════════════════════════════════════════ */
   {
-    id: "nk-8-dollar",
-    title: "Dollar NK 8",
+    id: "bs-8-dollar",
+    title: "Dollar BS 8",
     category: "pendants",
     material: "Antique Gold Temple Art",
     priceINR: 399,
@@ -841,8 +841,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-10-dollar",
-    title: "Dollar NK 10",
+    id: "bs-10-dollar",
+    title: "Dollar BS 10",
     category: "pendants",
     material: "Gold Plated Temple Style",
     priceINR: 399,
@@ -853,8 +853,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-40-dollar",
-    title: "Dollar NK 40",
+    id: "bs-40-dollar",
+    title: "Dollar BS 40",
     category: "pendants",
     material: "Large Temple Art Pendant",
     priceINR: 450,
@@ -869,8 +869,8 @@ const curatedInventory = [
      ACCESSORIES — Maang Tikka, Anklets
      ══════════════════════════════════════════════════════════ */
   {
-    id: "nk-48-tikka",
-    title: "NK 48",
+    id: "bs-48-tikka",
+    title: "BS 48",
     category: "accessories",
     material: "Pearl & Gold",
     priceINR: null,
@@ -881,8 +881,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-42-tikka",
-    title: "NK 42",
+    id: "bs-42-tikka",
+    title: "BS 42",
     category: "accessories",
     material: "Gold Plated Temple Art",
     priceINR: 820,
@@ -893,8 +893,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-50-tikka",
-    title: "NK 50",
+    id: "bs-50-tikka",
+    title: "BS 50",
     category: "accessories",
     material: "CZ Crystal with Ruby Stone",
     priceINR: 899,
@@ -905,8 +905,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-54-tikka",
-    title: "NK 54",
+    id: "bs-54-tikka",
+    title: "BS 54",
     category: "accessories",
     material: "CZ Crystal Layered Design",
     priceINR: 860,
@@ -917,8 +917,8 @@ const curatedInventory = [
     inStock: true
   },
   {
-    id: "nk-54-anklet",
-    title: "NK 54",
+    id: "bs-54-anklet",
+    title: "BS 54",
     category: "accessories",
     material: "Pearl & CZ Crystal",
     priceINR: 860,
@@ -1103,7 +1103,7 @@ const AUTO_VARIANT_DEFAULTS = {
 
 const extractCodeFromText = (text) => {
   const match = String(text || '').match(/NK\s*(\d+)/i);
-  return match ? `NK ${match[1]}` : null;
+  return match ? `BS ${match[1]}` : null;
 };
 
 const existingImageNames = new Set(
@@ -1141,7 +1141,7 @@ const generatedInventoryVariants = Object.entries(AUTO_VARIANT_IMAGE_FILES).flat
       const codeMatch = fileName.match(/nk-(\d+)/i);
       if (!codeMatch) return null;
 
-      const code = `NK ${Number(codeMatch[1])}`;
+      const code = `BS ${Number(codeMatch[1])}`;
       const metadataKey = `${category}|${code}`;
       const metadata = metadataByCategoryCode[metadataKey] || AUTO_VARIANT_DEFAULTS[category];
 
@@ -1177,7 +1177,7 @@ export const inventory = [...curatedInventory, ...generatedInventoryVariants];
 export const TESTIMONIALS = [
   {
     id: 1,
-    text: "Ordered one of the NK series pendants for my mother and she was moved to tears. The craftsmanship is absolutely stunning — you can feel the care in every detail.",
+    text: "Ordered one of the BS series pendants for my mother and she was moved to tears. The craftsmanship is absolutely stunning — you can feel the care in every detail.",
     name: "Ananya R.",
     location: "Bengaluru, Karnataka",
     initial: "A",
@@ -1185,7 +1185,7 @@ export const TESTIMONIALS = [
   },
   {
     id: 2,
-    text: "The packaging alone felt luxurious. Got an NK series piece for my wedding anniversary and my wife hasn't taken it off since. Truly beautiful work.",
+    text: "The packaging alone felt luxurious. Got an BS series piece for my wedding anniversary and my wife hasn't taken it off since. Truly beautiful work.",
     name: "Vikram S.",
     location: "Chennai, Tamil Nadu",
     initial: "V",
