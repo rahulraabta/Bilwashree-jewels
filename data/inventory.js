@@ -12,13 +12,6 @@ export const CATEGORIES = [
   { id: 'accessories', name: 'Accessories',  icon: '❖',  description: 'Maang tikka, anklets & more' },
 ];
 
-/* ─── Promotional Offers ────────────────────────────────── */
-export const OFFERS = [
-  { icon: '🏷️', title: 'Offers',          description: 'Welcome! Offer details will be updated soon.', highlight: 'Soon' },
-  { icon: '🚚', title: 'Shipping',        description: 'Shipping timelines and terms will be shared shortly.', highlight: 'Soon' },
-  { icon: '📢', title: 'Advertisements',  description: 'Campaign and promotional details are coming next.', highlight: 'Soon' },
-];
-
 /* ─── Products Inventory ─────────────────────────────────── */
 export const inventory = [
 

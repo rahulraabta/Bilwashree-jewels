@@ -13,9 +13,6 @@ export default function CartDrawer({
   checkoutEmail,
   scrollToSection
 }) {
-  const freeShippingRemaining = Math.max(0, 999 - cartTotal);
-  const progressPercent = Math.min(100, (cartTotal / 999) * 100);
-
   return (
     <>
       <div
@@ -33,17 +30,6 @@ export default function CartDrawer({
           <h2>Your Cart ({cartCount})</h2>
           <button className="cart-close-btn" onClick={onClose} aria-label="Close cart">✕</button>
         </div>
-
-        {/* Free Shipping Progress */}
-        <div className="cart-shipping-bar">
-          <p className="shipping-text">
-            {cartTotal >= 999 ? "✨ You've unlocked Free Shipping!" : `Add ₹${freeShippingRemaining.toLocaleString('en-IN')} more for Free Shipping!`}
-          </p>
-          <div className="progress-track">
-            <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
-          </div>
-        </div>
-
         <div className="cart-body">
           {cartItems.length === 0 ? (
             <div className="empty-cart-msg">

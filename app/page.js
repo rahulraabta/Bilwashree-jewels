@@ -245,7 +245,6 @@ export default function Home() {
       text += `- ${item.qty}x ${item.product.title} (₹${(item.product.priceINR ?? 0) * item.qty})\n`;
     });
     text += `\n*Total:* ₹${cartTotal}`;
-    if (cartTotal >= 999) text += ` (Free Shipping eligible)`;
     return text;
   };
 

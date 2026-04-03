@@ -94,12 +94,6 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
                 WhatsApp Inquiry <span>💬</span>
               </button>
             </div>
-
-            <div className="modal-trust-mini">
-              <span>✦ BIS Hallmarked (Assurance)</span>
-              <span>✦ Free Shipping on ₹999+</span>
-              <span>✦ Secure Packaging</span>
-            </div>
           </div>
         </div>
       </div>
