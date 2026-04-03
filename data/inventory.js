@@ -411,7 +411,7 @@ const curatedInventory = [
   },
   {
     id: "nk-34-necklace",
-    title: "NK 34",
+    title: "BS 34",
     category: "necklaces",
     structure: "Necklace",
     material: "Kemp Stone with Green Drops",
@@ -424,7 +424,7 @@ const curatedInventory = [
   },
   {
     id: "nk-36-necklace",
-    title: "NK 36",
+    title: "BS 36",
     category: "necklaces",
     structure: "Necklace",
     material: "Pearl Chain with Temple Motif",
