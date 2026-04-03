@@ -1,5 +1,5 @@
 // data/inventory.js
-export const BASE_PATH = '';
+export const BASE_PATH = '/Bilwashree-jewels';
 
 /* ─── Product Categories ─────────────────────────────────── */
 export const CATEGORIES = [
