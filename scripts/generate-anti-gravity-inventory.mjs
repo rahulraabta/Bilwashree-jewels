@@ -40,9 +40,13 @@ const processed = inventory
     const code = extractCodeLabel(product);
     if (!code) return null;
 
+    const normalizedCode = code.replace(' ', '-');
+    const normalizedCategory = String(product.category || '').toLowerCase();
+
     return {
-      productId: code.replace(' ', '-'),
-      category: String(product.category || '').toLowerCase(),
+      productId: `${normalizedCode}-${normalizedCategory}`,
+      productCode: normalizedCode,
+      category: normalizedCategory,
       itemName: normalizedName(product, code),
       structure: normalizeStructure(product),
       unitPrice: Number.isFinite(product.priceINR) ? product.priceINR : null,
@@ -57,8 +61,8 @@ const processed = inventory
     const structDiff = structureOrder.indexOf(a.structure) - structureOrder.indexOf(b.structure);
     if (structDiff !== 0) return structDiff;
 
-    const codeA = Number.parseInt(a.productId.replace(/[^0-9]/g, ''), 10);
-    const codeB = Number.parseInt(b.productId.replace(/[^0-9]/g, ''), 10);
+    const codeA = Number.parseInt(a.productCode.replace(/[^0-9]/g, ''), 10);
+    const codeB = Number.parseInt(b.productCode.replace(/[^0-9]/g, ''), 10);
     if (codeA !== codeB) return codeA - codeB;
 
     return a.itemName.localeCompare(b.itemName);
@@ -82,7 +86,7 @@ const htmlSections = categoryOrder
           ? 'N/A'
           : `Rs ${row.unitPrice.toLocaleString('en-IN')}`;
 
-        return `<tr><td>${row.productId}</td><td>${row.itemName}</td><td>${row.structure}</td><td class="price">${price}</td></tr>`;
+        return `<tr><td>${row.productCode}</td><td>${row.itemName}</td><td>${row.structure}</td><td class="price">${price}</td></tr>`;
       })
       .join('');
 
@@ -92,7 +96,7 @@ const htmlSections = categoryOrder
         <table>
           <thead>
             <tr>
-              <th>Product ID</th>
+              <th>Product Code</th>
               <th>Item Name/Description</th>
               <th>Structure</th>
               <th>Unit Price (Rs)</th>

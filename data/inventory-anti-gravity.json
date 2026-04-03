@@ -1,6 +1,7 @@
 [
   {
-    "productId": "NK-12",
+    "productId": "NK-12-necklaces",
+    "productCode": "NK-12",
     "category": "necklaces",
     "itemName": "NK 12",
     "structure": "Short",
@@ -8,7 +9,8 @@
     "sourceId": "nk-12-choker"
   },
   {
-    "productId": "NK-12",
+    "productId": "NK-12-necklaces",
+    "productCode": "NK-12",
     "category": "necklaces",
     "itemName": "NK 12",
     "structure": "Short",
@@ -16,7 +18,8 @@
     "sourceId": "nk-12-choker-red"
   },
   {
-    "productId": "NK-19",
+    "productId": "NK-19-necklaces",
+    "productCode": "NK-19",
     "category": "necklaces",
     "itemName": "NK 19",
     "structure": "Short",
@@ -24,7 +27,8 @@
     "sourceId": "nk-19-choker"
   },
   {
-    "productId": "NK-50",
+    "productId": "NK-50-necklaces",
+    "productCode": "NK-50",
     "category": "necklaces",
     "itemName": "NK 50",
     "structure": "Short",
@@ -32,7 +36,8 @@
     "sourceId": "nk-50-choker-red"
   },
   {
-    "productId": "NK-50",
+    "productId": "NK-50-necklaces",
+    "productCode": "NK-50",
     "category": "necklaces",
     "itemName": "NK 50",
     "structure": "Short",
@@ -40,7 +45,8 @@
     "sourceId": "nk-50-choker-rose"
   },
   {
-    "productId": "NK-50",
+    "productId": "NK-50-necklaces",
+    "productCode": "NK-50",
     "category": "necklaces",
     "itemName": "NK 50",
     "structure": "Short",
@@ -48,7 +54,8 @@
     "sourceId": "nk-50-choker-green"
   },
   {
-    "productId": "NK-55",
+    "productId": "NK-55-necklaces",
+    "productCode": "NK-55",
     "category": "necklaces",
     "itemName": "NK 55",
     "structure": "Short",
@@ -56,7 +63,8 @@
     "sourceId": "nk-55-choker-green"
   },
   {
-    "productId": "NK-55",
+    "productId": "NK-55-necklaces",
+    "productCode": "NK-55",
     "category": "necklaces",
     "itemName": "NK 55",
     "structure": "Short",
@@ -64,7 +72,8 @@
     "sourceId": "nk-55-choker-red"
   },
   {
-    "productId": "NK-55",
+    "productId": "NK-55-necklaces",
+    "productCode": "NK-55",
     "category": "necklaces",
     "itemName": "NK 55",
     "structure": "Short",
@@ -72,7 +81,8 @@
     "sourceId": "nk-55-choker-pink"
   },
   {
-    "productId": "NK-55",
+    "productId": "NK-55-necklaces",
+    "productCode": "NK-55",
     "category": "necklaces",
     "itemName": "NK 55",
     "structure": "Short",
@@ -80,7 +90,8 @@
     "sourceId": "nk-55-choker-teal"
   },
   {
-    "productId": "NK-10",
+    "productId": "NK-10-necklaces",
+    "productCode": "NK-10",
     "category": "necklaces",
     "itemName": "NK 10",
     "structure": "Medium",
@@ -88,7 +99,8 @@
     "sourceId": "nk-10-necklace"
   },
   {
-    "productId": "NK-13",
+    "productId": "NK-13-necklaces",
+    "productCode": "NK-13",
     "category": "necklaces",
     "itemName": "NK 13",
     "structure": "Medium",
@@ -96,7 +108,8 @@
     "sourceId": "nk-13-necklace"
   },
   {
-    "productId": "NK-18",
+    "productId": "NK-18-necklaces",
+    "productCode": "NK-18",
     "category": "necklaces",
     "itemName": "NK 18",
     "structure": "Medium",
@@ -104,7 +117,8 @@
     "sourceId": "nk-18-necklace"
   },
   {
-    "productId": "NK-19",
+    "productId": "NK-19-necklaces",
+    "productCode": "NK-19",
     "category": "necklaces",
     "itemName": "NK 19",
     "structure": "Medium",
@@ -112,7 +126,8 @@
     "sourceId": "nk-19-necklace"
   },
   {
-    "productId": "NK-20",
+    "productId": "NK-20-necklaces",
+    "productCode": "NK-20",
     "category": "necklaces",
     "itemName": "NK 20",
     "structure": "Medium",
@@ -120,7 +135,8 @@
     "sourceId": "nk-20-necklace"
   },
   {
-    "productId": "NK-22",
+    "productId": "NK-22-necklaces",
+    "productCode": "NK-22",
     "category": "necklaces",
     "itemName": "NK 22",
     "structure": "Medium",
@@ -128,7 +144,8 @@
     "sourceId": "nk-22-necklace"
   },
   {
-    "productId": "NK-24",
+    "productId": "NK-24-necklaces",
+    "productCode": "NK-24",
     "category": "necklaces",
     "itemName": "NK 24",
     "structure": "Medium",
@@ -136,7 +153,8 @@
     "sourceId": "nk-24-necklace"
   },
   {
-    "productId": "NK-25",
+    "productId": "NK-25-necklaces",
+    "productCode": "NK-25",
     "category": "necklaces",
     "itemName": "NK 25",
     "structure": "Medium",
@@ -144,7 +162,8 @@
     "sourceId": "nk-25-necklace"
   },
   {
-    "productId": "NK-26",
+    "productId": "NK-26-necklaces",
+    "productCode": "NK-26",
     "category": "necklaces",
     "itemName": "NK 26",
     "structure": "Medium",
@@ -152,7 +171,8 @@
     "sourceId": "nk-26-necklace"
   },
   {
-    "productId": "NK-27",
+    "productId": "NK-27-necklaces",
+    "productCode": "NK-27",
     "category": "necklaces",
     "itemName": "NK 27",
     "structure": "Medium",
@@ -160,7 +180,8 @@
     "sourceId": "nk-27-necklace"
   },
   {
-    "productId": "NK-28",
+    "productId": "NK-28-necklaces",
+    "productCode": "NK-28",
     "category": "necklaces",
     "itemName": "NK 28",
     "structure": "Medium",
@@ -168,7 +189,8 @@
     "sourceId": "nk-28-necklace"
   },
   {
-    "productId": "NK-30",
+    "productId": "NK-30-necklaces",
+    "productCode": "NK-30",
     "category": "necklaces",
     "itemName": "NK 30",
     "structure": "Medium",
@@ -176,7 +198,8 @@
     "sourceId": "nk-30-necklace"
   },
   {
-    "productId": "NK-32",
+    "productId": "NK-32-necklaces",
+    "productCode": "NK-32",
     "category": "necklaces",
     "itemName": "NK 32",
     "structure": "Medium",
@@ -184,7 +207,8 @@
     "sourceId": "nk-32-necklace"
   },
   {
-    "productId": "NK-34",
+    "productId": "NK-34-necklaces",
+    "productCode": "NK-34",
     "category": "necklaces",
     "itemName": "NK 34",
     "structure": "Medium",
@@ -192,7 +216,8 @@
     "sourceId": "nk-34-necklace"
   },
   {
-    "productId": "NK-36",
+    "productId": "NK-36-necklaces",
+    "productCode": "NK-36",
     "category": "necklaces",
     "itemName": "NK 36",
     "structure": "Medium",
@@ -200,7 +225,8 @@
     "sourceId": "nk-36-necklace"
   },
   {
-    "productId": "NK-39",
+    "productId": "NK-39-necklaces",
+    "productCode": "NK-39",
     "category": "necklaces",
     "itemName": "NK 39",
     "structure": "Medium",
@@ -208,7 +234,8 @@
     "sourceId": "nk-39-necklace"
   },
   {
-    "productId": "NK-40",
+    "productId": "NK-40-necklaces",
+    "productCode": "NK-40",
     "category": "necklaces",
     "itemName": "NK 40",
     "structure": "Medium",
@@ -216,7 +243,8 @@
     "sourceId": "nk-40-necklace"
   },
   {
-    "productId": "NK-45",
+    "productId": "NK-45-necklaces",
+    "productCode": "NK-45",
     "category": "necklaces",
     "itemName": "NK 45",
     "structure": "Medium",
@@ -224,7 +252,8 @@
     "sourceId": "nk-45-necklace"
   },
   {
-    "productId": "NK-46",
+    "productId": "NK-46-necklaces",
+    "productCode": "NK-46",
     "category": "necklaces",
     "itemName": "NK 46",
     "structure": "Medium",
@@ -232,7 +261,8 @@
     "sourceId": "nk-46-necklace"
   },
   {
-    "productId": "NK-50",
+    "productId": "NK-50-necklaces",
+    "productCode": "NK-50",
     "category": "necklaces",
     "itemName": "NK 50",
     "structure": "Medium",
@@ -240,7 +270,8 @@
     "sourceId": "nk-50-necklace"
   },
   {
-    "productId": "NK-54",
+    "productId": "NK-54-necklaces",
+    "productCode": "NK-54",
     "category": "necklaces",
     "itemName": "NK 54",
     "structure": "Medium",
@@ -248,7 +279,8 @@
     "sourceId": "nk-54-necklace"
   },
   {
-    "productId": "NK-55",
+    "productId": "NK-55-necklaces",
+    "productCode": "NK-55",
     "category": "necklaces",
     "itemName": "NK 55",
     "structure": "Medium",
@@ -256,7 +288,8 @@
     "sourceId": "nk-55-necklace"
   },
   {
-    "productId": "NK-24",
+    "productId": "NK-24-harams",
+    "productCode": "NK-24",
     "category": "harams",
     "itemName": "NK 24",
     "structure": "Long",
@@ -264,7 +297,8 @@
     "sourceId": "nk-24-haram"
   },
   {
-    "productId": "NK-42",
+    "productId": "NK-42-harams",
+    "productCode": "NK-42",
     "category": "harams",
     "itemName": "NK 42",
     "structure": "Long",
@@ -272,7 +306,8 @@
     "sourceId": "nk-42-haram"
   },
   {
-    "productId": "NK-50",
+    "productId": "NK-50-harams",
+    "productCode": "NK-50",
     "category": "harams",
     "itemName": "NK 50",
     "structure": "Long",
@@ -280,7 +315,8 @@
     "sourceId": "nk-50-haram"
   },
   {
-    "productId": "NK-57",
+    "productId": "NK-57-harams",
+    "productCode": "NK-57",
     "category": "harams",
     "itemName": "NK 57",
     "structure": "Long",
@@ -288,7 +324,8 @@
     "sourceId": "nk-57-haram"
   },
   {
-    "productId": "NK-60",
+    "productId": "NK-60-harams",
+    "productCode": "NK-60",
     "category": "harams",
     "itemName": "NK 60",
     "structure": "Long",
@@ -296,7 +333,8 @@
     "sourceId": "nk-60-haram"
   },
   {
-    "productId": "NK-62",
+    "productId": "NK-62-harams",
+    "productCode": "NK-62",
     "category": "harams",
     "itemName": "NK 62",
     "structure": "Long",
@@ -304,7 +342,8 @@
     "sourceId": "nk-62-haram"
   },
   {
-    "productId": "NK-72",
+    "productId": "NK-72-harams",
+    "productCode": "NK-72",
     "category": "harams",
     "itemName": "NK 72",
     "structure": "Long",
@@ -312,7 +351,8 @@
     "sourceId": "nk-72-haram"
   },
   {
-    "productId": "NK-78",
+    "productId": "NK-78-harams",
+    "productCode": "NK-78",
     "category": "harams",
     "itemName": "NK 78",
     "structure": "Long",
@@ -320,7 +360,8 @@
     "sourceId": "nk-78-haram"
   },
   {
-    "productId": "NK-465",
+    "productId": "NK-465-harams",
+    "productCode": "NK-465",
     "category": "harams",
     "itemName": "Jadau Kundan Reversible NK 465",
     "structure": "Long",
@@ -328,7 +369,8 @@
     "sourceId": "nk-465-haram"
   },
   {
-    "productId": "NK-14",
+    "productId": "NK-14-bangles",
+    "productCode": "NK-14",
     "category": "bangles",
     "itemName": "NK 14",
     "structure": "Standard",
@@ -336,7 +378,8 @@
     "sourceId": "nk-14-bangles"
   },
   {
-    "productId": "NK-15",
+    "productId": "NK-15-bangles",
+    "productCode": "NK-15",
     "category": "bangles",
     "itemName": "NK 15",
     "structure": "Standard",
@@ -344,7 +387,8 @@
     "sourceId": "nk-15-bangles"
   },
   {
-    "productId": "NK-18",
+    "productId": "NK-18-bangles",
+    "productCode": "NK-18",
     "category": "bangles",
     "itemName": "NK 18",
     "structure": "Standard",
@@ -352,7 +396,8 @@
     "sourceId": "nk-18-bangles"
   },
   {
-    "productId": "NK-19",
+    "productId": "NK-19-bangles",
+    "productCode": "NK-19",
     "category": "bangles",
     "itemName": "NK 19",
     "structure": "Standard",
@@ -360,7 +405,8 @@
     "sourceId": "nk-19-bangles"
   },
   {
-    "productId": "NK-10",
+    "productId": "NK-10-earrings",
+    "productCode": "NK-10",
     "category": "earrings",
     "itemName": "NK 10",
     "structure": "Standard",
@@ -368,7 +414,8 @@
     "sourceId": "nk-10-earrings"
   },
   {
-    "productId": "NK-12",
+    "productId": "NK-12-earrings",
+    "productCode": "NK-12",
     "category": "earrings",
     "itemName": "NK 12",
     "structure": "Standard",
@@ -376,7 +423,8 @@
     "sourceId": "nk-12-earrings"
   },
   {
-    "productId": "NK-18",
+    "productId": "NK-18-earrings",
+    "productCode": "NK-18",
     "category": "earrings",
     "itemName": "NK 18",
     "structure": "Standard",
@@ -384,7 +432,8 @@
     "sourceId": "nk-18-earrings"
   },
   {
-    "productId": "NK-25",
+    "productId": "NK-25-earrings",
+    "productCode": "NK-25",
     "category": "earrings",
     "itemName": "NK 25",
     "structure": "Standard",
@@ -392,7 +441,8 @@
     "sourceId": "nk-25-earrings"
   },
   {
-    "productId": "NK-28",
+    "productId": "NK-28-earrings",
+    "productCode": "NK-28",
     "category": "earrings",
     "itemName": "NK 28",
     "structure": "Standard",
@@ -400,7 +450,8 @@
     "sourceId": "nk-28-earrings"
   },
   {
-    "productId": "NK-40",
+    "productId": "NK-40-earrings",
+    "productCode": "NK-40",
     "category": "earrings",
     "itemName": "NK 40",
     "structure": "Standard",
@@ -408,7 +459,8 @@
     "sourceId": "nk-40-earrings"
   },
   {
-    "productId": "NK-45",
+    "productId": "NK-45-earrings",
+    "productCode": "NK-45",
     "category": "earrings",
     "itemName": "NK 45",
     "structure": "Standard",
@@ -416,7 +468,8 @@
     "sourceId": "nk-45-earrings"
   },
   {
-    "productId": "NK-46",
+    "productId": "NK-46-earrings",
+    "productCode": "NK-46",
     "category": "earrings",
     "itemName": "NK 46",
     "structure": "Standard",
@@ -424,7 +477,8 @@
     "sourceId": "nk-46-earrings"
   },
   {
-    "productId": "NK-125",
+    "productId": "NK-125-earrings",
+    "productCode": "NK-125",
     "category": "earrings",
     "itemName": "Jadau Kundan NK 125",
     "structure": "Standard",
@@ -432,7 +486,8 @@
     "sourceId": "nk-125-earrings"
   },
   {
-    "productId": "NK-146",
+    "productId": "NK-146-earrings",
+    "productCode": "NK-146",
     "category": "earrings",
     "itemName": "Jadau Kundan NK 146",
     "structure": "Standard",
@@ -440,7 +495,8 @@
     "sourceId": "nk-146-earrings"
   },
   {
-    "productId": "NK-8",
+    "productId": "NK-8-pendants",
+    "productCode": "NK-8",
     "category": "pendants",
     "itemName": "Dollar NK 8",
     "structure": "Standard",
@@ -448,7 +504,8 @@
     "sourceId": "prod_1"
   },
   {
-    "productId": "NK-8",
+    "productId": "NK-8-pendants",
+    "productCode": "NK-8",
     "category": "pendants",
     "itemName": "Dollar NK 8",
     "structure": "Standard",
@@ -456,7 +513,8 @@
     "sourceId": "prod_3"
   },
   {
-    "productId": "NK-8",
+    "productId": "NK-8-pendants",
+    "productCode": "NK-8",
     "category": "pendants",
     "itemName": "Dollar NK 8",
     "structure": "Standard",
@@ -464,7 +522,8 @@
     "sourceId": "prod_4"
   },
   {
-    "productId": "NK-8",
+    "productId": "NK-8-pendants",
+    "productCode": "NK-8",
     "category": "pendants",
     "itemName": "Dollar NK 8",
     "structure": "Standard",
@@ -472,7 +531,8 @@
     "sourceId": "prod_5"
   },
   {
-    "productId": "NK-8",
+    "productId": "NK-8-pendants",
+    "productCode": "NK-8",
     "category": "pendants",
     "itemName": "Dollar NK 8",
     "structure": "Standard",
@@ -480,7 +540,8 @@
     "sourceId": "prod_7"
   },
   {
-    "productId": "NK-8",
+    "productId": "NK-8-pendants",
+    "productCode": "NK-8",
     "category": "pendants",
     "itemName": "Dollar NK 8",
     "structure": "Standard",
@@ -488,7 +549,8 @@
     "sourceId": "nk-8-dollar"
   },
   {
-    "productId": "NK-10",
+    "productId": "NK-10-pendants",
+    "productCode": "NK-10",
     "category": "pendants",
     "itemName": "Dollar NK 10",
     "structure": "Standard",
@@ -496,7 +558,8 @@
     "sourceId": "prod_2"
   },
   {
-    "productId": "NK-10",
+    "productId": "NK-10-pendants",
+    "productCode": "NK-10",
     "category": "pendants",
     "itemName": "Dollar NK 10",
     "structure": "Standard",
@@ -504,7 +567,8 @@
     "sourceId": "prod_6"
   },
   {
-    "productId": "NK-10",
+    "productId": "NK-10-pendants",
+    "productCode": "NK-10",
     "category": "pendants",
     "itemName": "Dollar NK 10",
     "structure": "Standard",
@@ -512,7 +576,8 @@
     "sourceId": "nk-10-dollar"
   },
   {
-    "productId": "NK-40",
+    "productId": "NK-40-pendants",
+    "productCode": "NK-40",
     "category": "pendants",
     "itemName": "Dollar NK 40",
     "structure": "Standard",
@@ -520,7 +585,8 @@
     "sourceId": "nk-40-dollar"
   },
   {
-    "productId": "NK-42",
+    "productId": "NK-42-accessories",
+    "productCode": "NK-42",
     "category": "accessories",
     "itemName": "NK 42",
     "structure": "Standard",
@@ -528,7 +594,8 @@
     "sourceId": "nk-42-tikka"
   },
   {
-    "productId": "NK-48",
+    "productId": "NK-48-accessories",
+    "productCode": "NK-48",
     "category": "accessories",
     "itemName": "NK 48",
     "structure": "Standard",
@@ -536,7 +603,8 @@
     "sourceId": "nk-48-tikka"
   },
   {
-    "productId": "NK-50",
+    "productId": "NK-50-accessories",
+    "productCode": "NK-50",
     "category": "accessories",
     "itemName": "NK 50",
     "structure": "Standard",
@@ -544,7 +612,8 @@
     "sourceId": "nk-50-tikka"
   },
   {
-    "productId": "NK-54",
+    "productId": "NK-54-accessories",
+    "productCode": "NK-54",
     "category": "accessories",
     "itemName": "NK 54",
     "structure": "Standard",
@@ -552,7 +621,8 @@
     "sourceId": "nk-54-tikka"
   },
   {
-    "productId": "NK-54",
+    "productId": "NK-54-accessories",
+    "productCode": "NK-54",
     "category": "accessories",
     "itemName": "NK 54",
     "structure": "Standard",
