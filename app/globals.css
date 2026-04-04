@@ -2487,8 +2487,8 @@ section[id] {
   }
 
   .hero-bg-image {
-    object-fit: contain;
-    object-position: center 24%;
+    object-fit: cover;
+    object-position: 70% 30%;
     transform: none;
   }
 

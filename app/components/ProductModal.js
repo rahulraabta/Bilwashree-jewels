@@ -26,7 +26,7 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
 
   const whatsappInquiry = () => {
     const pricePart = hasPrice ? ` (₹${product.priceINR})` : '';
-    const text = encodeURIComponent(`Hi Bilvashree Jewels! I'm interested in the "${product.title}"${pricePart}. Can you please share more details?`);
+    const text = encodeURIComponent(`Hi Bilwashree Jewels! I'm interested in the "${product.title}"${pricePart}. Can you please share more details?`);
     window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
   };
 

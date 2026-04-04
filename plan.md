@@ -1,7 +1,7 @@
 # Luxury Design & Intelligence Upgrade Plan
 
 ## Context
-The goal is to elevate the Bilvashree Jewels website to match the luxury feel and "intelligence" of top-tier jewelry brands like Tanishq.co.in. This involves refining the visual language, enhancing trust signals, and adding functional features that improve user engagement and conversion.
+The goal is to elevate the Bilwashree Jewels website to match the luxury feel and "intelligence" of top-tier jewelry brands like Tanishq.co.in. This involves refining the visual language, enhancing trust signals, and adding functional features that improve user engagement and conversion.
 
 ## Proposed Changes
 

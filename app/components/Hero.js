@@ -8,7 +8,7 @@ export default function Hero({ onShopClick, onStoryClick }) {
     <section id="hero" className="hero-section" aria-label="Hero banner">
       <Image
         src={`${BASE_PATH}/images/main-banner.jpg`}
-        alt="Bilvashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
+        alt="Bilwashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
         className="hero-bg-image"
         priority
         fill

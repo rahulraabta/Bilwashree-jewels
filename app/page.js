@@ -240,7 +240,7 @@ export default function Home() {
 
   /* Checkout Methods */
   const generateOrderSummary = () => {
-    let text = `Hello Bilvashree Jewels! I would like to place an order:\n\n`;
+    let text = `Hello Bilwashree Jewels! I would like to place an order:\n\n`;
     cartItems.forEach(item => {
       text += `- ${item.qty}x ${item.product.title} (₹${(item.product.priceINR ?? 0) * item.qty})\n`;
     });
@@ -254,14 +254,14 @@ export default function Home() {
   };
 
   const checkoutEmail = () => {
-    const subject = encodeURIComponent("New Order Request - Bilvashree Jewels");
+    const subject = encodeURIComponent("New Order Request - Bilwashree Jewels");
     const body = encodeURIComponent(generateOrderSummary() + "\n\nMy Shipping Details:\n[Please provide your address here]");
     window.open(`mailto:${DEMO_EMAIL}?subject=${subject}&body=${body}`);
   };
 
   const SOCIAL_LINKS = [
     { label: 'Instagram', href: 'https://www.instagram.com/', external: true },
-    { label: 'WhatsApp', href: `https://wa.me/${DEMO_PHONE}?text=Hi!%20I%27m%20interested%20in%20Bilvashree%20Jewels`, external: true },
+    { label: 'WhatsApp', href: `https://wa.me/${DEMO_PHONE}?text=Hi!%20I%27m%20interested%20in%20Bilwashree%20Jewels`, external: true },
     { label: 'Email', href: `mailto:${DEMO_EMAIL}`, external: false },
   ];
 
@@ -419,7 +419,7 @@ export default function Home() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'JewelryStore',
-    name: 'Bilvashree Jewels',
+    name: 'Bilwashree Jewels',
     description: 'Handcrafted fine jewellery with ethical craftsmanship and premium finishing.',
     telephone: `+${DEMO_PHONE}`,
     email: DEMO_EMAIL,
@@ -517,7 +517,7 @@ export default function Home() {
             <div className="about-image-card">
               <Image
                 src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`}
-                alt="Close-up of a handcrafted Bilvashree pendant"
+                alt="Close-up of a handcrafted Bilwashree pendant"
                 width={600}
                 height={800}
                 style={{ objectFit: 'cover' }}
@@ -538,7 +538,7 @@ export default function Home() {
               Morality &amp; Purpose<br />at Our Heart
             </h2>
             <p className="about-description">
-              At Bilvashree Jewels, we believe that true elegance lies not in ostentation, but in the purity of intent. Our designs are inspired by timeless forms, graceful motifs, and modern wearability for every occasion.
+              At Bilwashree Jewels, we believe that true elegance lies not in ostentation, but in the purity of intent. Our designs are inspired by timeless forms, graceful motifs, and modern wearability for every occasion.
             </p>
             <p className="about-description">
               Every piece we create is a quiet promise: to respect our artisans, deliver reliable quality, and offer jewellery that feels as beautiful as it looks. We do not simply sell jewellery; we celebrate confidence, style, and timeless beauty.
@@ -843,7 +843,7 @@ export default function Home() {
               <span className="eyebrow-line right" />
             </div>
             <h2 id="care-heading" className="section-title">Jewellery Care Guide</h2>
-            <p className="section-subtitle">A little care goes a long way in preserving the lasting shine of your Bilvashree pieces.</p>
+            <p className="section-subtitle">A little care goes a long way in preserving the lasting shine of your Bilwashree pieces.</p>
           </Reveal>
 
           <Reveal className="reveal-stagger">
@@ -944,7 +944,7 @@ export default function Home() {
       <section className="newsletter-section">
         <div className="container">
           <Reveal className="newsletter-content">
-            <h2 className="newsletter-title">Join the Bilvashree Circle</h2>
+            <h2 className="newsletter-title">Join the Bilwashree Circle</h2>
             <p className="newsletter-desc">Be the first to discover our new collections, styling stories, and exclusive offers.</p>
             <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); showToast('✨ Welcome to the circle!'); }}>
               <input

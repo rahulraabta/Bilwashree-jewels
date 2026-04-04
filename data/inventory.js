@@ -1193,7 +1193,7 @@ export const TESTIMONIALS = [
   },
   {
     id: 3,
-    text: "I've gifted Bilvashree pieces to three friends now. Every single one of them asks me where I found such elegant and affordable jewellery. Highly recommend!",
+    text: "I've gifted Bilwashree pieces to three friends now. Every single one of them asks me where I found such elegant and affordable jewellery. Highly recommend!",
     name: "Priya M.",
     location: "Hyderabad, Telangana",
     initial: "P",
@@ -1221,6 +1221,6 @@ export const DEMO_EMAIL = 'demo@bilvashree.com';
 export const CARE_INSTRUCTIONS = [
   { icon: '✨', title: 'Gentle Cleaning', desc: 'Use a soft, lint-free cloth to gently wipe your jewellery after each use. Avoid abrasive materials.' },
   { icon: '💧', title: 'Avoid Liquids', desc: 'Keep away from water, perfumes, and lotions. Apply these before putting on your jewellery.' },
-  { icon: '🛡️', title: 'Safe Storage', desc: 'Store pieces separately in the provided Bilvashree box or a soft pouch to prevent scratches.' },
+  { icon: '🛡️', title: 'Safe Storage', desc: 'Store pieces separately in the provided Bilwashree box or a soft pouch to prevent scratches.' },
   { icon: '☀️', title: 'Sun Protection', desc: 'Avoid prolonged exposure to direct sunlight or extreme heat to preserve the metal luster.' },
 ];
