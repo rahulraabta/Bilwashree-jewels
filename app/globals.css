@@ -2487,13 +2487,14 @@ section[id] {
   }
 
   .hero-bg-image {
-    object-fit: cover;
-    object-position: 70% 30%;
+    object-fit: contain;
+    object-position: center 20%;
     transform: none;
+    background-color: var(--bg-color);
   }
 
   .hero-section {
-    min-height: 100dvh;
+    min-height: 60dvh;
     padding: 0 0 calc(1.25rem + env(safe-area-inset-bottom));
     align-items: flex-end;
     justify-content: center;
