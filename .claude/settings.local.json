@@ -15,7 +15,11 @@
       "Bash(sed -i '400s/], \\\\[activeCategory, activeVibe, categoryNameById, normalizedSearchQuery\\\\]\\);/], \\\\[inventory, activeCategory, activeVibe, categoryNameById, normalizedSearchQuery\\\\]\\);/' app/page.js)",
       "Bash(sed -i '412s/], \\\\[\\\\]\\);/], \\\\[inventory\\\\]\\);/' app/page.js)",
       "Bash(sed -i '421s/], \\\\[activeVibe, dailyDropSeed\\\\]\\);/], \\\\[inventory, activeVibe, dailyDropSeed\\\\]\\);/' app/page.js)",
-      "Bash(sed -i '437s/], \\\\[activeCategory, recentlyViewed, selectedProduct\\\\]\\);/], \\\\[inventory, activeCategory, recentlyViewed, selectedProduct\\\\]\\);/' app/page.js)"
+      "Bash(sed -i '437s/], \\\\[activeCategory, recentlyViewed, selectedProduct\\\\]\\);/], \\\\[inventory, activeCategory, recentlyViewed, selectedProduct\\\\]\\);/' app/page.js)",
+      "Bash(sed -i '401s/], \\\\[activeCategory, activeVibe, categoryNameById, normalizedSearchQuery\\\\]\\);/], \\\\[inventory, activeCategory, activeVibe, categoryNameById, normalizedSearchQuery\\\\]\\);/' app/page.js)",
+      "Bash(sed -i '413s/], \\\\[\\\\]\\);/], \\\\[inventory\\\\]\\);/' app/page.js)",
+      "Bash(sed -i '422s/], \\\\[activeVibe, dailyDropSeed\\\\]\\);/], \\\\[inventory, activeVibe, dailyDropSeed\\\\]\\);/' app/page.js)",
+      "Bash(sed -i '438s/], \\\\[activeCategory, recentlyViewed, selectedProduct\\\\]\\);/], \\\\[inventory, activeCategory, recentlyViewed, selectedProduct\\\\]\\);/' app/page.js)"
     ]
   }
 }

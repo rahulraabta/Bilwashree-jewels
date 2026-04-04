@@ -81,7 +81,7 @@ export default function Home() {
         category: item.category,
         material: item.material,
         priceINR: item.price,
-        imageURL: item.images ? item.images[0] : "", // Using the first image
+        imageURL: item.images && item.images.length > 0 ? item.images[0] : (item.imageURL || ""),
         inStock: item.inStock
       }));
       setInventory(normalized);
