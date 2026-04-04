@@ -3,6 +3,8 @@
 export default function Footer({
   navLinks,
   socialLinks,
+  brandName,
+  brandDesc,
   onInfoClick,
   scrollToSection
 }) {
@@ -11,9 +13,9 @@ export default function Footer({
       <div className="footer-grid">
         {/* Brand column */}
         <div>
-          <p className="footer-brand-name">Bilwashree Jewels</p>
+          <p className="footer-brand-name">{brandName || 'Bilwashree Jewels'}</p>
           <p className="footer-brand-desc">
-            Celebrating elegant, ethically handcrafted jewellery for modern celebrations. Each piece is made to be worn and loved every day.
+            {brandDesc || 'Celebrating elegant, ethically handcrafted jewellery for modern celebrations. Each piece is made to be worn and loved every day.'}
           </p>
           <div className="footer-socials" role="list" aria-label="Social media links">
             {socialLinks.map((social) => (
@@ -72,7 +74,7 @@ export default function Footer({
       </div>
 
       <div className="footer-bottom">
-        <span>© 2026 Bilwashree Jewels. All rights reserved.</span>
+        <span>© 2026 {brandName || 'Bilwashree Jewels'}. All rights reserved.</span>
         <span className="footer-bottom-accent">Crafted with devotion ✦</span>
       </div>
     </footer>

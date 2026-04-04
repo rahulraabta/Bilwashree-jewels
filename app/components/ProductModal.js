@@ -2,10 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { DEMO_PHONE } from '../../data/inventory';
 import { urlFor } from '../../sanity/lib/image';
 
-export default function ProductModal({ product, categoryName, onClose, onAddToCart }) {
+export default function ProductModal({ product, categoryName, contactPhone, onClose, onAddToCart }) {
   const modalRef = useRef(null);
   const hasPrice = Number.isFinite(product?.priceINR);
 
@@ -31,8 +30,8 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
 
   const whatsappInquiry = () => {
     const pricePart = hasPrice ? ` (₹${product.priceINR})` : '';
-    const text = encodeURIComponent(`Hi Bilwashree Jewels! I'm interested in the "${product.title}"${pricePart}. Can you please share more details?`);
-    window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
+    const text = encodeURIComponent(`Hi! I'm interested in the "${product.title}"${pricePart}. Can you please share more details?`);
+    window.open(`https://wa.me/${contactPhone || '919999999999'}?text=${text}`, '_blank');
   };
 
   return (

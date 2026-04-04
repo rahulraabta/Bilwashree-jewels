@@ -1,12 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-export default function Hero({ onShopClick, onStoryClick }) {
+export default function Hero({ title, subtitle, brandName, onShopClick, onStoryClick }) {
   return (
     <section id="hero" className="hero-section" aria-label="Hero banner">
       <Image
         src="/images/main-banner.jpg"
-        alt="Bilwashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
+        alt={`${brandName || 'Bilwashree Jewels'} — Luxury gemstone jewellery collection`}
         className="hero-bg-image"
         priority
         fill
@@ -22,11 +22,11 @@ export default function Hero({ onShopClick, onStoryClick }) {
         </div>
 
         <h1 className="hero-title">
-          Fine Jewellery with <em>Timeless Impact</em>
+          {title || 'Fine Jewellery with Timeless Impact'}
         </h1>
 
         <p className="hero-subtitle">
-          Let the craftsmanship speak first - elegant pieces designed to elevate every celebration.
+          {subtitle || 'Let the craftsmanship speak first - elegant pieces designed to elevate every celebration.'}
         </p>
 
         <div className="hero-actions">

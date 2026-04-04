@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo, useDeferredValue } from 'react';
 import Image from 'next/image';
 import { client } from '../sanity/lib/client';
-import { getAllProductsQuery, getAllCategoriesQuery } from '../sanity/lib/queries';
+import { getAllProductsQuery, getAllCategoriesQuery, getSettingsQuery } from '../sanity/lib/queries';
 import {
   TESTIMONIALS,
   VALUES,
@@ -53,6 +53,14 @@ const CATEGORY_SEARCH_ALIASES = {
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
+  const [settings, setSettings] = useState({
+    title: 'Bilwashree Jewels',
+    description: 'Celebrating elegant, ethically handcrafted jewellery for modern celebrations.',
+    contactPhone: '919999999999',
+    contactEmail: 'demo@bilwashree.com',
+    heroTitle: 'Fine Jewellery with Timeless Impact',
+    heroSubtitle: 'Let the craftsmanship speak first - elegant pieces designed to elevate every celebration.'
+  });
   const [loading, setLoading] = useState(true);
 
   const [activeCategory, setActiveCategory] = useState('all');
@@ -77,8 +85,9 @@ export default function Home() {
   useEffect(() => {
     Promise.all([
       client.fetch(getAllProductsQuery),
-      client.fetch(getAllCategoriesQuery)
-    ]).then(([productsData, categoriesData]) => {
+      client.fetch(getAllCategoriesQuery),
+      client.fetch(getSettingsQuery)
+    ]).then(([productsData, categoriesData, settingsData]) => {
       // Normalize Products
       const normalizedProducts = productsData.map(item => ({
         id: item.slug.current,
@@ -105,6 +114,11 @@ export default function Home() {
         { id: 'all', name: 'All', icon: '✦', description: 'Browse our entire collection' },
         ...fetchedCategories
       ]);
+
+      // Handle Settings
+      if (settingsData) {
+        setSettings(prev => ({ ...prev, ...settingsData }));
+      }
 
       setLoading(false);
     });
@@ -282,7 +296,7 @@ export default function Home() {
 
   /* Checkout Methods */
   const generateOrderSummary = () => {
-    let text = `Hello Bilwashree Jewels! I would like to place an order:\n\n`;
+    let text = `Hello ${settings.title}! I would like to place an order:\n\n`;
     cartItems.forEach(item => {
       text += `- ${item.qty}x ${item.product.title} (₹${(item.product.priceINR ?? 0) * item.qty})\n`;
     });
@@ -292,19 +306,19 @@ export default function Home() {
 
   const checkoutWhatsApp = () => {
     const text = encodeURIComponent(generateOrderSummary());
-    window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
+    window.open(`https://wa.me/${settings.contactPhone}?text=${text}`, '_blank');
   };
 
   const checkoutEmail = () => {
-    const subject = encodeURIComponent("New Order Request - Bilwashree Jewels");
+    const subject = encodeURIComponent(`New Order Request - ${settings.title}`);
     const body = encodeURIComponent(generateOrderSummary() + "\n\nMy Shipping Details:\n[Please provide your address here]");
-    window.open(`mailto:${DEMO_EMAIL}?subject=${subject}&body=${body}`);
+    window.open(`mailto:${settings.contactEmail}?subject=${subject}&body=${body}`);
   };
 
   const SOCIAL_LINKS = [
     { label: 'Instagram', href: 'https://www.instagram.com/', external: true },
-    { label: 'WhatsApp', href: `https://wa.me/${DEMO_PHONE}?text=Hi!%20I%27m%20interested%20in%20Bilwashree%20Jewels`, external: true },
-    { label: 'Email', href: `mailto:${DEMO_EMAIL}`, external: false },
+    { label: 'WhatsApp', href: `https://wa.me/${settings.contactPhone}?text=Hi!%20I%27m%20interested%20in%20${settings.title}`, external: true },
+    { label: 'Email', href: `mailto:${settings.contactEmail}`, external: false },
   ];
 
   const handleInfoClick = (label) => {
@@ -461,10 +475,10 @@ export default function Home() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'JewelryStore',
-    name: 'Bilwashree Jewels',
-    description: 'Handcrafted fine jewellery with ethical craftsmanship and premium finishing.',
-    telephone: `+${DEMO_PHONE}`,
-    email: DEMO_EMAIL,
+    name: settings.title,
+    description: settings.description,
+    telephone: `+${settings.contactPhone}`,
+    email: settings.contactEmail,
     priceRange: 'INR 399+',
     makesOffer: {
       '@type': 'Offer',
@@ -478,7 +492,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="loading-screen">
-        <div className="loading-logo">Bilwashree Jewels</div>
+        <div className="loading-logo">{settings.title}</div>
         <div className="loading-spinner"></div>
       </div>
     );
@@ -491,6 +505,7 @@ export default function Home() {
       <Navbar
         navLinks={NAV_LINKS}
         cartCount={cartCount}
+        brandName={settings.title}
         onCartOpen={() => setIsCartOpen(true)}
         scrollToSection={scrollToSection}
         onSearch={handleSearchQuery}
@@ -511,6 +526,9 @@ export default function Home() {
       />
 
       <Hero
+        title={settings.heroTitle}
+        subtitle={settings.heroSubtitle}
+        brandName={settings.title}
         onShopClick={() => scrollToSection('collection')}
         onStoryClick={() => scrollToSection('about')}
       />
@@ -975,7 +993,7 @@ export default function Home() {
       <Reveal>
         <section className="cta-section" aria-label="Call to action">
           <div className="cta-content">
-            <h2 className="cta-title">Begin Your Jewellery Journey</h2>
+            <h2 className="cta-title">Begin Your {settings.title.split(' ')[0]} Journey</h2>
             <p className="cta-text">
               Discover handcrafted jewellery made for everyday elegance — starting at just ₹399. Gift yourself or someone you love a piece that feels timeless.
             </p>
@@ -995,7 +1013,7 @@ export default function Home() {
       <section className="newsletter-section">
         <div className="container">
           <Reveal className="newsletter-content">
-            <h2 className="newsletter-title">Join the Bilwashree Circle</h2>
+            <h2 className="newsletter-title">Join the {settings.title} Circle</h2>
             <p className="newsletter-desc">Be the first to discover our new collections, styling stories, and exclusive offers.</p>
             <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); showToast('✨ Welcome to the circle!'); }}>
               <input
@@ -1041,6 +1059,8 @@ export default function Home() {
       <Footer
         navLinks={NAV_LINKS}
         socialLinks={SOCIAL_LINKS}
+        brandName={settings.title}
+        brandDesc={settings.description}
         onInfoClick={handleInfoClick}
         scrollToSection={scrollToSection}
       />
@@ -1050,6 +1070,7 @@ export default function Home() {
         <ProductModal
           product={selectedProduct}
           categoryName={categoryNameById[selectedProduct.category] || selectedProduct.category}
+          contactPhone={settings.contactPhone}
           onClose={() => setSelectedProduct(null)}
           onAddToCart={handleAddToCart}
         />

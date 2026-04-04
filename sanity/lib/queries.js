@@ -35,3 +35,12 @@ export const getAllCategoriesQuery = groq`*[_type == "category"]{
   "slug": slug.current,
   description
 }`
+
+export const getSettingsQuery = groq`*[_type == "settings"][0]{
+  title,
+  description,
+  contactPhone,
+  contactEmail,
+  heroTitle,
+  heroSubtitle
+}`

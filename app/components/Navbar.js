@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 export default function Navbar({
   navLinks,
   cartCount,
+  brandName,
   onCartOpen,
   scrollToSection,
   onSearch,
@@ -58,7 +59,7 @@ export default function Navbar({
         aria-label="Main navigation"
       >
         <div className="navbar-brand">
-          <span className="navbar-brand-name">Bilwashree Jewels</span>
+          <span className="navbar-brand-name">{brandName || 'Bilwashree Jewels'}</span>
           <span className="navbar-brand-tagline">Premium Everyday Jewellery</span>
         </div>
 
@@ -125,7 +126,7 @@ export default function Navbar({
         aria-modal="true"
         aria-label="Mobile navigation"
       >
-        <span className="mobile-nav-brand">Bilwashree Jewels</span>
+        <span className="mobile-nav-brand">{brandName || 'Bilwashree Jewels'}</span>
         <ul className="mobile-nav-links">
           {navLinks.map(link => (
             <li key={link.id}>
