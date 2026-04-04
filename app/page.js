@@ -474,6 +474,15 @@ export default function Home() {
     },
   };
 
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-logo">Bilwashree Jewels</div>
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="page-wrapper">
       <a href="#collection" className="skip-link">Skip to collection</a>
