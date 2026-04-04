@@ -71,6 +71,16 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
               <p>Experience the elegance of handcrafted jewellery. This piece is meticulously designed with refined detailing and a premium finish for modern styling.</p>
             </div>
 
+            {product.occasion && product.occasion.length > 0 && (
+              <div className="modal-vibe-tags">
+                {product.occasion.map(vibe => (
+                  <span key={vibe} className="vibe-tag">
+                    {vibe.charAt(0).toUpperCase() + vibe.slice(1).replace('-', ' ')}
+                  </span>
+                ))}
+              </div>
+            )}
+
             <div className="modal-actions">
               <button
                 className="btn-modal-add"

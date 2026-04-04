@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { client } from '../sanity/lib/client';
 import { getAllProductsQuery, getAllCategoriesQuery } from '../sanity/lib/queries';
 import {
-  BASE_PATH,
+  
   TESTIMONIALS,
   VALUES,
   PROCESS_STEPS,
