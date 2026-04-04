@@ -42,5 +42,9 @@ export const getSettingsQuery = groq`*[_type == "settings"][0]{
   contactPhone,
   contactEmail,
   heroTitle,
-  heroSubtitle
+  heroSubtitle,
+  testimonials,
+  values,
+  processSteps,
+  careInstructions
 }`

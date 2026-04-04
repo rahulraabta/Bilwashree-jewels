@@ -638,7 +638,7 @@ export default function Home() {
 
           <Reveal className="reveal-stagger">
             <div className="process-grid">
-              {PROCESS_STEPS.map(step => (
+              {(settings.processSteps || PROCESS_STEPS).map(step => (
                 <div key={step.num} className="process-step">
                   <div className="process-step-number">{step.num}</div>
                   <div className="process-step-icon" aria-hidden="true">{step.icon}</div>
@@ -917,7 +917,7 @@ export default function Home() {
 
           <Reveal className="reveal-stagger">
             <div className="care-grid">
-              {CARE_INSTRUCTIONS.map((item, idx) => (
+              {(settings.careInstructions || CARE_INSTRUCTIONS).map((item, idx) => (
                 <div key={idx} className="care-card">
                   <div className="care-icon" aria-hidden="true">{item.icon}</div>
                   <h3 className="care-title">{item.title}</h3>
@@ -943,7 +943,7 @@ export default function Home() {
 
           <Reveal className="reveal-stagger">
             <div className="values-grid" role="list">
-              {VALUES.map(v => (
+              {(settings.values || VALUES).map(v => (
                 <div key={v.name} className="value-card" role="listitem">
                   <div className="value-icon" aria-hidden="true">{v.icon}</div>
                   <h3 className="value-name">{v.name}</h3>
@@ -970,8 +970,8 @@ export default function Home() {
 
           <Reveal className="reveal-stagger">
             <div className="testimonials-grid" role="list">
-              {TESTIMONIALS.map(t => (
-                <blockquote key={t.id} className="testimonial-card" role="listitem">
+              {(settings.testimonials || TESTIMONIALS).map((t, idx) => (
+                <blockquote key={t.id || idx} className="testimonial-card" role="listitem">
                   <div className="testimonial-quote" aria-hidden="true">&ldquo;</div>
                   <Stars count={t.stars} />
                   <p className="testimonial-text">{t.text}</p>
