@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { client } from '../sanity/lib/client';
 import { getAllProductsQuery, getAllCategoriesQuery } from '../sanity/lib/queries';
 import {
-  
   TESTIMONIALS,
   VALUES,
   PROCESS_STEPS,
@@ -568,7 +567,7 @@ export default function Home() {
           <Reveal className="about-image-wrap">
             <div className="about-image-card">
               <Image
-                src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`}
+                src="/images/pendant-1.jpg.jpeg"
                 alt="Close-up of a handcrafted Bilwashree pendant"
                 width={600}
                 height={800}
@@ -825,7 +824,7 @@ export default function Home() {
                 }}
               >
                 <div className="gift-bg">
-                  <Image src={`${BASE_PATH}/images/pendant-2.jpg.jpeg`} alt="Gifts for Her" fill style={{ objectFit: 'cover' }} />
+                  <Image src="/images/pendant-2.jpg.jpeg" alt="Gifts for Her" fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div className="gift-overlay" />
                 <div className="gift-content">
@@ -848,7 +847,7 @@ export default function Home() {
                 }}
               >
                 <div className="gift-bg">
-                  <Image src={`${BASE_PATH}/images/pendant-1.jpg.jpeg`} alt="Wedding Gifts" fill style={{ objectFit: 'cover' }} />
+                  <Image src="/images/pendant-1.jpg.jpeg" alt="Wedding Gifts" fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div className="gift-overlay" />
                 <div className="gift-content">
@@ -871,7 +870,7 @@ export default function Home() {
                 }}
               >
                 <div className="gift-bg">
-                  <Image src={`${BASE_PATH}/images/pendant-5.jpg.jpeg`} alt="Anniversary Gifts" fill style={{ objectFit: 'cover' }} />
+                  <Image src="/images/pendant-5.jpg.jpeg" alt="Anniversary Gifts" fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div className="gift-overlay" />
                 <div className="gift-content">
