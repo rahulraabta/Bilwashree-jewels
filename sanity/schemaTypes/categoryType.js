@@ -12,6 +12,11 @@ export const categoryType = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'icon',
+      title: 'Icon (Emoji or SVG path)',
+      type: 'string',
+    }),
+    defineField({
       name: 'slug',
       type: 'slug',
       options: {

@@ -1,12 +1,12 @@
 const fs = require('fs');
 
 const categories = [
-  { id: 'necklaces',   name: 'Necklaces',    description: 'Elegant necklaces for every occasion' },
-  { id: 'harams',      name: 'Harams',       description: 'Long layered harams for bridal & festive wear' },
-  { id: 'earrings',    name: 'Earrings',     description: 'Studs, jhumkas, chandbalis & more' },
-  { id: 'bangles',     name: 'Bangles',      description: 'Traditional kadas & modern bangles' },
-  { id: 'pendants',    name: 'Pendants',     description: 'Elegant statement and daily-wear pendants' },
-  { id: 'accessories', name: 'Accessories',  description: 'Maang tikka, anklets & more' },
+  { id: 'necklaces',   name: 'Necklaces',    icon: '📿', description: 'Elegant necklaces for every occasion' },
+  { id: 'harams',      name: 'Harams',       icon: '🪷', description: 'Long layered harams for bridal & festive wear' },
+  { id: 'earrings',    name: 'Earrings',     icon: '✧',  description: 'Studs, jhumkas, chandbalis & more' },
+  { id: 'bangles',     name: 'Bangles',      icon: '◎', description: 'Traditional kadas & modern bangles' },
+  { id: 'pendants',    name: 'Pendants',     icon: '◆', description: 'Elegant statement and daily-wear pendants' },
+  { id: 'accessories', name: 'Accessories',  icon: '❖',  description: 'Maang tikka, anklets & more' },
 ];
 
 const ndjson = categories.map(cat => {
@@ -14,6 +14,7 @@ const ndjson = categories.map(cat => {
     _id: `category-${cat.id}`,
     _type: 'category',
     title: cat.name,
+    icon: cat.icon,
     slug: { _type: 'slug', current: cat.id },
     description: cat.description
   });

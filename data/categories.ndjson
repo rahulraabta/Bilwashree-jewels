@@ -1,6 +1,6 @@
-{"_id":"category-necklaces","_type":"category","title":"Necklaces","slug":{"_type":"slug","current":"necklaces"},"description":"Elegant necklaces for every occasion"}
-{"_id":"category-harams","_type":"category","title":"Harams","slug":{"_type":"slug","current":"harams"},"description":"Long layered harams for bridal & festive wear"}
-{"_id":"category-earrings","_type":"category","title":"Earrings","slug":{"_type":"slug","current":"earrings"},"description":"Studs, jhumkas, chandbalis & more"}
-{"_id":"category-bangles","_type":"category","title":"Bangles","slug":{"_type":"slug","current":"bangles"},"description":"Traditional kadas & modern bangles"}
-{"_id":"category-pendants","_type":"category","title":"Pendants","slug":{"_type":"slug","current":"pendants"},"description":"Elegant statement and daily-wear pendants"}
-{"_id":"category-accessories","_type":"category","title":"Accessories","slug":{"_type":"slug","current":"accessories"},"description":"Maang tikka, anklets & more"}
+{"_id":"category-necklaces","_type":"category","title":"Necklaces","icon":"📿","slug":{"_type":"slug","current":"necklaces"},"description":"Elegant necklaces for every occasion"}
+{"_id":"category-harams","_type":"category","title":"Harams","icon":"🪷","slug":{"_type":"slug","current":"harams"},"description":"Long layered harams for bridal & festive wear"}
+{"_id":"category-earrings","_type":"category","title":"Earrings","icon":"✧","slug":{"_type":"slug","current":"earrings"},"description":"Studs, jhumkas, chandbalis & more"}
+{"_id":"category-bangles","_type":"category","title":"Bangles","icon":"◎","slug":{"_type":"slug","current":"bangles"},"description":"Traditional kadas & modern bangles"}
+{"_id":"category-pendants","_type":"category","title":"Pendants","icon":"◆","slug":{"_type":"slug","current":"pendants"},"description":"Elegant statement and daily-wear pendants"}
+{"_id":"category-accessories","_type":"category","title":"Accessories","icon":"❖","slug":{"_type":"slug","current":"accessories"},"description":"Maang tikka, anklets & more"}

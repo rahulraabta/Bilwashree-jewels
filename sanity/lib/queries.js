@@ -29,6 +29,7 @@ export const getProductBySlugQuery = groq`*[_type == "product" && slug.current =
 export const getAllCategoriesQuery = groq`*[_type == "category"]{
   _id,
   title,
+  icon,
   "slug": slug.current,
   description
 }`

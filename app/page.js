@@ -52,15 +52,6 @@ const CATEGORY_SEARCH_ALIASES = {
   accessories: ['accessory', 'accessories', 'anklet', 'maang tikka'],
 };
 
-const CATEGORY_ICONS = {
-  necklaces: '📿',
-  harams: '🪷',
-  earrings: '✧',
-  bangles: '◎',
-  pendants: '◆',
-  accessories: '❖'
-};
-
 export default function Home() {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -106,7 +97,7 @@ export default function Home() {
       const fetchedCategories = categoriesData.map(cat => ({
         id: cat.slug,
         name: cat.title,
-        icon: CATEGORY_ICONS[cat.slug] || '✨',
+        icon: cat.icon || '✨',
         description: cat.description || ''
       }));
       setCategories([
