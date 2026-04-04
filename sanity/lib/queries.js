@@ -33,6 +33,7 @@ export const getAllCategoriesQuery = groq`*[_type == "category"]{
   title,
   icon,
   "slug": slug.current,
+  searchAliases,
   description
 }`
 

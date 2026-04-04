@@ -24,6 +24,13 @@ export const categoryType = defineType({
       },
     }),
     defineField({
+      name: 'searchAliases',
+      title: 'Search Aliases',
+      type: 'array',
+      of: [{type: 'string'}],
+      description: 'Keywords that will trigger this category in search (e.g., "chain", "dollar", "jhumka")',
+    }),
+    defineField({
       name: 'description',
       type: 'text',
     }),

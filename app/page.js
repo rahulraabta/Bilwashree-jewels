@@ -33,15 +33,6 @@ const Stars = ({ count = 5 }) => {
   );
 };
 
-const CATEGORY_SEARCH_ALIASES = {
-  necklaces: ['necklace', 'necklaces', 'neck', 'chain', 'choker', 'c'],
-  earrings: ['ear', 'ears', 'earring', 'earrings', 'stud', 'jhumka'],
-  pendants: ['pendant', 'pendants', 'dollar'],
-  bangles: ['bangle', 'bangles', 'kada', 'bracelet'],
-  harams: ['haram', 'harams', 'long necklace'],
-  accessories: ['accessory', 'accessories', 'anklet', 'maang tikka'],
-};
-
 export default function Home() {
   const [inventory, setInventory] = useState([]);
   const [settings, setSettings] = useState({
@@ -98,6 +89,7 @@ export default function Home() {
         id: cat.slug,
         name: cat.title,
         icon: cat.icon || '✨',
+        searchAliases: cat.searchAliases || [],
         description: cat.description || ''
       }));
       setCategories([
@@ -382,7 +374,7 @@ export default function Home() {
         label: category.name,
         type: 'Category',
         categoryId: category.id,
-        keywords: CATEGORY_SEARCH_ALIASES[category.id] || [category.name.toLowerCase()],
+        keywords: category.searchAliases?.length ? category.searchAliases : [category.name.toLowerCase()],
       }));
   }, [categories]);
 
