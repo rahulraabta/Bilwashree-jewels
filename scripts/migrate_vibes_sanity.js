@@ -1,19 +1,18 @@
-import { createClient } from 'next-sanity'
-
-const client = createClient({
-  projectId: '93zlbnv8',
-  dataset: 'production',
-  apiVersion: '2024-04-04',
-  useCdn: false, // Must be false for mutations
-  token: process.env.SANITY_WRITE_TOKEN, // You can run this with: SANITY_WRITE_TOKEN=your_token node scripts/migrate_vibes_sanity.js
-})
+// scripts/migrate_vibes_sanity.js
+// Run with: npx sanity exec scripts/migrate_vibes_sanity.js
 
 async function migrate() {
-  if (!client.config().token) {
-    console.error('Error: SANITY_WRITE_TOKEN is not set.');
-    console.log('Please provide a token with Write permissions.');
-    process.exit(1);
-  }
+  // In `sanity exec`, the client is often pre-configured if using the right imports
+  // or we can just define it with the info we have.
+  const { createClient } = require('next-sanity');
+
+  const client = createClient({
+    projectId: '93zlbnv8',
+    dataset: 'production',
+    apiVersion: '2024-04-04',
+    useCdn: false,
+    // We try to rely on the environment's existing auth
+  });
 
   const products = await client.fetch('*[_type == "product"]{_id, name, category}');
   console.log(`Found ${products.length} products to migrate.`);
@@ -43,18 +42,19 @@ async function migrate() {
 
     if (occasions.length > 0) {
       console.log(`Patching ${product.name} (${category}) -> ${occasions.join(', ')}`);
-      await client
-        .patch(product._id)
-        .set({ occasion: occasions })
-        .commit();
-      patchedCount++;
+      try {
+        await client
+          .patch(product._id)
+          .set({ occasion: occasions })
+          .commit();
+        patchedCount++;
+      } catch (e) {
+        console.error(`Failed to patch ${product._id}: ${e.message}`);
+      }
     }
   }
 
   console.log(`Successfully patched ${patchedCount} products.`);
 }
 
-migrate().catch((err) => {
-  console.error('Migration failed:', err);
-  process.exit(1);
-});
+migrate();

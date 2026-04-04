@@ -95,6 +95,7 @@ export default function Home() {
         title: item.name,
         category: item.category,
         material: item.material,
+        occasion: item.occasion || [],
         priceINR: item.price,
         imageURL: item.images && item.images.length > 0 ? item.images[0] : (item.imageURL || ""),
         inStock: item.inStock
