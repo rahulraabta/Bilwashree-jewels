@@ -694,10 +694,10 @@ export default function Home() {
               <button
                 className="btn-empty"
                 onClick={() => {
-                  setActiveCategory('pendants');
+                  setActiveCategory('all');
                 }}
               >
-                View Available Pendants
+                View All Exquisite Designs
               </button>
             </Reveal>
           ) : (
