@@ -88,10 +88,11 @@ export default function Home() {
         material: item.material,
         occasion: item.occasion || [],
         priceINR: item.price,
+        featured: item.featured || false,
         mainImage: item.mainImage,
         imageURL: item.imageURL || "",
         inStock: item.inStock
-      }));
+      })).sort((a, b) => (b.featured === a.featured ? 0 : b.featured ? 1 : -1));
       setInventory(normalizedProducts);
 
       // Normalize Categories
