@@ -3191,10 +3191,6 @@ section[id] {
     font-size: 1rem;
   }
 
-  .vibe-chip {
-    font-size: 0.72rem;
-  }
-
   .scroll-progress-btn {
     width: 54px;
     height: 54px;
@@ -3998,16 +3994,7 @@ em {
   color: var(--accent-deep);
 }
 
-/* Fresh vibe controls */
-.vibe-lab {
-  display: grid;
-  grid-template-columns: 1.05fr 1.4fr;
-  gap: 1.1rem;
-  margin: 1.2rem 0 2rem;
-}
-
-.daily-drop-card,
-.vibe-filter-card {
+.daily-drop-card {
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(250, 245, 236, 0.84));
   border: 1px solid rgba(212, 175, 55, 0.25);
   border-radius: 20px;
@@ -4020,6 +4007,7 @@ em {
   gap: 0.8rem;
   padding: 0.85rem;
   align-items: center;
+  margin: 1.2rem 0 2rem;
 }
 
 .daily-drop-media {
@@ -4086,59 +4074,6 @@ em {
   transform: translateY(-2px);
 }
 
-.vibe-filter-card {
-  padding: 0.9rem;
-}
-
-.vibe-filter-head h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  margin-bottom: 0.15rem;
-}
-
-.vibe-filter-head p {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-bottom: 0.65rem;
-}
-
-.vibe-chip-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.45rem;
-}
-
-.vibe-chip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.35rem;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.75);
-  color: var(--text-secondary);
-  padding: 0.42rem 0.55rem;
-  font-size: 0.76rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.vibe-chip.active {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(176, 136, 64, 0.18));
-  border-color: rgba(176, 136, 64, 0.6);
-  color: var(--text-main);
-}
-
-.vibe-count {
-  min-width: 1.45rem;
-  text-align: center;
-  border-radius: 999px;
-  padding: 0.08rem 0.28rem;
-  background: rgba(30, 26, 21, 0.08);
-  font-weight: 700;
-  font-size: 0.67rem;
-}
-
 .scroll-progress-btn {
   position: fixed;
   right: 1rem;
@@ -4195,14 +4130,6 @@ em {
 }
 
 @media (max-width: 968px) {
-  .vibe-lab {
-    grid-template-columns: 1fr;
-  }
-
-  .vibe-chip-grid {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-
   .modal-grid {
     grid-template-columns: 1fr;
   }
@@ -4243,10 +4170,6 @@ em {
 
   .daily-drop-content h3 {
     font-size: 1rem;
-  }
-
-  .vibe-chip {
-    font-size: 0.72rem;
   }
 
   .scroll-progress-btn {

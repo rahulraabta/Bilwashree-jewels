@@ -25,22 +25,13 @@ import Ornament from './components/Ornament';
 import ProductModal from './components/ProductModal';
 
 /* ─── Stars helper ───────────────────────────────────────── */
-function Stars({ count = 5 }) {
+const Stars = ({ count = 5 }) => {
   return (
     <div className="star-row" aria-label={`${count} out of 5 stars`}>
       {'★'.repeat(count)}
     </div>
   );
-}
-
-const VIBE_FILTERS = [
-  { id: 'all', label: 'All Vibes', icon: '✨' },
-  { id: 'daily', label: 'Daily Glow', icon: '☀️' },
-  { id: 'party', label: 'Evening Spark', icon: '🌙' },
-  { id: 'festive', label: 'Festive Aura', icon: '🎉' },
-  { id: 'bridal', label: 'Bridal Drama', icon: '👑' },
-  { id: 'office', label: 'Work Chic', icon: '💼' },
-];
+};
 
 const CATEGORY_SEARCH_ALIASES = {
   necklaces: ['necklace', 'necklaces', 'neck', 'chain', 'choker', 'c'],
@@ -64,7 +55,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const [activeCategory, setActiveCategory] = useState('all');
-  const [activeVibe, setActiveVibe] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -381,11 +371,8 @@ export default function Home() {
       if (activeCategory !== 'all') {
         setActiveCategory('all');
       }
-      if (activeVibe !== 'all') {
-        setActiveVibe('all');
-      }
     }
-  }, [activeCategory, activeVibe, searchQuery]);
+  }, [activeCategory, searchQuery]);
 
   const searchSuggestions = useMemo(() => {
     return categories
@@ -403,7 +390,6 @@ export default function Home() {
     if (!suggestion?.categoryId) return;
 
     setSearchQuery(suggestion.label);
-    setActiveVibe('all');
     setActiveCategory(suggestion.categoryId);
     scrollToSection('collection');
   }, []);
@@ -420,7 +406,6 @@ export default function Home() {
   const filteredProducts = useMemo(() => {
     return inventory.filter((product) => {
       const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
-      const matchesVibe = activeVibe === 'all' || product.occasion?.includes(activeVibe);
       const categoryName = (categoryNameById[product.category] || product.category || '').toLowerCase();
       const title = (product.title || '').toLowerCase();
       const material = (product.material || '').toLowerCase();
@@ -431,30 +416,14 @@ export default function Home() {
         material.includes(normalizedSearchQuery) ||
         structure.includes(normalizedSearchQuery);
 
-      return matchesCategory && matchesVibe && matchesSearch;
+      return matchesCategory && matchesSearch;
     });
-  }, [inventory, activeCategory, activeVibe, categoryNameById, normalizedSearchQuery]);
-
-  const vibeCounts = useMemo(() => {
-    return VIBE_FILTERS.reduce((acc, vibe) => {
-      if (vibe.id === 'all') {
-        acc[vibe.id] = inventory.length;
-        return acc;
-      }
-
-      acc[vibe.id] = inventory.filter((product) => product.occasion?.includes(vibe.id)).length;
-      return acc;
-    }, {});
-  }, [inventory]);
+  }, [inventory, activeCategory, categoryNameById, normalizedSearchQuery]);
 
   const dailyDropProduct = useMemo(() => {
-    const vibeMatchedPool = activeVibe === 'all'
-      ? inventory
-      : inventory.filter((product) => product.occasion?.includes(activeVibe));
-    const eligiblePool = vibeMatchedPool.length ? vibeMatchedPool : inventory;
-    if (!eligiblePool.length) return null;
-    return eligiblePool[dailyDropSeed % eligiblePool.length];
-  }, [inventory, activeVibe, dailyDropSeed]);
+    if (!inventory.length) return null;
+    return inventory[dailyDropSeed % inventory.length];
+  }, [inventory, dailyDropSeed]);
 
   const progressRingRadius = 22;
   const progressRingLength = 2 * Math.PI * progressRingRadius;
@@ -664,7 +633,7 @@ export default function Home() {
           </Reveal>
 
           {dailyDropProduct && (
-            <Reveal className="vibe-lab">
+            <Reveal>
               <article className="daily-drop-card" aria-labelledby="daily-drop-title">
                 <div className="daily-drop-media">
                   <Image
@@ -705,29 +674,6 @@ export default function Home() {
                   </div>
                 </div>
               </article>
-
-              <div className="vibe-filter-card" role="region" aria-label="Filter by vibe">
-                <div className="vibe-filter-head">
-                  <h3>Choose Your Vibe</h3>
-                  <p>Instantly reshape the catalog by mood and occasion.</p>
-                </div>
-                <div className="vibe-chip-grid" role="tablist" aria-label="Vibe filters">
-                  {VIBE_FILTERS.map((vibe) => (
-                    <button
-                      key={vibe.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={activeVibe === vibe.id}
-                      className={`vibe-chip ${activeVibe === vibe.id ? 'active' : ''}`}
-                      onClick={() => setActiveVibe(vibe.id)}
-                    >
-                      <span aria-hidden="true">{vibe.icon}</span>
-                      <span>{vibe.label}</span>
-                      <span className="vibe-count">{vibeCounts[vibe.id] || 0}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </Reveal>
           )}
 
