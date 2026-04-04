@@ -10,7 +10,8 @@
       "WebSearch",
       "mcp__ide__getDiagnostics",
       "Bash(find .:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(node:*)"
     ]
   }
 }

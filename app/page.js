@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useCallback, useRef, useMemo, useDeferredValue } from 'react';
 import Image from 'next/image';
+import { client } from '../sanity/lib/client';
+import { getAllProductsQuery } from '../sanity/lib/queries';
 import {
-  inventory,
   CATEGORIES,
   BASE_PATH,
   TESTIMONIALS,
@@ -53,20 +54,25 @@ const CATEGORY_SEARCH_ALIASES = {
 };
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [activeVibe, setActiveVibe] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [isFiltering, setIsFiltering] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [dailyDropSeed, setDailyDropSeed] = useState(() => Math.floor(Math.random() * 100000));
-  const deferredSearchQuery = useDeferredValue(searchQuery);
-  const toastTimeoutRef = useRef(null);
-  const filterTimeoutRef = useRef(null);
+  const [inventory, setInventory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    client.fetch(getAllProductsQuery).then((data) => {
+      // Normalize Sanity data to match existing component expected structure
+      const normalized = data.map(item => ({
+        id: item.slug.current,
+        title: item.name,
+        category: item.category,
+        material: item.material,
+        priceINR: item.price,
+        imageURL: item.images ? item.images[0] : '', // Using the first image
+        inStock: item.inStock
+      }));
+      setInventory(normalized);
+      setLoading(false);
+    });
+  }, []);
 
   /* Scrollbar width calculation for smooth body lock */
   useEffect(() => {
