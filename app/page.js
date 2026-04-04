@@ -66,13 +66,27 @@ export default function Home() {
         category: item.category,
         material: item.material,
         priceINR: item.price,
-        imageURL: item.images ? item.images[0] : '', // Using the first image
+        imageURL: item.images ? item.images[0] : "", // Using the first image
         inStock: item.inStock
       }));
       setInventory(normalized);
       setLoading(false);
     });
   }, []);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeVibe, setActiveVibe] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [dailyDropSeed, setDailyDropSeed] = useState(() => Math.floor(Math.random() * 100000));
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const toastTimeoutRef = useRef(null);
+  const filterTimeoutRef = useRef(null);
 
   /* Scrollbar width calculation for smooth body lock */
   useEffect(() => {
