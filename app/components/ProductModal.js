@@ -3,10 +3,15 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { DEMO_PHONE } from '../../data/inventory';
+import { urlFor } from '../../sanity/lib/image';
 
 export default function ProductModal({ product, categoryName, onClose, onAddToCart }) {
   const modalRef = useRef(null);
   const hasPrice = Number.isFinite(product?.priceINR);
+
+  const displayImage = product.mainImage
+    ? urlFor(product.mainImage).width(800).auto('format').url()
+    : product.imageURL;
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -44,7 +49,7 @@ export default function ProductModal({ product, categoryName, onClose, onAddToCa
         <div className="modal-grid">
           <div className="modal-image-wrap">
             <Image
-              src={product.imageURL}
+              src={displayImage}
               alt={product.title}
               width={600}
               height={600}

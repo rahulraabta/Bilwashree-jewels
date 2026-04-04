@@ -88,7 +88,8 @@ export default function Home() {
         material: item.material,
         occasion: item.occasion || [],
         priceINR: item.price,
-        imageURL: item.images && item.images.length > 0 ? item.images[0] : (item.imageURL || ""),
+        mainImage: item.mainImage,
+        imageURL: item.imageURL || "",
         inStock: item.inStock
       }));
       setInventory(normalizedProducts);

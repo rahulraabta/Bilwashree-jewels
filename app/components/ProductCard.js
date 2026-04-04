@@ -3,10 +3,15 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { DEMO_PHONE } from '../../data/inventory';
+import { urlFor } from '../../sanity/lib/image';
 
 export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
   const hasPrice = Number.isFinite(product.priceINR);
+
+  const displayImage = product.mainImage
+    ? urlFor(product.mainImage).width(500).auto('format').url()
+    : product.imageURL;
 
   return (
     <article
@@ -27,7 +32,7 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           <div className="image-fallback">Image coming soon</div>
         ) : (
           <Image
-            src={product.imageURL}
+            src={displayImage}
             alt={product.title}
             width={400}
             height={400}
