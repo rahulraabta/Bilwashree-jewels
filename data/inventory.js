@@ -1216,7 +1216,7 @@ export const PROCESS_STEPS = [
 ];
 
 export const CART_STORAGE_KEY = 'bilvashree_cart_v1';
-export const DEMO_PHONE = '919999999999';
+export const DEMO_PHONE = '919986237677';
 export const DEMO_EMAIL = 'demo@bilvashree.com';
 export const CARE_INSTRUCTIONS = [
   { icon: '✨', title: 'Gentle Cleaning', desc: 'Use a soft, lint-free cloth to gently wipe your jewellery after each use. Avoid abrasive materials.' },

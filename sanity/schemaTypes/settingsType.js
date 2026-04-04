@@ -23,7 +23,7 @@ export const settingsType = defineType({
       name: 'contactPhone',
       title: 'Contact Phone (WhatsApp)',
       type: 'string',
-      initialValue: '919999999999',
+      initialValue: '919986237677',
     }),
     defineField({
       name: 'contactEmail',

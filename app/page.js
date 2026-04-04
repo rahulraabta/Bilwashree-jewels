@@ -56,7 +56,7 @@ export default function Home() {
   const [settings, setSettings] = useState({
     title: 'Bilwashree Jewels',
     description: 'Celebrating elegant, ethically handcrafted jewellery for modern celebrations.',
-    contactPhone: '919999999999',
+    contactPhone: '919986237677',
     contactEmail: 'demo@bilwashree.com',
     heroTitle: 'Fine Jewellery with Timeless Impact',
     heroSubtitle: 'Let the craftsmanship speak first - elegant pieces designed to elevate every celebration.'

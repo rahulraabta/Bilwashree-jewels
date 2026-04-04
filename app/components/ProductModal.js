@@ -31,7 +31,7 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
   const whatsappInquiry = () => {
     const pricePart = hasPrice ? ` (₹${product.priceINR})` : '';
     const text = encodeURIComponent(`Hi! I'm interested in the "${product.title}"${pricePart}. Can you please share more details?`);
-    window.open(`https://wa.me/${contactPhone || '919999999999'}?text=${text}`, '_blank');
+    window.open(`https://wa.me/${contactPhone || '919986237677'}?text=${text}`, '_blank');
   };
 
   return (
