@@ -3,9 +3,8 @@
 import { useEffect, useState, useCallback, useRef, useMemo, useDeferredValue } from 'react';
 import Image from 'next/image';
 import { client } from '../sanity/lib/client';
-import { getAllProductsQuery } from '../sanity/lib/queries';
+import { getAllProductsQuery, getAllCategoriesQuery } from '../sanity/lib/queries';
 import {
-  CATEGORIES,
   BASE_PATH,
   TESTIMONIALS,
   VALUES,
@@ -53,6 +52,15 @@ const CATEGORY_SEARCH_ALIASES = {
   accessories: ['accessory', 'accessories', 'anklet', 'maang tikka'],
 };
 
+const CATEGORY_ICONS = {
+  necklaces: '📿',
+  harams: '🪷',
+  earrings: '✧',
+  bangles: '◎',
+  pendants: '◆',
+  accessories: '❖'
+};
+
 export default function Home() {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,10 +80,17 @@ export default function Home() {
   const toastTimeoutRef = useRef(null);
   const filterTimeoutRef = useRef(null);
 
+  const [categories, setCategories] = useState([
+    { id: 'all', name: 'All', icon: '✦', description: 'Browse our entire collection' }
+  ]);
+
   useEffect(() => {
-    client.fetch(getAllProductsQuery).then((data) => {
-      // Normalize Sanity data to match existing component expected structure
-      const normalized = data.map(item => ({
+    Promise.all([
+      client.fetch(getAllProductsQuery),
+      client.fetch(getAllCategoriesQuery)
+    ]).then(([productsData, categoriesData]) => {
+      // Normalize Products
+      const normalizedProducts = productsData.map(item => ({
         id: item.slug.current,
         title: item.name,
         category: item.category,
@@ -84,7 +99,20 @@ export default function Home() {
         imageURL: item.images && item.images.length > 0 ? item.images[0] : (item.imageURL || ""),
         inStock: item.inStock
       }));
-      setInventory(normalized);
+      setInventory(normalizedProducts);
+
+      // Normalize Categories
+      const fetchedCategories = categoriesData.map(cat => ({
+        id: cat.slug,
+        name: cat.title,
+        icon: CATEGORY_ICONS[cat.slug] || '✨',
+        description: cat.description || ''
+      }));
+      setCategories([
+        { id: 'all', name: 'All', icon: '✦', description: 'Browse our entire collection' },
+        ...fetchedCategories
+      ]);
+
       setLoading(false);
     });
   }, []);
@@ -353,7 +381,7 @@ export default function Home() {
   }, [activeCategory, activeVibe, searchQuery]);
 
   const searchSuggestions = useMemo(() => {
-    return CATEGORIES
+    return categories
       .filter((category) => category.id !== 'all')
       .map((category) => ({
         id: `category-${category.id}`,
@@ -362,7 +390,7 @@ export default function Home() {
         categoryId: category.id,
         keywords: CATEGORY_SEARCH_ALIASES[category.id] || [category.name.toLowerCase()],
       }));
-  }, []);
+  }, [categories]);
 
   const handleSearchSuggestionSelect = useCallback((suggestion) => {
     if (!suggestion?.categoryId) return;
@@ -374,11 +402,11 @@ export default function Home() {
   }, []);
 
   const categoryNameById = useMemo(() => {
-    return CATEGORIES.reduce((acc, category) => {
+    return categories.reduce((acc, category) => {
       acc[category.id] = category.name;
       return acc;
     }, {});
-  }, []);
+  }, [categories]);
 
   const normalizedSearchQuery = deferredSearchQuery.trim().toLowerCase();
 
@@ -500,7 +528,7 @@ export default function Home() {
 
           <Reveal className="reveal-stagger">
             <div className="category-grid" role="list">
-              {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
+              {categories.filter(c => c.id !== 'all').map(cat => (
                 <div
                   key={cat.id}
                   className="category-card"
@@ -686,7 +714,7 @@ export default function Home() {
           {/* Category Filter Pills */}
           <Reveal>
             <div className="category-filters" role="tablist" aria-label="Product categories">
-              {CATEGORIES.map(cat => (
+              {categories.map(cat => (
                 <button
                   key={cat.id}
                   role="tab"
