@@ -1,13 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { BASE_PATH } from '../../data/inventory';
-
 export default function Hero({ onShopClick, onStoryClick }) {
   return (
     <section id="hero" className="hero-section" aria-label="Hero banner">
       <Image
-        src={`${BASE_PATH}/images/main-banner.jpg`}
+        src="/images/main-banner.jpg"
         alt="Bilwashree Jewels — Luxury gemstone jewellery collection with amethyst and emerald"
         className="hero-bg-image"
         priority
