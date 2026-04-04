@@ -7,6 +7,7 @@ export const getAllProductsQuery = groq`*[_type == "product"]{
   price,
   category,
   material,
+  occasion,
   "images": images[].asset->url,
   imageURL,
   inStock
@@ -19,6 +20,7 @@ export const getProductBySlugQuery = groq`*[_type == "product" && slug.current =
   price,
   category,
   material,
+  occasion,
   "images": images[].asset->url,
   imageURL,
   inStock

@@ -48,6 +48,21 @@ export const productType = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'occasion',
+      title: 'Vibe / Occasion',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'Daily Glow', value: 'daily'},
+          {title: 'Evening Spark', value: 'party'},
+          {title: 'Festive Aura', value: 'festive'},
+          {title: 'Bridal Drama', value: 'bridal'},
+          {title: 'Work Chic', value: 'office'},
+        ],
+      },
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
