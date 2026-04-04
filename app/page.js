@@ -398,7 +398,7 @@ export default function Home() {
 
       return matchesCategory && matchesVibe && matchesSearch;
     });
-  }, [activeCategory, activeVibe, categoryNameById, normalizedSearchQuery]);
+  }, [inventory, activeCategory, activeVibe, categoryNameById, normalizedSearchQuery]);
 
   const vibeCounts = useMemo(() => {
     return VIBE_FILTERS.reduce((acc, vibe) => {
@@ -410,7 +410,7 @@ export default function Home() {
       acc[vibe.id] = inventory.filter((product) => product.occasion?.includes(vibe.id)).length;
       return acc;
     }, {});
-  }, []);
+  }, [inventory]);
 
   const dailyDropProduct = useMemo(() => {
     const vibeMatchedPool = activeVibe === 'all'
@@ -419,7 +419,7 @@ export default function Home() {
     const eligiblePool = vibeMatchedPool.length ? vibeMatchedPool : inventory;
     if (!eligiblePool.length) return null;
     return eligiblePool[dailyDropSeed % eligiblePool.length];
-  }, [activeVibe, dailyDropSeed]);
+  }, [inventory, activeVibe, dailyDropSeed]);
 
   const progressRingRadius = 22;
   const progressRingLength = 2 * Math.PI * progressRingRadius;
@@ -435,7 +435,7 @@ export default function Home() {
 
     const fallback = inventory.filter((product) => product.id !== selectedProduct?.id);
     return (filtered.length ? filtered : fallback).slice(0, 6);
-  }, [activeCategory, recentlyViewed, selectedProduct]);
+  }, [inventory, activeCategory, recentlyViewed, selectedProduct]);
 
   const structuredData = {
     '@context': 'https://schema.org',
