@@ -9,7 +9,8 @@
       "WebFetch(domain:www.tanishq.co.in)",
       "WebSearch",
       "mcp__ide__getDiagnostics",
-      "Bash(find .:*)"
+      "Bash(find .:*)",
+      "Bash(npm install:*)"
     ]
   }
 }
