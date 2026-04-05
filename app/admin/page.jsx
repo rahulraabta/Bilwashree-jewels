@@ -23,7 +23,6 @@ export default function AdminPage() {
   const [showManageCategories, setShowManageCategories] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [toast, setToast] = useState({ message: '', type: '' });
-  const [isDesktop, setIsDesktop] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [newCatName, setNewCatName] = useState('');
   const [catToDelete, setCatToDelete] = useState(null);
@@ -33,11 +32,9 @@ export default function AdminPage() {
     price: '',
     category: '',
     image: null,
-    imageFile: null
+    imageFile: null,
+    imageUrl: null
   });
-
-  const galleryInputRef = useRef(null);
-  const cameraInputRef = useRef(null);
 
   // Toast helper
   const showToast = (message, type = 'success') => {
@@ -62,8 +59,6 @@ export default function AdminPage() {
     if (auth === 'true') {
       setIsAuthenticated(true);
     }
-    // Check if desktop
-    setIsDesktop(!/Mobi|Android/i.test(navigator.userAgent));
   }, []);
 
   // Fetch products and categories
@@ -76,12 +71,26 @@ export default function AdminPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
+      // BUG 1 FIX: Updated GROQ query to include direct imageUrl
+      const productsQuery = `*[_type == "product"] | order(_createdAt desc){
+        _id,
+        name,
+        slug,
+        price,
+        category,
+        "imageUrl": images[0].asset->url,
+        "imageAsset": images[0].asset
+      }`;
+
       const [productsData, categoriesData] = await Promise.all([
-        client.fetch(`*[_type == "product"] | order(_createdAt desc)`),
+        client.fetch(productsQuery),
         client.fetch(`*[_type == "category"] | order(title asc)`)
       ]);
+
+      console.log('Fetched products:', productsData); // Debug log
       setProducts(productsData);
       setCategories(categoriesData);
+
       if (categoriesData.length > 0 && !formState.category) {
         setFormState(prev => ({ ...prev, category: categoriesData[0].slug?.current || categoriesData[0].title.toLowerCase() }));
       }
@@ -100,8 +109,9 @@ export default function AdminPage() {
       name: product.name,
       price: product.price,
       category: product.category || (categories[0]?.slug?.current || ''),
-      image: product.images?.[0] || null,
-      imageFile: null
+      image: null,
+      imageFile: null,
+      imageUrl: product.imageUrl || null
     });
   };
 
@@ -112,19 +122,20 @@ export default function AdminPage() {
       price: '',
       category: categories[0]?.slug?.current || categories[0]?.title?.toLowerCase() || '',
       image: null,
-      imageFile: null
+      imageFile: null,
+      imageUrl: null
     });
   };
 
   const handleSave = async () => {
-    if (!formState.name || !formState.price) {
+    if (!formState.name || (!formState.price && formState.price !== 0)) {
       showToast('Name and Price are required', 'error');
       return;
     }
 
     setIsSaving(true);
     try {
-      let imageAsset = null;
+      let imageAssetRef = null;
 
       // Handle image upload if a new file was selected
       if (formState.imageFile) {
@@ -136,7 +147,7 @@ export default function AdminPage() {
         });
         const uploadData = await uploadRes.json();
         if (uploadData.error) throw new Error(uploadData.error);
-        imageAsset = {
+        imageAssetRef = {
           _type: 'image',
           asset: { _type: 'reference', _ref: uploadData._id }
         };
@@ -148,8 +159,8 @@ export default function AdminPage() {
         category: formState.category,
       };
 
-      if (imageAsset) {
-        productData.images = [imageAsset];
+      if (imageAssetRef) {
+        productData.images = [imageAssetRef];
       }
 
       if (isAddingNew) {
@@ -247,10 +258,16 @@ export default function AdminPage() {
     }
   };
 
-  const handleImageChange = (e) => {
+  // BUG 2 FIX: Unified image change handler for preview
+  const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormState({ ...formState, imageFile: file, image: URL.createObjectURL(file) });
+      setFormState({
+        ...formState,
+        imageFile: file,
+        imageUrl: URL.createObjectURL(file)
+      });
+      showToast('Image selected');
     }
   };
 
@@ -286,8 +303,8 @@ export default function AdminPage() {
   return (
     <div style={styles.adminContainer}>
       <header style={styles.header}>
-        <h1 style={styles.headerTitle}>Admin Panel</h1>
-        <div style={{display: 'flex', gap: '10px'}}>
+        <h1 style={styles.headerTitle}>Admin</h1>
+        <div style={{display: 'flex', gap: '8px'}}>
           <button onClick={() => setShowManageCategories(true)} style={styles.secondaryHeaderBtn}>Categories</button>
           <button onClick={handleAddNew} style={styles.addButton}>+ New</button>
         </div>
@@ -320,10 +337,17 @@ export default function AdminPage() {
       ) : (
         <div style={styles.productList}>
           {filteredProducts.map((product) => (
-            <div key={product._id} style={styles.productItem} onClick={() => handleEdit(product)}>
+            <div
+              key={product._id}
+              style={{
+                ...styles.productItem,
+                borderLeft: (product.price === 0 || !product.price) ? '5px solid #d32f2f' : 'none'
+              }}
+              onClick={() => handleEdit(product)}
+            >
               <div style={styles.productThumb}>
-                {product.images?.[0] ? (
-                  <img src={urlFor(product.images[0]).width(100).height(100).url()} alt="" style={styles.thumbImg} />
+                {product.imageUrl ? (
+                  <img src={product.imageUrl} alt="" style={styles.thumbImg} />
                 ) : (
                   <div style={styles.noImg}>No Image</div>
                 )}
@@ -331,7 +355,12 @@ export default function AdminPage() {
               <div style={styles.productInfo}>
                 <div style={styles.productName}>{product.name}</div>
                 <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <div style={styles.productPrice}>₹{product.price}</div>
+                  {/* Price highlighting fix */}
+                  {(product.price === 0 || !product.price) ? (
+                    <div style={styles.missingPrice}>Price Missing</div>
+                  ) : (
+                    <div style={styles.productPrice}>₹{product.price}</div>
+                  )}
                   {product.category && (
                     <span style={styles.categoryBadge}>{getCategoryLabel(product.category)}</span>
                   )}
@@ -364,9 +393,9 @@ export default function AdminPage() {
             <div style={styles.modalBody}>
               <div style={styles.imageSection}>
                 <div style={styles.imagePreviewWrap}>
-                  {formState.image ? (
+                  {formState.imageUrl ? (
                     <img
-                      src={typeof formState.image === 'string' ? formState.image : urlFor(formState.image).width(400).url()}
+                      src={formState.imageUrl}
                       alt="Product"
                       style={styles.previewImg}
                     />
@@ -375,28 +404,29 @@ export default function AdminPage() {
                   )}
                 </div>
 
-                <div style={styles.uploadActions}>
-                  <button onClick={() => galleryInputRef.current.click()} style={styles.uploadBtn}>📁 Gallery</button>
-                  {!isDesktop && (
-                    <button onClick={() => cameraInputRef.current.click()} style={styles.uploadBtn}>📷 Camera</button>
-                  )}
-                </div>
+                {/* BUG 2 FIX: Two separate visible buttons */}
+                <div style={styles.uploadButtonsGrid}>
+                  <label style={styles.uploadLabelGallery}>
+                    📁 Gallery
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{display:'none'}}
+                      onChange={handleImageSelect}
+                    />
+                  </label>
 
-                <input
-                  ref={galleryInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  style={{ display: 'none' }}
-                />
-                <input
-                  ref={cameraInputRef}
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  onChange={handleImageChange}
-                  style={{ display: 'none' }}
-                />
+                  <label style={styles.uploadLabelCamera} className="camera-btn">
+                    📷 Camera
+                    <input
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      style={{display:'none'}}
+                      onChange={handleImageSelect}
+                    />
+                  </label>
+                </div>
               </div>
 
               <div style={styles.field}>
@@ -517,286 +547,75 @@ export default function AdminPage() {
       )}
 
       {toast.message && <div style={{...styles.toast, background: toast.type === 'error' ? '#f44336' : '#4caf50'}}>{toast.message}</div>}
+
+      {/* BUG 2 FIX: Hide camera btn on desktop */}
+      <style jsx global>{`
+        @media (hover: hover) {
+          .camera-btn {
+            display: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
 
 const styles = {
-  loginContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    background: '#f0f2f5',
-    padding: '20px',
-  },
-  loginCard: {
-    background: 'white',
-    padding: '30px',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-    width: '100%',
-    maxWidth: '400px',
-    textAlign: 'center',
-  },
+  loginContainer: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#f0f2f5', padding: '20px' },
+  loginCard: { background: 'white', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px', textAlign: 'center' },
   title: { margin: '0 0 10px', fontSize: '24px', color: '#111' },
   subtitle: { margin: '0 0 20px', color: '#666', fontSize: '14px' },
   form: { display: 'flex', flexDirection: 'column', gap: '15px' },
-  input: {
-    padding: '15px',
-    borderRadius: '8px',
-    border: '1px solid #ddd',
-    fontSize: '16px',
-    outline: 'none',
-    height: '48px',
-  },
-  button: {
-    padding: '12px',
-    background: '#128c7e',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    height: '48px',
-  },
-  adminContainer: {
-    minHeight: '100vh',
-    background: '#f0f2f5',
-    maxWidth: '600px',
-    margin: '0 auto',
-    paddingBottom: '100px',
-  },
-  header: {
-    padding: '15px',
-    background: '#075e54',
-    color: 'white',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'sticky',
-    top: 0,
-    zIndex: 10,
-  },
+  input: { padding: '15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px', outline: 'none', height: '48px' },
+  button: { padding: '12px', background: '#128c7e', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', height: '48px' },
+  adminContainer: { minHeight: '100vh', background: '#f0f2f5', maxWidth: '600px', margin: '0 auto', paddingBottom: '100px' },
+  header: { padding: '15px', background: '#075e54', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 },
   headerTitle: { fontSize: '20px', margin: 0 },
-  addButton: {
-    background: '#25d366',
-    color: 'white',
-    border: 'none',
-    padding: '0 16px',
-    borderRadius: '24px',
-    fontWeight: 'bold',
-    fontSize: '14px',
-    height: '40px',
-  },
-  secondaryHeaderBtn: {
-    background: 'rgba(255,255,255,0.2)',
-    color: 'white',
-    border: 'none',
-    padding: '0 16px',
-    borderRadius: '24px',
-    fontSize: '14px',
-    height: '40px',
-  },
-  filterBar: {
-    display: 'flex',
-    gap: '8px',
-    padding: '12px',
-    overflowX: 'auto',
-    background: 'white',
-    borderBottom: '1px solid #eee',
-    WebkitOverflowScrolling: 'touch',
-    scrollbarWidth: 'none',
-  },
-  filterBtn: {
-    padding: '0 16px',
-    borderRadius: '20px',
-    border: '1px solid #ddd',
-    background: 'white',
-    fontSize: '13px',
-    whiteSpace: 'nowrap',
-    cursor: 'pointer',
-    height: '36px',
-  },
-  filterBtnActive: {
-    background: '#075e54',
-    color: 'white',
-    borderColor: '#075e54',
-  },
+  addButton: { background: '#25d366', color: 'white', border: 'none', padding: '0 16px', borderRadius: '24px', fontWeight: 'bold', fontSize: '14px', height: '40px' },
+  secondaryHeaderBtn: { background: 'rgba(255,255,255,0.2)', color: 'white', border: 'none', padding: '0 16px', borderRadius: '24px', fontSize: '14px', height: '40px' },
+  filterBar: { display: 'flex', gap: '8px', padding: '12px', overflowX: 'auto', background: 'white', borderBottom: '1px solid #eee', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' },
+  filterBtn: { padding: '0 16px', borderRadius: '20px', border: '1px solid #ddd', background: 'white', fontSize: '13px', whiteSpace: 'nowrap', cursor: 'pointer', height: '36px' },
+  filterBtnActive: { background: '#075e54', color: 'white', borderColor: '#075e54' },
   loading: { padding: '40px', textAlign: 'center', color: '#666' },
   productList: { padding: '10px' },
-  productItem: {
-    background: 'white',
-    borderRadius: '12px',
-    padding: '12px',
-    marginBottom: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    cursor: 'pointer',
-    position: 'relative',
-  },
+  productItem: { background: 'white', borderRadius: '12px', padding: '12px', marginBottom: '10px', display: 'flex', alignItems: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer', position: 'relative' },
   productThumb: { width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', background: '#f8f9fa', marginRight: '15px' },
   thumbImg: { width: '100%', height: '100%', objectFit: 'cover' },
   noImg: { width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#999' },
   productInfo: { flex: 1 },
   productName: { fontWeight: 'bold', fontSize: '16px', marginBottom: '4px' },
   productPrice: { color: '#075e54', fontWeight: 'bold' },
-  categoryBadge: {
-    fontSize: '10px',
-    background: '#e1f5fe',
-    color: '#0288d1',
-    padding: '2px 8px',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  itemDeleteBtn: {
-    background: 'none',
-    border: 'none',
-    fontSize: '20px',
-    padding: '10px',
-    marginRight: '5px',
-    cursor: 'pointer',
-  },
+  missingPrice: { color: '#d32f2f', fontWeight: 'bold', fontSize: '14px' },
+  categoryBadge: { fontSize: '10px', background: '#e1f5fe', color: '#0288d1', padding: '2px 8px', borderRadius: '10px', fontWeight: 'bold', textTransform: 'uppercase' },
+  itemDeleteBtn: { background: 'none', border: 'none', fontSize: '20px', padding: '10px', marginRight: '5px', cursor: 'pointer' },
   noResults: { padding: '40px', textAlign: 'center', color: '#999' },
   chevron: { color: '#bbb', fontSize: '24px' },
-  modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: 'rgba(0,0,0,0.6)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 100,
-    padding: '15px',
-  },
-  modal: {
-    background: 'white',
-    borderRadius: '16px',
-    width: '100%',
-    maxWidth: '500px',
-    maxHeight: '90vh',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-  },
-  modalHeader: {
-    padding: '15px 20px',
-    borderBottom: '1px solid #eee',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    background: '#f8f9fa',
-  },
+  modalOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '15px' },
+  modal: { background: 'white', borderRadius: '16px', width: '100%', maxWidth: '500px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' },
+  modalHeader: { padding: '15px 20px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8f9fa' },
   closeBtn: { background: 'none', border: 'none', fontSize: '24px', color: '#999', cursor: 'pointer' },
   modalBody: { padding: '20px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px' },
   imageSection: { display: 'flex', flexDirection: 'column', gap: '15px' },
-  imagePreviewWrap: {
-    width: '100%',
-    aspectRatio: '1',
-    background: '#f1f3f4',
-    borderRadius: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    border: '1px solid #eee',
-  },
+  imagePreviewWrap: { width: '100%', aspectRatio: '1', background: '#f1f3f4', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '1px solid #eee' },
   previewImg: { width: '100%', height: '100%', objectFit: 'contain' },
   uploadPlaceholder: { color: '#999', fontSize: '14px' },
-  uploadActions: { display: 'flex', gap: '10px' },
-  uploadBtn: {
-    flex: 1,
-    height: '48px',
-    borderRadius: '8px',
-    border: '1px solid #075e54',
-    background: 'white',
-    color: '#075e54',
-    fontWeight: 'bold',
-    fontSize: '14px',
-    cursor: 'pointer',
-  },
+  uploadButtonsGrid: { display: 'flex', gap: '10px' },
+  uploadLabelGallery: { flex: 1, height: '48px', padding: '14px', background: '#f0f0f0', borderRadius: '10px', textAlign: 'center', fontSize: '16px', cursor: 'pointer', display: 'block' },
+  uploadLabelCamera: { flex: 1, height: '48px', padding: '14px', background: '#e8f5e9', borderRadius: '10px', textAlign: 'center', fontSize: '16px', cursor: 'pointer', display: 'block' },
   field: { display: 'flex', flexDirection: 'column', gap: '8px' },
   fieldLabel: { fontSize: '14px', fontWeight: 'bold', color: '#555' },
-  modalInput: {
-    padding: '0 15px',
-    borderRadius: '8px',
-    border: '1px solid #ddd',
-    fontSize: '16px',
-    outline: 'none',
-    height: '48px',
-    background: '#fff',
-  },
-  modalFooter: {
-    padding: '20px',
-    borderTop: '1px solid #eee',
-    display: 'flex',
-    gap: '12px',
-    background: '#f8f9fa',
-  },
-  cancelBtnLarge: {
-    flex: 1,
-    height: '48px',
-    borderRadius: '8px',
-    border: '1px solid #ddd',
-    background: 'white',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer'
-  },
-  saveBtn: {
-    flex: 2,
-    height: '48px',
-    background: '#075e54',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer'
-  },
+  modalInput: { padding: '0 15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px', outline: 'none', height: '48px', background: '#fff' },
+  modalFooter: { padding: '20px', borderTop: '1px solid #eee', display: 'flex', gap: '12px', background: '#f8f9fa' },
+  cancelBtnLarge: { flex: 1, height: '48px', borderRadius: '8px', border: '1px solid #ddd', background: 'white', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
+  saveBtn: { flex: 2, height: '48px', background: '#075e54', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
   addCatRow: { display: 'flex', gap: '10px', marginBottom: '20px' },
   catInput: { flex: 1, height: '48px', padding: '0 15px', borderRadius: '8px', border: '1px solid #ddd', outline: 'none' },
   addCatBtn: { width: '80px', height: '48px', background: '#25d366', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' },
   catList: { display: 'flex', flexDirection: 'column', gap: '10px' },
-  catItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '12px 15px',
-    background: '#f8f9fa',
-    borderRadius: '8px'
-  },
+  catItem: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 15px', background: '#f8f9fa', borderRadius: '8px' },
   catDeleteBtn: { background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer' },
   confirmBox: { background: 'white', padding: '25px', borderRadius: '16px', width: '100%', maxWidth: '350px', textAlign: 'center' },
   confirmButtons: { display: 'flex', gap: '12px' },
-  deleteConfirmBtn: {
-    flex: 1,
-    height: '48px',
-    background: '#d32f2f',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    fontWeight: 'bold'
-  },
-  toast: {
-    position: 'fixed',
-    bottom: '20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    padding: '12px 24px',
-    borderRadius: '30px',
-    color: 'white',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    zIndex: 1000,
-    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-    transition: 'all 0.3s ease',
-  },
+  deleteConfirmBtn: { flex: 1, height: '48px', background: '#d32f2f', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' },
+  toast: { position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', padding: '12px 24px', borderRadius: '30px', color: 'white', fontSize: '14px', fontWeight: 'bold', zIndex: 1000, boxShadow: '0 4px 10px rgba(0,0,0,0.2)', transition: 'all 0.3s ease' },
 };
