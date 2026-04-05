@@ -11,34 +11,39 @@ function urlFor(source) {
 
 const ADMIN_PASSWORD = "bilwashree2026";
 
-const CATEGORIES = [
-  { title: 'Necklace', value: 'necklaces' },
-  { title: 'Haram', value: 'harams' },
-  { title: 'Earrings', value: 'earrings' },
-  { title: 'Pendant / Dollar', value: 'pendants' },
-  { title: 'Bangles', value: 'bangles' },
-  { title: 'Jadau Kundan', value: 'jadau-kundan' },
-  { title: 'Combo Set', value: 'combo-sets' },
-  { title: 'Other', value: 'other' },
-];
-
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingProduct, setEditingProduct] = useState(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+  const [showManageCategories, setShowManageCategories] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
+  const [toast, setToast] = useState({ message: '', type: '' });
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [newCatName, setNewCatName] = useState('');
+  const [catToDelete, setCatToDelete] = useState(null);
+
   const [formState, setFormState] = useState({
     name: '',
     price: '',
-    category: 'other',
+    category: '',
     image: null,
     imageFile: null
   });
-  const [isSaving, setIsSaving] = useState(false);
+
+  const galleryInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
+
+  // Toast helper
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast({ message: '', type: '' }), 3000);
+  };
 
   // Authentication check
   const handleLogin = (e) => {
@@ -46,8 +51,9 @@ export default function AdminPage() {
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
       localStorage.setItem('admin_auth', 'true');
+      showToast('Logged in successfully');
     } else {
-      alert('Incorrect password');
+      showToast('Incorrect password', 'error');
     }
   };
 
@@ -56,23 +62,32 @@ export default function AdminPage() {
     if (auth === 'true') {
       setIsAuthenticated(true);
     }
+    // Check if desktop
+    setIsDesktop(!/Mobi|Android/i.test(navigator.userAgent));
   }, []);
 
-  // Fetch products
+  // Fetch products and categories
   useEffect(() => {
     if (isAuthenticated) {
-      fetchProducts();
+      fetchData();
     }
   }, [isAuthenticated]);
 
-  const fetchProducts = async () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
-      const query = `*[_type == "product"] | order(_createdAt desc)`;
-      const data = await client.fetch(query);
-      setProducts(data);
+      const [productsData, categoriesData] = await Promise.all([
+        client.fetch(`*[_type == "product"] | order(_createdAt desc)`),
+        client.fetch(`*[_type == "category"] | order(title asc)`)
+      ]);
+      setProducts(productsData);
+      setCategories(categoriesData);
+      if (categoriesData.length > 0 && !formState.category) {
+        setFormState(prev => ({ ...prev, category: categoriesData[0].slug?.current || categoriesData[0].title.toLowerCase() }));
+      }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching data:', error);
+      showToast('Error loading data', 'error');
     } finally {
       setLoading(false);
     }
@@ -84,7 +99,7 @@ export default function AdminPage() {
     setFormState({
       name: product.name,
       price: product.price,
-      category: product.category || 'other',
+      category: product.category || (categories[0]?.slug?.current || ''),
       image: product.images?.[0] || null,
       imageFile: null
     });
@@ -92,12 +107,18 @@ export default function AdminPage() {
 
   const handleAddNew = () => {
     setIsAddingNew(true);
-    setFormState({ name: '', price: '', category: 'other', image: null, imageFile: null });
+    setFormState({
+      name: '',
+      price: '',
+      category: categories[0]?.slug?.current || categories[0]?.title?.toLowerCase() || '',
+      image: null,
+      imageFile: null
+    });
   };
 
   const handleSave = async () => {
     if (!formState.name || !formState.price) {
-      alert('Name and Price are required');
+      showToast('Name and Price are required', 'error');
       return;
     }
 
@@ -128,7 +149,6 @@ export default function AdminPage() {
       };
 
       if (imageAsset) {
-        // We handle as a single image for simplicity in UI, but schema expects an array
         productData.images = [imageAsset];
       }
 
@@ -136,30 +156,31 @@ export default function AdminPage() {
         const res = await fetch('/api/admin/mutate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'create', data: productData }),
+          body: JSON.stringify({ action: 'create', data: { ...productData, _type: 'product' } }),
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
+        showToast('Product created successfully');
       } else {
         const res = await fetch('/api/admin/mutate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: 'patch',
-            data: { id: editingProduct._id, ...productData }
+            data: { id: editingProduct._id, _type: 'product', ...productData }
           }),
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
+        showToast('Product updated successfully');
       }
 
-      alert('Saved successfully!');
       setEditingProduct(null);
       setIsAddingNew(false);
-      fetchProducts();
+      fetchData();
     } catch (error) {
       console.error('Save error:', error);
-      alert('Error saving: ' + error.message);
+      showToast('Error saving: ' + error.message, 'error');
     } finally {
       setIsSaving(false);
     }
@@ -175,10 +196,54 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.error) throw new Error(data.error);
 
+      showToast('Product deleted successfully');
       setShowDeleteConfirm(null);
-      fetchProducts();
+      setProducts(prev => prev.filter(p => p._id !== id));
     } catch (error) {
-      alert('Error deleting: ' + error.message);
+      showToast('Error deleting: ' + error.message, 'error');
+    }
+  };
+
+  const handleAddCategory = async () => {
+    if (!newCatName.trim()) return;
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/admin/mutate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'create',
+          data: { _type: 'category', title: newCatName.trim() }
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      showToast('Category added');
+      setNewCatName('');
+      fetchData();
+    } catch (error) {
+      showToast('Error: ' + error.message, 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteCategory = async (id) => {
+    try {
+      const res = await fetch('/api/admin/mutate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', data: { id } }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      showToast('Category deleted');
+      setCatToDelete(null);
+      fetchData();
+    } catch (error) {
+      showToast('Error: ' + error.message, 'error');
     }
   };
 
@@ -193,7 +258,7 @@ export default function AdminPage() {
     ? products
     : products.filter(p => p.category === activeFilter);
 
-  const getCategoryLabel = (val) => CATEGORIES.find(c => c.value === val)?.title || val || 'Other';
+  const getCategoryLabel = (val) => categories.find(c => (c.slug?.current || c.title?.toLowerCase()) === val)?.title || val || 'Other';
 
   if (!isAuthenticated) {
     return (
@@ -213,6 +278,7 @@ export default function AdminPage() {
             <button type="submit" style={styles.button}>Login</button>
           </form>
         </div>
+        {toast.message && <div style={{...styles.toast, background: toast.type === 'error' ? '#f44336' : '#4caf50'}}>{toast.message}</div>}
       </div>
     );
   }
@@ -220,8 +286,11 @@ export default function AdminPage() {
   return (
     <div style={styles.adminContainer}>
       <header style={styles.header}>
-        <h1 style={styles.headerTitle}>Products</h1>
-        <button onClick={handleAddNew} style={styles.addButton}>+ New Product</button>
+        <h1 style={styles.headerTitle}>Admin Panel</h1>
+        <div style={{display: 'flex', gap: '10px'}}>
+          <button onClick={() => setShowManageCategories(true)} style={styles.secondaryHeaderBtn}>Categories</button>
+          <button onClick={handleAddNew} style={styles.addButton}>+ New</button>
+        </div>
       </header>
 
       {/* Filter Bar */}
@@ -232,15 +301,18 @@ export default function AdminPage() {
         >
           All
         </button>
-        {CATEGORIES.map(cat => (
-          <button
-            key={cat.value}
-            onClick={() => setActiveFilter(cat.value)}
-            style={{...styles.filterBtn, ...(activeFilter === cat.value ? styles.filterBtnActive : {})}}
-          >
-            {cat.title}
-          </button>
-        ))}
+        {categories.map(cat => {
+          const val = cat.slug?.current || cat.title.toLowerCase();
+          return (
+            <button
+              key={cat._id}
+              onClick={() => setActiveFilter(val)}
+              style={{...styles.filterBtn, ...(activeFilter === val ? styles.filterBtnActive : {})}}
+            >
+              {cat.title}
+            </button>
+          );
+        })}
       </div>
 
       {loading ? (
@@ -265,11 +337,18 @@ export default function AdminPage() {
                   )}
                 </div>
               </div>
+              <button
+                style={styles.itemDeleteBtn}
+                onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(product); }}
+                aria-label="Delete product"
+              >
+                🗑️
+              </button>
               <div style={styles.chevron}>›</div>
             </div>
           ))}
           {filteredProducts.length === 0 && (
-            <div style={styles.noResults}>No products found in this category.</div>
+            <div style={styles.noResults}>No products found.</div>
           )}
         </div>
       )}
@@ -283,35 +362,51 @@ export default function AdminPage() {
               <button onClick={() => { setEditingProduct(null); setIsAddingNew(false); }} style={styles.closeBtn}>✕</button>
             </div>
             <div style={styles.modalBody}>
-              <div style={styles.imagePicker} onClick={() => document.getElementById('imageInput').click()}>
-                {formState.image ? (
-                  <img
-                    src={typeof formState.image === 'string' ? formState.image : urlFor(formState.image).width(400).url()}
-                    alt="Product"
-                    style={styles.previewImg}
-                  />
-                ) : (
-                  <div style={styles.uploadPlaceholder}>
-                    <span>Tap to upload image</span>
-                  </div>
-                )}
+              <div style={styles.imageSection}>
+                <div style={styles.imagePreviewWrap}>
+                  {formState.image ? (
+                    <img
+                      src={typeof formState.image === 'string' ? formState.image : urlFor(formState.image).width(400).url()}
+                      alt="Product"
+                      style={styles.previewImg}
+                    />
+                  ) : (
+                    <div style={styles.uploadPlaceholder}>No image selected</div>
+                  )}
+                </div>
+
+                <div style={styles.uploadActions}>
+                  <button onClick={() => galleryInputRef.current.click()} style={styles.uploadBtn}>📁 Gallery</button>
+                  {!isDesktop && (
+                    <button onClick={() => cameraInputRef.current.click()} style={styles.uploadBtn}>📷 Camera</button>
+                  )}
+                </div>
+
                 <input
-                  id="imageInput"
+                  ref={galleryInputRef}
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
                   style={{ display: 'none' }}
+                />
+                <input
+                  ref={cameraInputRef}
+                  type="file"
+                  accept="image/*"
                   capture="environment"
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
                 />
               </div>
 
               <div style={styles.field}>
-                <label style={styles.fieldLabel}>Name</label>
+                <label style={styles.fieldLabel}>Product Name</label>
                 <input
                   type="text"
                   value={formState.name}
                   onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                   style={styles.modalInput}
+                  placeholder="e.g. Gold Plated Necklace"
                 />
               </div>
 
@@ -322,8 +417,8 @@ export default function AdminPage() {
                   onChange={(e) => setFormState({ ...formState, category: e.target.value })}
                   style={styles.modalInput}
                 >
-                  {CATEGORIES.map(cat => (
-                    <option key={cat.value} value={cat.value}>{cat.title}</option>
+                  {categories.map(cat => (
+                    <option key={cat._id} value={cat.slug?.current || cat.title.toLowerCase()}>{cat.title}</option>
                   ))}
                 </select>
               </div>
@@ -335,43 +430,93 @@ export default function AdminPage() {
                   value={formState.price}
                   onChange={(e) => setFormState({ ...formState, price: e.target.value })}
                   style={styles.modalInput}
+                  placeholder="0"
                 />
               </div>
             </div>
             <div style={styles.modalFooter}>
-              {!isAddingNew && (
-                <button
-                  onClick={() => setShowDeleteConfirm(editingProduct._id)}
-                  style={styles.deleteBtn}
-                  disabled={isSaving}
-                >
-                  Delete
-                </button>
-              )}
+              <button
+                onClick={() => { setEditingProduct(null); setIsAddingNew(false); }}
+                style={styles.cancelBtnLarge}
+                disabled={isSaving}
+              >
+                Cancel
+              </button>
               <button
                 onClick={handleSave}
                 style={styles.saveBtn}
                 disabled={isSaving}
               >
-                {isSaving ? 'Saving...' : 'Save'}
+                {isSaving ? 'Saving...' : 'Save Product'}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Delete Confirmation */}
-      {showDeleteConfirm && (
+      {/* Manage Categories Modal */}
+      {showManageCategories && (
         <div style={styles.modalOverlay}>
-          <div style={styles.confirmBox}>
-            <p>Are you sure you want to delete this product?</p>
-            <div style={styles.confirmButtons}>
-              <button onClick={() => setShowDeleteConfirm(null)} style={styles.cancelBtn}>Cancel</button>
-              <button onClick={() => handleDelete(showDeleteConfirm)} style={styles.deleteConfirmBtn}>Delete</button>
+          <div style={styles.modal}>
+            <div style={styles.modalHeader}>
+              <h3>Manage Categories</h3>
+              <button onClick={() => setShowManageCategories(false)} style={styles.closeBtn}>✕</button>
+            </div>
+            <div style={styles.modalBody}>
+              <div style={styles.addCatRow}>
+                <input
+                  type="text"
+                  placeholder="New Category Name"
+                  value={newCatName}
+                  onChange={(e) => setNewCatName(e.target.value)}
+                  style={styles.catInput}
+                />
+                <button onClick={handleAddCategory} style={styles.addCatBtn} disabled={isSaving}>Add</button>
+              </div>
+              <div style={styles.catList}>
+                {categories.map(cat => (
+                  <div key={cat._id} style={styles.catItem}>
+                    <span>{cat.title}</span>
+                    <button style={styles.catDeleteBtn} onClick={() => setCatToDelete(cat)}>🗑️</button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Delete Product Confirmation */}
+      {showDeleteConfirm && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.confirmBox}>
+            <p style={{marginBottom: '20px', fontWeight: 'bold'}}>
+              Are you sure you want to delete "{showDeleteConfirm.name}"? This cannot be undone.
+            </p>
+            <div style={styles.confirmButtons}>
+              <button onClick={() => setShowDeleteConfirm(null)} style={styles.cancelBtnLarge}>Cancel</button>
+              <button onClick={() => handleDelete(showDeleteConfirm._id)} style={styles.deleteConfirmBtn}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Category Confirmation */}
+      {catToDelete && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.confirmBox}>
+            <p style={{marginBottom: '20px', fontWeight: 'bold'}}>
+              Delete category "{catToDelete.title}"?
+            </p>
+            <div style={styles.confirmButtons}>
+              <button onClick={() => setCatToDelete(null)} style={styles.cancelBtnLarge}>Cancel</button>
+              <button onClick={() => handleDeleteCategory(catToDelete._id)} style={styles.deleteConfirmBtn}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {toast.message && <div style={{...styles.toast, background: toast.type === 'error' ? '#f44336' : '#4caf50'}}>{toast.message}</div>}
     </div>
   );
 }
@@ -398,11 +543,12 @@ const styles = {
   subtitle: { margin: '0 0 20px', color: '#666', fontSize: '14px' },
   form: { display: 'flex', flexDirection: 'column', gap: '15px' },
   input: {
-    padding: '12px',
+    padding: '15px',
     borderRadius: '8px',
     border: '1px solid #ddd',
     fontSize: '16px',
     outline: 'none',
+    height: '48px',
   },
   button: {
     padding: '12px',
@@ -413,13 +559,14 @@ const styles = {
     fontSize: '16px',
     fontWeight: 'bold',
     cursor: 'pointer',
+    height: '48px',
   },
   adminContainer: {
     minHeight: '100vh',
     background: '#f0f2f5',
     maxWidth: '600px',
     margin: '0 auto',
-    paddingBottom: '80px',
+    paddingBottom: '100px',
   },
   header: {
     padding: '15px',
@@ -437,10 +584,20 @@ const styles = {
     background: '#25d366',
     color: 'white',
     border: 'none',
-    padding: '8px 16px',
-    borderRadius: '20px',
+    padding: '0 16px',
+    borderRadius: '24px',
     fontWeight: 'bold',
     fontSize: '14px',
+    height: '40px',
+  },
+  secondaryHeaderBtn: {
+    background: 'rgba(255,255,255,0.2)',
+    color: 'white',
+    border: 'none',
+    padding: '0 16px',
+    borderRadius: '24px',
+    fontSize: '14px',
+    height: '40px',
   },
   filterBar: {
     display: 'flex',
@@ -453,13 +610,14 @@ const styles = {
     scrollbarWidth: 'none',
   },
   filterBtn: {
-    padding: '6px 14px',
-    borderRadius: '16px',
+    padding: '0 16px',
+    borderRadius: '20px',
     border: '1px solid #ddd',
     background: 'white',
     fontSize: '13px',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
+    height: '36px',
   },
   filterBtnActive: {
     background: '#075e54',
@@ -470,28 +628,37 @@ const styles = {
   productList: { padding: '10px' },
   productItem: {
     background: 'white',
-    borderRadius: '10px',
+    borderRadius: '12px',
     padding: '12px',
     marginBottom: '10px',
     display: 'flex',
     alignItems: 'center',
     boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
     cursor: 'pointer',
+    position: 'relative',
   },
-  productThumb: { width: '50px', height: '50px', borderRadius: '5px', overflow: 'hidden', background: '#eee', marginRight: '15px' },
+  productThumb: { width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', background: '#f8f9fa', marginRight: '15px' },
   thumbImg: { width: '100%', height: '100%', objectFit: 'cover' },
   noImg: { width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#999' },
   productInfo: { flex: 1 },
-  productName: { fontWeight: 'bold', fontSize: '16px', marginBottom: '2px' },
+  productName: { fontWeight: 'bold', fontSize: '16px', marginBottom: '4px' },
   productPrice: { color: '#075e54', fontWeight: 'bold' },
   categoryBadge: {
     fontSize: '10px',
     background: '#e1f5fe',
     color: '#0288d1',
-    padding: '2px 6px',
-    borderRadius: '4px',
+    padding: '2px 8px',
+    borderRadius: '10px',
     fontWeight: 'bold',
     textTransform: 'uppercase',
+  },
+  itemDeleteBtn: {
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    padding: '10px',
+    marginRight: '5px',
+    cursor: 'pointer',
   },
   noResults: { padding: '40px', textAlign: 'center', color: '#999' },
   chevron: { color: '#bbb', fontSize: '24px' },
@@ -501,22 +668,23 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'rgba(0,0,0,0.5)',
+    background: 'rgba(0,0,0,0.6)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 100,
-    padding: '20px',
+    padding: '15px',
   },
   modal: {
     background: 'white',
-    borderRadius: '15px',
+    borderRadius: '16px',
     width: '100%',
     maxWidth: '500px',
     maxHeight: '90vh',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
   },
   modalHeader: {
     padding: '15px 20px',
@@ -524,37 +692,111 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    background: '#f8f9fa',
   },
-  closeBtn: { background: 'none', border: 'none', fontSize: '20px', color: '#999', cursor: 'pointer' },
+  closeBtn: { background: 'none', border: 'none', fontSize: '24px', color: '#999', cursor: 'pointer' },
   modalBody: { padding: '20px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px' },
-  imagePicker: {
+  imageSection: { display: 'flex', flexDirection: 'column', gap: '15px' },
+  imagePreviewWrap: {
     width: '100%',
     aspectRatio: '1',
-    background: '#f8f9fa',
-    borderRadius: '10px',
-    border: '2px dashed #ddd',
+    background: '#f1f3f4',
+    borderRadius: '12px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    cursor: 'pointer',
+    border: '1px solid #eee',
   },
   previewImg: { width: '100%', height: '100%', objectFit: 'contain' },
-  uploadPlaceholder: { textAlign: 'center', color: '#999' },
-  field: { display: 'flex', flexDirection: 'column', gap: '5px' },
-  fieldLabel: { fontSize: '14px', fontWeight: 'bold', color: '#666' },
-  modalInput: { padding: '12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px', outline: 'none' },
+  uploadPlaceholder: { color: '#999', fontSize: '14px' },
+  uploadActions: { display: 'flex', gap: '10px' },
+  uploadBtn: {
+    flex: 1,
+    height: '48px',
+    borderRadius: '8px',
+    border: '1px solid #075e54',
+    background: 'white',
+    color: '#075e54',
+    fontWeight: 'bold',
+    fontSize: '14px',
+    cursor: 'pointer',
+  },
+  field: { display: 'flex', flexDirection: 'column', gap: '8px' },
+  fieldLabel: { fontSize: '14px', fontWeight: 'bold', color: '#555' },
+  modalInput: {
+    padding: '0 15px',
+    borderRadius: '8px',
+    border: '1px solid #ddd',
+    fontSize: '16px',
+    outline: 'none',
+    height: '48px',
+    background: '#fff',
+  },
   modalFooter: {
-    padding: '15px 20px',
+    padding: '20px',
     borderTop: '1px solid #eee',
     display: 'flex',
-    justifyContent: 'space-between',
-    gap: '10px',
+    gap: '12px',
+    background: '#f8f9fa',
   },
-  deleteBtn: { padding: '12px 20px', color: '#dc3545', background: 'none', border: '1px solid #dc3545', borderRadius: '8px', fontWeight: 'bold' },
-  saveBtn: { flex: 1, padding: '12px 20px', background: '#075e54', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' },
-  confirmBox: { background: 'white', padding: '20px', borderRadius: '15px', width: '100%', maxWidth: '300px', textAlign: 'center' },
-  confirmButtons: { display: 'flex', gap: '10px', marginTop: '20px' },
-  cancelBtn: { flex: 1, padding: '10px', background: '#eee', border: 'none', borderRadius: '8px' },
-  deleteConfirmBtn: { flex: 1, padding: '10px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '8px' },
+  cancelBtnLarge: {
+    flex: 1,
+    height: '48px',
+    borderRadius: '8px',
+    border: '1px solid #ddd',
+    background: 'white',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    cursor: 'pointer'
+  },
+  saveBtn: {
+    flex: 2,
+    height: '48px',
+    background: '#075e54',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    cursor: 'pointer'
+  },
+  addCatRow: { display: 'flex', gap: '10px', marginBottom: '20px' },
+  catInput: { flex: 1, height: '48px', padding: '0 15px', borderRadius: '8px', border: '1px solid #ddd', outline: 'none' },
+  addCatBtn: { width: '80px', height: '48px', background: '#25d366', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' },
+  catList: { display: 'flex', flexDirection: 'column', gap: '10px' },
+  catItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '12px 15px',
+    background: '#f8f9fa',
+    borderRadius: '8px'
+  },
+  catDeleteBtn: { background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer' },
+  confirmBox: { background: 'white', padding: '25px', borderRadius: '16px', width: '100%', maxWidth: '350px', textAlign: 'center' },
+  confirmButtons: { display: 'flex', gap: '12px' },
+  deleteConfirmBtn: {
+    flex: 1,
+    height: '48px',
+    background: '#d32f2f',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontWeight: 'bold'
+  },
+  toast: {
+    position: 'fixed',
+    bottom: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    padding: '12px 24px',
+    borderRadius: '30px',
+    color: 'white',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    zIndex: 1000,
+    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+    transition: 'all 0.3s ease',
+  },
 };

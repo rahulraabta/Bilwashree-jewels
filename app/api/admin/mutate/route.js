@@ -17,6 +17,7 @@ const writeClient = createClient({
 export async function POST(req) {
   try {
     const { action, data } = await req.json()
+    const type = data?._type || 'product'
 
     if (!token) {
       return NextResponse.json({ error: 'SANITY_WRITE_TOKEN is not configured' }, { status: 500 })
@@ -24,20 +25,27 @@ export async function POST(req) {
 
     switch (action) {
       case 'create':
-        const newProduct = await writeClient.create({
-          _type: 'product',
-          ...data,
-          slug: { _type: 'slug', current: data.name.toLowerCase().replace(/\s+/g, '-') }
-        })
-        return NextResponse.json(newProduct)
+        const createPayload = {
+          _type: type,
+          ...data
+        }
+        // Handle slug if needed (mostly for product/category)
+        if (data.name && !data.slug) {
+          createPayload.slug = { _type: 'slug', current: data.name.toLowerCase().trim().replace(/\s+/g, '-') }
+        } else if (data.title && !data.slug) {
+          createPayload.slug = { _type: 'slug', current: data.title.toLowerCase().trim().replace(/\s+/g, '-') }
+        }
+
+        const newDoc = await writeClient.create(createPayload)
+        return NextResponse.json(newDoc)
 
       case 'patch':
-        const { id, ...fields } = data
-        const patchedProduct = await writeClient
+        const { id, _type, ...fields } = data
+        const patchedDoc = await writeClient
           .patch(id)
           .set(fields)
           .commit()
-        return NextResponse.json(patchedProduct)
+        return NextResponse.json(patchedDoc)
 
       case 'delete':
         await writeClient.delete(data.id)
