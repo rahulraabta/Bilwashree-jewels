@@ -549,13 +549,13 @@ export default function AdminPage() {
       {toast.message && <div style={{...styles.toast, background: toast.type === 'error' ? '#f44336' : '#4caf50'}}>{toast.message}</div>}
 
       {/* BUG 2 FIX: Hide camera btn on desktop */}
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @media (hover: hover) {
           .camera-btn {
             display: none !important;
           }
         }
-      `}</style>
+      `}} />
     </div>
   );
 }
