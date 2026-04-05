@@ -11,6 +11,17 @@ function urlFor(source) {
 
 const ADMIN_PASSWORD = "bilwashree2026";
 
+const CATEGORIES = [
+  { title: 'Necklace', value: 'necklaces' },
+  { title: 'Haram', value: 'harams' },
+  { title: 'Earrings', value: 'earrings' },
+  { title: 'Pendant / Dollar', value: 'pendants' },
+  { title: 'Bangles', value: 'bangles' },
+  { title: 'Jadau Kundan', value: 'jadau-kundan' },
+  { title: 'Combo Set', value: 'combo-sets' },
+  { title: 'Other', value: 'other' },
+];
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
@@ -19,7 +30,14 @@ export default function AdminPage() {
   const [editingProduct, setEditingProduct] = useState(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
-  const [formState, setFormState] = useState({ name: '', price: '', image: null, imageFile: null });
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [formState, setFormState] = useState({
+    name: '',
+    price: '',
+    category: 'other',
+    image: null,
+    imageFile: null
+  });
   const [isSaving, setIsSaving] = useState(false);
 
   // Authentication check
@@ -66,6 +84,7 @@ export default function AdminPage() {
     setFormState({
       name: product.name,
       price: product.price,
+      category: product.category || 'other',
       image: product.images?.[0] || null,
       imageFile: null
     });
@@ -73,7 +92,7 @@ export default function AdminPage() {
 
   const handleAddNew = () => {
     setIsAddingNew(true);
-    setFormState({ name: '', price: '', image: null, imageFile: null });
+    setFormState({ name: '', price: '', category: 'other', image: null, imageFile: null });
   };
 
   const handleSave = async () => {
@@ -105,6 +124,7 @@ export default function AdminPage() {
       const productData = {
         name: formState.name,
         price: Number(formState.price),
+        category: formState.category,
       };
 
       if (imageAsset) {
@@ -169,6 +189,12 @@ export default function AdminPage() {
     }
   };
 
+  const filteredProducts = activeFilter === 'all'
+    ? products
+    : products.filter(p => p.category === activeFilter);
+
+  const getCategoryLabel = (val) => CATEGORIES.find(c => c.value === val)?.title || val || 'Other';
+
   if (!isAuthenticated) {
     return (
       <div style={styles.loginContainer}>
@@ -198,11 +224,30 @@ export default function AdminPage() {
         <button onClick={handleAddNew} style={styles.addButton}>+ New Product</button>
       </header>
 
+      {/* Filter Bar */}
+      <div style={styles.filterBar}>
+        <button
+          onClick={() => setActiveFilter('all')}
+          style={{...styles.filterBtn, ...(activeFilter === 'all' ? styles.filterBtnActive : {})}}
+        >
+          All
+        </button>
+        {CATEGORIES.map(cat => (
+          <button
+            key={cat.value}
+            onClick={() => setActiveFilter(cat.value)}
+            style={{...styles.filterBtn, ...(activeFilter === cat.value ? styles.filterBtnActive : {})}}
+          >
+            {cat.title}
+          </button>
+        ))}
+      </div>
+
       {loading ? (
         <div style={styles.loading}>Loading items...</div>
       ) : (
         <div style={styles.productList}>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div key={product._id} style={styles.productItem} onClick={() => handleEdit(product)}>
               <div style={styles.productThumb}>
                 {product.images?.[0] ? (
@@ -213,11 +258,19 @@ export default function AdminPage() {
               </div>
               <div style={styles.productInfo}>
                 <div style={styles.productName}>{product.name}</div>
-                <div style={styles.productPrice}>₹{product.price}</div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                  <div style={styles.productPrice}>₹{product.price}</div>
+                  {product.category && (
+                    <span style={styles.categoryBadge}>{getCategoryLabel(product.category)}</span>
+                  )}
+                </div>
               </div>
               <div style={styles.chevron}>›</div>
             </div>
           ))}
+          {filteredProducts.length === 0 && (
+            <div style={styles.noResults}>No products found in this category.</div>
+          )}
         </div>
       )}
 
@@ -253,7 +306,7 @@ export default function AdminPage() {
               </div>
 
               <div style={styles.field}>
-                <label>Name</label>
+                <label style={styles.fieldLabel}>Name</label>
                 <input
                   type="text"
                   value={formState.name}
@@ -263,7 +316,20 @@ export default function AdminPage() {
               </div>
 
               <div style={styles.field}>
-                <label>Price (₹)</label>
+                <label style={styles.fieldLabel}>Category</label>
+                <select
+                  value={formState.category}
+                  onChange={(e) => setFormState({ ...formState, category: e.target.value })}
+                  style={styles.modalInput}
+                >
+                  {CATEGORIES.map(cat => (
+                    <option key={cat.value} value={cat.value}>{cat.title}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div style={styles.field}>
+                <label style={styles.fieldLabel}>Price (₹)</label>
                 <input
                   type="number"
                   value={formState.price}
@@ -376,6 +442,30 @@ const styles = {
     fontWeight: 'bold',
     fontSize: '14px',
   },
+  filterBar: {
+    display: 'flex',
+    gap: '8px',
+    padding: '12px',
+    overflowX: 'auto',
+    background: 'white',
+    borderBottom: '1px solid #eee',
+    WebkitOverflowScrolling: 'touch',
+    scrollbarWidth: 'none',
+  },
+  filterBtn: {
+    padding: '6px 14px',
+    borderRadius: '16px',
+    border: '1px solid #ddd',
+    background: 'white',
+    fontSize: '13px',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+  },
+  filterBtnActive: {
+    background: '#075e54',
+    color: 'white',
+    borderColor: '#075e54',
+  },
   loading: { padding: '40px', textAlign: 'center', color: '#666' },
   productList: { padding: '10px' },
   productItem: {
@@ -394,6 +484,16 @@ const styles = {
   productInfo: { flex: 1 },
   productName: { fontWeight: 'bold', fontSize: '16px', marginBottom: '2px' },
   productPrice: { color: '#075e54', fontWeight: 'bold' },
+  categoryBadge: {
+    fontSize: '10px',
+    background: '#e1f5fe',
+    color: '#0288d1',
+    padding: '2px 6px',
+    borderRadius: '4px',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  noResults: { padding: '40px', textAlign: 'center', color: '#999' },
   chevron: { color: '#bbb', fontSize: '24px' },
   modalOverlay: {
     position: 'fixed',
@@ -442,7 +542,8 @@ const styles = {
   previewImg: { width: '100%', height: '100%', objectFit: 'contain' },
   uploadPlaceholder: { textAlign: 'center', color: '#999' },
   field: { display: 'flex', flexDirection: 'column', gap: '5px' },
-  modalInput: { padding: '12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px' },
+  fieldLabel: { fontSize: '14px', fontWeight: 'bold', color: '#666' },
+  modalInput: { padding: '12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px', outline: 'none' },
   modalFooter: {
     padding: '15px 20px',
     borderTop: '1px solid #eee',

@@ -60,7 +60,15 @@ export default function Home() {
   const filterTimeoutRef = useRef(null);
 
   const [categories, setCategories] = useState([
-    { id: 'all', name: 'All', icon: '✦', description: 'Browse our entire collection' }
+    { id: 'all', name: 'All', icon: '✦', description: 'Browse our entire collection' },
+    { id: 'necklaces', name: 'Necklace', icon: '✨' },
+    { id: 'harams', name: 'Haram', icon: '👑' },
+    { id: 'earrings', name: 'Earrings', icon: '💎' },
+    { id: 'pendants', name: 'Pendant / Dollar', icon: '📿' },
+    { id: 'bangles', name: 'Bangles', icon: '💫' },
+    { id: 'jadau-kundan', name: 'Jadau Kundan', icon: '🌸' },
+    { id: 'combo-sets', name: 'Combo Set', icon: '🎁' },
+    { id: 'other', name: 'Other', icon: '✦' }
   ]);
 
   useEffect(() => {
@@ -92,10 +100,16 @@ export default function Home() {
         searchAliases: cat.searchAliases || [],
         description: cat.description || ''
       }));
-      setCategories([
-        { id: 'all', name: 'All', icon: '✦', description: 'Browse our entire collection' },
-        ...fetchedCategories
-      ]);
+
+      setCategories(prev => {
+        const base = [...prev];
+        fetchedCategories.forEach(cat => {
+          if (!base.some(b => b.id === cat.id)) {
+            base.push(cat);
+          }
+        });
+        return base;
+      });
 
       // Handle Settings
       if (settingsData) {
