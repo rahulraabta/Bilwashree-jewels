@@ -37,13 +37,13 @@ export default function SearchBar({
     };
   }, []);
 
-  const normalizedQuery = query.trim().toLowerCase();
+  const normalizedQuery = query?.trim()?.toLowerCase();
   const filteredSuggestions = normalizedQuery
-    ? suggestions
+    ? (suggestions ?? [])
       .filter((item) => {
-        const label = (item.label || '').toLowerCase();
-        const keywords = (item.keywords || []).join(' ').toLowerCase();
-        return label.includes(normalizedQuery) || keywords.includes(normalizedQuery);
+        const label = (item?.label || '')?.toLowerCase();
+        const keywords = (item?.keywords || [])?.join(' ')?.toLowerCase();
+        return label?.includes(normalizedQuery) || keywords?.includes(normalizedQuery);
       })
       .slice(0, 6)
     : [];
@@ -58,10 +58,10 @@ export default function SearchBar({
         onClick={() => {
           if (!isExpanded) {
             setIsExpanded(true);
-          } else if (query.trim()) {
-            onSearch(query.trim());
+          } else if (query?.trim()) {
+            onSearch?.(query?.trim());
           } else {
-            onSearch('');
+            onSearch?.('');
           }
 
           if (focusTimeoutRef.current) {
@@ -90,8 +90,8 @@ export default function SearchBar({
         placeholder={placeholder}
         value={query}
         onChange={(e) => {
-          const value = e.target.value;
-          setQuery(value);
+          const value = e?.target?.value;
+          setQuery?.(value);
 
           // Debounce the search to improve performance
           if (searchTimeoutRef.current) {
@@ -99,44 +99,44 @@ export default function SearchBar({
           }
 
           searchTimeoutRef.current = setTimeout(() => {
-            onSearch(value);
+            onSearch?.(value);
           }, 150); // 150ms debounce delay
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
+          if (e?.key === 'Enter') {
+            e?.preventDefault();
             if (filteredSuggestions[0] && onSuggestionSelect) {
-              onSuggestionSelect(filteredSuggestions[0]);
-              setQuery(filteredSuggestions[0].label);
-              setIsExpanded(false);
+              onSuggestionSelect?.(filteredSuggestions[0]);
+              setQuery?.(filteredSuggestions[0]?.label);
+              setIsExpanded?.(false);
               return;
             }
-            onSearch(query.trim());
+            onSearch?.(query?.trim());
           }
         }}
         aria-label="Search products"
       />
 
-      {isExpanded && filteredSuggestions.length > 0 && (
+      {isExpanded && (filteredSuggestions ?? [])?.length > 0 && (
         <div className="search-suggestions" role="listbox" aria-label="Search suggestions">
-          {filteredSuggestions.map((item) => (
+          {(filteredSuggestions ?? []).map((item) => (
             <button
-              key={item.id}
+              key={item?.id}
               type="button"
               role="option"
               aria-selected="false"
               className="search-suggestion-item"
               onClick={() => {
-                setQuery(item.label);
-                onSearch(item.label);
+                setQuery?.(item?.label);
+                onSearch?.(item?.label);
                 if (onSuggestionSelect) {
-                  onSuggestionSelect(item);
+                  onSuggestionSelect?.(item);
                 }
-                setIsExpanded(false);
+                setIsExpanded?.(false);
               }}
             >
-              <span className="suggestion-label">{item.label}</span>
-              <span className="suggestion-type">{item.type}</span>
+              <span className="suggestion-label">{item?.label}</span>
+              <span className="suggestion-type">{item?.type}</span>
             </button>
           ))}
         </div>

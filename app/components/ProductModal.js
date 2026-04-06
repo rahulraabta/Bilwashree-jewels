@@ -8,10 +8,6 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
   const modalRef = useRef(null);
   const hasPrice = Number.isFinite(product?.priceINR);
 
-  const displayImage = product.mainImage
-    ? urlFor(product.mainImage).width(800).auto('format').url()
-    : product.imageURL;
-
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
@@ -29,8 +25,8 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
   };
 
   const whatsappInquiry = () => {
-    const pricePart = hasPrice ? ` (₹${product.priceINR})` : '';
-    const text = encodeURIComponent(`Hi! I'm interested in the "${product.title}"${pricePart}. Can you please share more details?`);
+    const pricePart = hasPrice ? ` (₹${product?.priceINR})` : '';
+    const text = encodeURIComponent(`Hi! I'm interested in the "${product?.title}"${pricePart}. Can you please share more details?`);
     window.open(`https://wa.me/${contactPhone || '919986237677'}?text=${text}`, '_blank');
   };
 
@@ -48,8 +44,8 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
         <div className="modal-grid">
           <div className="modal-image-wrap">
             <Image
-              src={displayImage}
-              alt={product.title}
+              src={product?.imageURL || "/placeholder.png"}
+              alt={product?.title || "Product"}
               width={600}
               height={600}
               style={{ objectFit: 'cover' }}
@@ -61,11 +57,11 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
               <span className="eyebrow-line" />
               <span className="eyebrow-text garamond">{categoryName}</span>
             </div>
-            <h2 className="modal-title">{product.title}</h2>
+            <h2 className="modal-title">{product?.title}</h2>
 
             <div className="modal-price-row">
               {hasPrice ? (
-                <span className="modal-price">₹{product.priceINR.toLocaleString('en-IN')}</span>
+                <span className="modal-price">₹{product?.priceINR?.toLocaleString('en-IN')}</span>
               ) : (
                 <span className="modal-price-request">Price on Request</span>
               )}
@@ -75,11 +71,11 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
               <p>Experience the elegance of handcrafted jewellery. This piece is meticulously designed with refined detailing and a premium finish for modern styling.</p>
             </div>
 
-            {product.occasion && product.occasion.length > 0 && (
+            {(product?.occasion ?? []).length > 0 && (
               <div className="modal-vibe-tags">
-                {product.occasion.map(vibe => (
+                {(product?.occasion ?? []).map(vibe => (
                   <span key={vibe} className="vibe-tag">
-                    {vibe.charAt(0).toUpperCase() + vibe.slice(1).replace('-', ' ')}
+                    {String(vibe).charAt(0).toUpperCase() + String(vibe).slice(1).replace('-', ' ')}
                   </span>
                 ))}
               </div>
@@ -93,12 +89,12 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
                     whatsappInquiry();
                     return;
                   }
-                  onAddToCart(product);
+                  onAddToCart?.(product);
                   onClose();
                 }}
-                disabled={!product.inStock && hasPrice}
+                disabled={!product?.inStock && hasPrice}
               >
-                {!product.inStock && hasPrice ? 'Out of Stock' : hasPrice ? 'Add to Cart' : 'Request Price'}
+                {!product?.inStock && hasPrice ? 'Out of Stock' : hasPrice ? 'Add to Cart' : 'Request Price'}
               </button>
               <button
                 className="btn-modal-wa"

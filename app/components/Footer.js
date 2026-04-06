@@ -18,17 +18,17 @@ export default function Footer({
             {brandDesc || 'Celebrating elegant, ethically handcrafted jewellery for modern celebrations. Each piece is made to be worn and loved every day.'}
           </p>
           <div className="footer-socials" role="list" aria-label="Social media links">
-            {socialLinks.map((social) => (
+            {(socialLinks ?? []).map((social) => (
               <a
-                key={social.label}
-                href={social.href}
+                key={social?.label}
+                href={social?.href}
                 className="social-pill"
                 role="listitem"
-                aria-label={social.label}
-                target={social.external ? '_blank' : undefined}
-                rel={social.external ? 'noopener noreferrer' : undefined}
+                aria-label={social?.label}
+                target={social?.external ? '_blank' : undefined}
+                rel={social?.external ? 'noopener noreferrer' : undefined}
               >
-                {social.label}
+                {social?.label}
               </a>
             ))}
           </div>
@@ -38,16 +38,16 @@ export default function Footer({
         <div>
           <h3 className="footer-heading">Quick Links</h3>
           <ul className="footer-links" role="list">
-            {navLinks.map(link => (
-              <li key={link.id} role="listitem">
+            {(navLinks ?? []).map(link => (
+              <li key={link?.id} role="listitem">
                 <a
-                  href={`#${link.id}`}
+                  href={`#${link?.id}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    scrollToSection(link.id);
+                    scrollToSection?.(link?.id);
                   }}
                 >
-                  {link.label}
+                  {link?.label}
                 </a>
               </li>
             ))}
@@ -58,12 +58,12 @@ export default function Footer({
         <div>
           <h3 className="footer-heading">Information</h3>
           <ul className="footer-links" role="list">
-            {['Shipping Policy', 'Return Policy', 'Care Instructions', 'Contact Us', 'Privacy Policy'].map(item => (
+            {(['Shipping Policy', 'Return Policy', 'Care Instructions', 'Contact Us', 'Privacy Policy'] ?? []).map(item => (
               <li key={item} role="listitem">
                 <button
                   type="button"
                   className="footer-link-btn"
-                  onClick={() => onInfoClick(item)}
+                  onClick={() => onInfoClick?.(item)}
                 >
                   {item}
                 </button>

@@ -64,16 +64,16 @@ export default function Navbar({
         </div>
 
         <ul className="navbar-links">
-          {navLinks.map(link => (
-            <li key={link.id}>
+          {(navLinks ?? []).map(link => (
+            <li key={link?.id}>
               <a
-                href={`#${link.id}`}
+                href={`#${link?.id}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToSection(link.id);
+                  scrollToSection?.(link?.id);
                 }}
               >
-                {link.label}
+                {link?.label}
               </a>
             </li>
           ))}
@@ -128,17 +128,17 @@ export default function Navbar({
       >
         <span className="mobile-nav-brand">{brandName || 'Bilwashree Jewels'}</span>
         <ul className="mobile-nav-links">
-          {navLinks.map(link => (
-            <li key={link.id}>
+          {(navLinks ?? []).map(link => (
+            <li key={link?.id}>
               <a
-                href={`#${link.id}`}
+                href={`#${link?.id}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  setMobileNavOpen(false);
-                  scrollToSection(link.id);
+                  setMobileNavOpen?.(false);
+                  scrollToSection?.(link?.id);
                 }}
               >
-                {link.label}
+                {link?.label}
               </a>
             </li>
           ))}

@@ -7,17 +7,14 @@ import { urlFor } from '../../sanity/lib/image';
 
 export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
-  const hasPrice = Number.isFinite(product.priceINR);
-
-  const displayImage = product.mainImage
-    ? urlFor(product.mainImage).width(500).auto('format').url()
-    : product.imageURL;
+  const [isHovered, setIsHovered] = useState(false);
+  const hasPrice = Number.isFinite(product?.priceINR);
 
   return (
     <article
       className="glass-card"
       role="listitem"
-      aria-label={product.title}
+      aria-label={product?.title}
       tabIndex={0}
       onClick={onClick}
       onKeyDown={(event) => {
@@ -32,8 +29,8 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           <div className="image-fallback">Image coming soon</div>
         ) : (
           <Image
-            src={displayImage}
-            alt={product.title}
+            src={product?.imageURL || "/placeholder.png"}
+            alt={product?.title || "Product"}
             width={400}
             height={400}
             loading="lazy"
@@ -44,9 +41,9 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           />
         )}
 
-        {product.badge && (
-          <div className={`product-badge ${String(product.badge).toLowerCase().replace(/\s+/g, '').includes('bestseller') ? 'badge-bestseller' : 'badge-new'}`}>
-            {product.badge}
+        {product?.badge && (
+          <div className={`product-badge ${String(product?.badge).toLowerCase().replace(/\s+/g, '').includes('bestseller') ? 'badge-bestseller' : 'badge-new'}`}>
+            {product?.badge}
           </div>
         )}
 
@@ -57,44 +54,51 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             onClick={(e) => {
               e.stopPropagation();
               onView?.();
-              const text = encodeURIComponent(`Hi! I'm interested in "${product.title}" (₹${product.priceINR}). Can you help me?`);
+              const priceText = product?.priceINR ? ` (₹${product?.priceINR})` : '';
+              const text = encodeURIComponent(`Hi! I'm interested in "${product?.title}"${priceText}. Can you help me?`);
               window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
             }}
             aria-label="Wishlist / Inquiry"
           >
             ♡
           </button>
-
-          <button
-            className="btn-add-pill"
-            disabled={!product.inStock}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!hasPrice) {
-                onView?.();
-                const text = encodeURIComponent(`Hi! I'm interested in "${product.title}". Please share the latest price and details.`);
-                window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
-                return;
-              }
-              onAddToCart(product);
-            }}
-            aria-label="Add to cart"
-          >
-            {!product.inStock ? 'SOLD OUT' : hasPrice ? 'ADD TO BAG' : 'REQUEST PRICE'}
-          </button>
         </div>
       </div>
 
       <div className="card-body centered">
-        <h3 className="product-title-clean">{product.title}</h3>
+        <h3 className="product-title-clean">{product?.title}</h3>
 
         <div className="price-row-clean">
           {hasPrice ? (
-            <span className="price-current">₹{product.priceINR.toLocaleString('en-IN')}</span>
+            <span className="price-current">₹{product?.priceINR?.toLocaleString('en-IN')}</span>
           ) : (
             <span className="price-request">Price on Request</span>
           )}
         </div>
+
+        <button
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart?.(product);
+          }}
+          style={{
+            background: isHovered ? "#145f48" : "#1a7a5e",
+            color: "#fff",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            width: "100%",
+            marginTop: "10px",
+            fontSize: "14px",
+            fontWeight: "600",
+            transition: "background 0.2s"
+          }}
+        >
+          🛒 Add to Cart
+        </button>
       </div>
     </article>
   );

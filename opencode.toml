@@ -1,0 +1,21 @@
+[instructions]
+content = """
+PROJECT: Bilwashree Jewels — Next.js 14 + Sanity v3 + Vercel free
+STYLE: Inline JS styles only. No Tailwind. No CSS modules.
+RULES:
+- Output changed lines only, never full files
+- No explanations or summaries
+- Batch all changes in one response
+- No new npm packages
+- No paid services
+- Handle null/undefined with optional chaining
+- Always add loading + error states
+- Confirm with: filename + Done only
+"""
+
+[model]
+provider = "openrouter"
+model = "google/gemini-2.5-flash-preview"
+
+[keybindings]
+submit = "enter"
