@@ -86,7 +86,7 @@ export default function Home() {
     setLoading(true);
     setHasError(false);
     try {
-      const q = `*[_type == "product"]{ _id, name, price, category, "image": images[0].asset->url, slug }`;
+      const q = `*[_type == "product"]{ _id, name, price, category, images[]{asset->}, slug }`;
       const [productsData, categoriesData, settingsData] = await Promise.all([
         client.fetch(q),
         client.fetch(`*[_type == "category"]{ _id, title, "id": slug.current, icon, description }`),
@@ -99,7 +99,7 @@ export default function Home() {
         title: item?.name,
         priceINR: item?.price,
         category: item?.category || 'other',
-        imageURL: item?.image || ""
+        images: item?.images
       }));
       setInventory(normalized);
 
@@ -528,7 +528,7 @@ export default function Home() {
               <article className="daily-drop-card" aria-labelledby="daily-drop-title">
                 <div className="daily-drop-media">
                   <Image
-                    src={dailyDropProduct?.imageURL}
+                    src={dailyDropProduct?.images?.[0]?.asset ? urlFor(dailyDropProduct.images[0]).width(600).url() : "/placeholder.png"}
                     alt={dailyDropProduct?.title}
                     fill
                     sizes="(max-width: 980px) 100vw, 280px"

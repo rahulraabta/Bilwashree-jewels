@@ -49,7 +49,7 @@ export default function CartDrawer({
             cartItems.map(item => (
               <div key={item.product.id} className="cart-item">
                 <Image
-                  src={item.product.imageURL}
+                  src={item.product?.images?.[0]?.asset ? urlFor(item.product.images[0]).width(80).url() : "/placeholder.png"}
                   alt={item.product.title}
                   className="cart-item-img"
                   width={80}

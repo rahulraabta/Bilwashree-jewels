@@ -73,7 +73,14 @@ export const productType = defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
-      of: [{type: 'image'}],
+      of: [
+        {
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
     }),
     defineField({
       name: 'imageURL',

@@ -29,7 +29,7 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           <div className="image-fallback">Image coming soon</div>
         ) : (
           <Image
-            src={product?.image ? urlFor(product.image).width(400).url() : "/placeholder.png"}
+            src={product?.images?.[0]?.asset ? urlFor(product.images[0]).width(400).url() : "/placeholder.png"}
             alt={product?.name || "Product"}
             width={400}
             height={400}

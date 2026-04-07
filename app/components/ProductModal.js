@@ -44,8 +44,8 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
         <div className="modal-grid">
           <div className="modal-image-wrap">
             <Image
-              src={product?.imageURL || "/placeholder.png"}
-              alt={product?.title || "Product"}
+              src={product?.images?.[0]?.asset ? urlFor(product.images[0]).width(800).url() : "/placeholder.png"}
+              alt={product?.name || "Product"}
               width={600}
               height={600}
               style={{ objectFit: 'cover' }}
