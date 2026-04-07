@@ -8,13 +8,13 @@ import { urlFor } from '../../sanity/lib/image';
 export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const hasPrice = Number.isFinite(product?.priceINR);
+  const hasPrice = Number.isFinite(product?.price);
 
   return (
     <article
       className="glass-card"
       role="listitem"
-      aria-label={product?.title}
+      aria-label={product?.name}
       tabIndex={0}
       onClick={onClick}
       onKeyDown={(event) => {
@@ -29,8 +29,8 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           <div className="image-fallback">Image coming soon</div>
         ) : (
           <Image
-            src={product?.imageURL || "/placeholder.png"}
-            alt={product?.title || "Product"}
+            src={product?.image ? urlFor(product.image).width(400).url() : "/placeholder.png"}
+            alt={product?.name || "Product"}
             width={400}
             height={400}
             loading="lazy"
@@ -54,8 +54,8 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             onClick={(e) => {
               e.stopPropagation();
               onView?.();
-              const priceText = product?.priceINR ? ` (₹${product?.priceINR})` : '';
-              const text = encodeURIComponent(`Hi! I'm interested in "${product?.title}"${priceText}. Can you help me?`);
+              const priceText = product?.price ? ` (₹${product?.price})` : '';
+              const text = encodeURIComponent(`Hi! I'm interested in "${product?.name}"${priceText}. Can you help me?`);
               window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
             }}
             aria-label="Wishlist / Inquiry"
@@ -66,11 +66,11 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
       </div>
 
       <div className="card-body centered">
-        <h3 className="product-title-clean">{product?.title}</h3>
+        <h3 className="product-title-clean">{product?.name}</h3>
 
         <div className="price-row-clean">
           {hasPrice ? (
-            <span className="price-current">₹{product?.priceINR?.toLocaleString('en-IN')}</span>
+            <span className="price-current">₹{product?.price?.toLocaleString('en-IN')}</span>
           ) : (
             <span className="price-request">Price on Request</span>
           )}

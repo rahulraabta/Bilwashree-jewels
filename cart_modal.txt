@@ -1,0 +1,36 @@
+      )}
+
+      {showCart && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 2000, display: "flex" }} onClick={() => setShowCart(false)}>
+          <div style={{ background: "#fff", borderRadius: "16px", padding: "24px", maxWidth: "480px", width: "90%", maxHeight: "80vh", overflowY: "auto", margin: "auto" }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+              <h2 style={{ margin: 0 }}>🛒 Your Cart</h2>
+              <button onClick={() => setShowCart(false)} style={{ border: "none", background: "none", fontSize: "24px", cursor: "pointer" }}>✕</button>
+            </div>
+            {cart.length === 0 ? <p>Your cart is empty.</p> : (
+              <div style={{ flex: 1 }}>
+                {cart.map(item => (
+                  <div key={item._id} style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", borderBottom: "1px solid #eee", paddingBottom: "8px" }}>
+                    <div>
+                      <h4 style={{ margin: "0 0 4px" }}>{item.name}</h4>
+                      <p style={{ margin: 0, color: "#666" }}>₹{item.price} x {item.qty}</p>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <button onClick={() => updateQty(item._id, -1)} style={{ width: "30px", height: "30px", borderRadius: "50%", border: "1px solid #ddd" }}>−</button>
+                      <span>{item.qty}</span>
+                      <button onClick={() => updateQty(item._id, 1)} style={{ width: "30px", height: "30px", borderRadius: "50%", border: "1px solid #ddd" }}>+</button>
+                      <button onClick={() => removeFromCart(item._id)} style={{ color: "#e53e3e", border: "none", background: "none", marginLeft: "10px" }}>Remove</button>
+                    </div>
+                  </div>
+                ))}
+                <div style={{ marginTop: "20px", borderTop: "2px solid #eee", paddingTop: "10px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "20px", fontWeight: "700" }}>
+                    <span>Grand Total:</span>
+                    <span>₹{getTotal().toLocaleString('en-IN')}</span>
+                  </div>
+                  <div style={{ display: "flex", gap: "12px", marginTop: "20px" }}>
+                    <button onClick={clearCart} style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "1px solid #ddd", background: "#f5f5f5" }}>Clear Cart</button>
+                    <button onClick={() => { setShowCart(false); setShowCheckout(true); setCheckoutStep(1); }} style={{ flex: 2, padding: "12px", borderRadius: "8px", border: "none", background: "#1a7a5e", color: "#fff", fontWeight: "600" }}>Proceed to Checkout →</button>
+                  </div>
+                </div>
+              </div>

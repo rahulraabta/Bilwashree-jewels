@@ -538,7 +538,7 @@ export default function AdminPage() {
         <div style={styles.modalOverlay}>
           <div style={styles.confirmBox}>
             <p style={{marginBottom: '20px', fontWeight: 'bold'}}>
-              Are you sure you want to delete "{showDeleteConfirm.name}"? This cannot be undone.
+              Are you sure you want to delete &quot;{showDeleteConfirm.name}&quot;? This cannot be undone.
             </p>
             <div style={styles.confirmButtons}>
               <button onClick={() => setShowDeleteConfirm(null)} style={styles.cancelBtnLarge}>Cancel</button>
@@ -553,7 +553,7 @@ export default function AdminPage() {
         <div style={styles.modalOverlay}>
           <div style={styles.confirmBox}>
             <p style={{marginBottom: '20px', fontWeight: 'bold'}}>
-              Delete category "{catToDelete.title}"?
+              Delete category &quot;{catToDelete.title}&quot;?
             </p>
             <div style={styles.confirmButtons}>
               <button onClick={() => setCatToDelete(null)} style={styles.cancelBtnLarge}>Cancel</button>
