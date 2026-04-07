@@ -61,6 +61,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   // Cart & Checkout State
   const [cart, setCart] = useState([]);
@@ -102,6 +103,9 @@ export default function Home() {
       }));
       setInventory(normalized);
 
+      const uniqueCategories = [...new Set((normalized ?? []).map(p => p?.category).filter(Boolean))];
+      setCategories(uniqueCategories.map(cat => ({ id: cat, name: cat.charAt(0).toUpperCase() + cat.slice(1), icon: '✦' })));
+
       if (categoriesData) {
         setCategories(prev => {
           const base = [...prev];
@@ -112,7 +116,7 @@ export default function Home() {
               base[index] = { ...base[index], ...cat };
               return;
             }
-            base.push(cat);
+            base.push({ id: cat.id, name: cat.title, icon: cat.icon || '✦' });
           });
           return base;
         });
