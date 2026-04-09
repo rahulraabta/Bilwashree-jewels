@@ -99,12 +99,14 @@ export default function Home() {
         id: item?.slug?.current || item?._id,
         title: item?.name,
         price: item?.price,
-        category: item?.category || 'other',
+        category: item?.category || '', // Change: Ensure it doesn't default to 'other'
         images: item?.images,
-        imageURL: item?.imageURL
+        imageURL: item?.imageURL,
+        inStock: item?.inStock !== false // Default to true if not specified
       }));
       setInventory(normalized);
 
+      // Change: Filter out items with no category if that's what "other" represents
       const uniqueCategories = [...new Set((normalized ?? []).map(p => p?.category).filter(Boolean))];
       setCategories(uniqueCategories.map(cat => ({ id: cat, name: cat.charAt(0).toUpperCase() + cat.slice(1), icon: 'âœ¦' })));
 

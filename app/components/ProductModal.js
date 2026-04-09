@@ -105,9 +105,8 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
                   onAddToCart?.(product);
                   onClose();
                 }}
-                disabled={!product?.inStock && hasPrice}
               >
-                {!product?.inStock && hasPrice ? 'Out of Stock' : hasPrice ? 'Add to Cart' : 'Request Price'}
+                {hasPrice ? 'Add to Cart' : 'Request Price'}
               </button>
               <button
                 className="btn-modal-wa"
