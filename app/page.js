@@ -92,6 +92,7 @@ export default function Home() {
         client.fetch(`*[_type == "category"]{ _id, title, "id": slug.current, icon, description }`),
         client.fetch(`*[_type == "settings"][0]`)
       ]);
+      console.log('DEBUG - Fetched products:', productsData);
 
       const normalized = (productsData ?? []).map(item => ({
         _id: item?._id,
