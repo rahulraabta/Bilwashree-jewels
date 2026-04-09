@@ -15,7 +15,9 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
       return urlFor(product.images[0]).width(400).url();
     }
     if (product?.imageURL) {
-      return product.imageURL.startsWith('/') ? product.imageURL : `/${product.imageURL}`;
+      // Fix: strip .jpeg extension if present
+      const cleanUrl = product.imageURL.replace(/\.jpeg$/, '');
+      return cleanUrl.startsWith('/') ? cleanUrl : `/${cleanUrl}`;
     }
     return null;
   };

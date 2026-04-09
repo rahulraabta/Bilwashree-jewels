@@ -13,7 +13,9 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
       return urlFor(product.images[0]).width(800).url();
     }
     if (product?.imageURL) {
-      return product.imageURL.startsWith('/') ? product.imageURL : `/${product.imageURL}`;
+      // Fix: strip .jpeg extension if present
+      const cleanUrl = product.imageURL.replace(/\.jpeg$/, '');
+      return cleanUrl.startsWith('/') ? cleanUrl : `/${cleanUrl}`;
     }
     return "/placeholder.png";
   };

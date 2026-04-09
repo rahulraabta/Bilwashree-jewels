@@ -25,7 +25,9 @@
       "Bash(perl:*)",
       "mcp__code-review-graph__list_graph_stats_tool",
       "mcp__Sanity__list_datasets",
-      "Bash(npx sanity@latest:*)"
+      "Bash(npx sanity@latest:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
