@@ -2487,18 +2487,18 @@ section[id] {
   }
 
   .hero-bg-image {
-    object-fit: contain;
-    object-position: center 20%;
+    object-fit: cover;
+    object-position: center;
     transform: none;
     background-color: var(--bg-color);
   }
 
   .hero-section {
-    min-height: 60dvh;
+    min-height: 100dvh;
     padding: 0 0 calc(1.25rem + env(safe-area-inset-bottom));
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at 50% 12%, rgba(64, 51, 37, 0.5), rgba(30, 26, 21, 1));
+    background: radial-gradient(circle at 50% 12%, rgba(64, 51, 37, 0.3), rgba(30, 26, 21, 0.8));
   }
 
   .hero-content {
