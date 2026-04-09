@@ -75,7 +75,7 @@ export default function Footer({
 
       <div className="footer-bottom">
         <span>© 2026 {brandName || 'Bilwashree Jewels'}. All rights reserved.</span>
-        <span className="footer-bottom-accent">Crafted with devotion ✦</span>
+        <span className="footer-bottom-accent">Crafted with devotion</span>
       </div>
     </footer>
   );

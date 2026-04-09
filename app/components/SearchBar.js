@@ -152,7 +152,7 @@ export default function SearchBar({
           }}
           aria-label="Clear search"
         >
-          ✕
+          Clear
         </button>
       )}
     </div>

@@ -4,9 +4,16 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { urlFor } from '../../sanity/lib/image';
 
+const PRICE_FALLBACK_TEXT = 'Price will come soon';
+
 export default function ProductModal({ product, categoryName, contactPhone, onClose, onAddToCart }) {
   const modalRef = useRef(null);
-  const hasPrice = Number.isFinite(product?.price);
+  const hasPrice = Number.isFinite(product?.price) && product?.price > 0;
+
+  const getCleanTitle = (title) => {
+    const match = (title || '').match(/BS\s*\d+/i);
+    return match ? match[0].toUpperCase() : title;
+  };
 
   const getImageUrl = () => {
     if (product?.images?.[0]?.asset) {
@@ -52,7 +59,7 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
       aria-modal="true"
     >
       <div className="modal-container">
-        <button className="modal-close" onClick={onClose} aria-label="Close modal">✕</button>
+        <button className="modal-close" onClick={onClose} aria-label="Close modal">Close</button>
 
         <div className="modal-grid">
           <div className="modal-image-wrap">
@@ -70,13 +77,13 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
               <span className="eyebrow-line" />
               <span className="eyebrow-text garamond">{categoryName}</span>
             </div>
-            <h2 className="modal-title">{product?.name}</h2>
+            <h2 className="modal-title">{getCleanTitle(product?.name)}</h2>
 
             <div className="modal-price-row">
               {hasPrice ? (
                 <span className="modal-price">₹{product?.price?.toLocaleString('en-IN')}</span>
               ) : (
-                <span className="modal-price-request">Price on Request</span>
+                <span className="modal-price-request">{PRICE_FALLBACK_TEXT}</span>
               )}
             </div>
 

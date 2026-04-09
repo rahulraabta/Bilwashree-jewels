@@ -24,11 +24,11 @@ import Reveal from './components/Reveal';
 import Ornament from './components/Ornament';
 import ProductModal from './components/ProductModal';
 
-/* â”€â”€â”€ Stars helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Stars helper ───────────────────────────────────────── */
 const Stars = ({ count = 5 }) => {
   return (
     <div className="star-row" aria-label={`${count} out of 5 stars`}>
-      {'â˜…'.repeat(count)}
+      {'★'.repeat(count)}
     </div>
   );
 };
@@ -43,6 +43,85 @@ const CLIENT = {
   brand: "Bilwashree Jewels",
   siteUrl: "bilwashree-jewels.vercel.app"
 }
+
+const PRICE_FALLBACK_TEXT = 'Prices will appear soon';
+
+const PRICE_BY_CATEGORY_AND_CODE = {
+  accessories: {
+    'BS 42': 820,
+    'BS 50': 899,
+    'BS 54': 860,
+  },
+  bangles: {
+    'BS 14': 350,
+    'BS 19': 420,
+  },
+  earrings: {
+    'BS 12': 320,
+    'BS 25': 450,
+    'BS 28': 499,
+    'BS 40': 450,
+    'BS 45': 840,
+  },
+  harams: {
+    'BS 24': 450,
+    'BS 42': 880,
+    'BS 50': 950,
+    'BS 57': 999,
+    'BS 72': 1299,
+    'BS 78': 1360,
+  },
+  necklaces: {
+    'BS 12': 320,
+    'BS 19': 420,
+    'BS 20': 450,
+    'BS 22': 450,
+    'BS 24': 450,
+    'BS 25': 450,
+    'BS 26': 470,
+    'BS 27': 450,
+    'BS 28': 499,
+    'BS 30': 699,
+    'BS 34': 699,
+    'BS 36': 799,
+    'BS 39': 750,
+    'BS 45': 840,
+    'BS 50': 920,
+    'BS 54': 950,
+    'BS 55': 930,
+  },
+  pendants: {
+    'BS 8': 399,
+    'BS 10': 399,
+    'BS 40': 450,
+  },
+};
+
+const PRICE_BY_CODE = {
+  'BS 57': 999,
+  'BS 58': 950,
+  'BS 72': 1299,
+  'BS 78': 1360,
+  'BS 82': 1399,
+  'BS 118': 1699,
+  'BS 175': 1799,
+  'BS 465': 4799,
+};
+
+const extractBsCode = (value) => {
+  const match = String(value || '').match(/(?:BS|NK)\s*-?\s*(\d+)/i);
+  return match ? `BS ${match[1]}` : null;
+};
+
+const resolveMappedPrice = (product) => {
+  const directPrice = Number.isFinite(product?.price) && product.price > 0 ? product.price : null;
+  if (directPrice != null) return directPrice;
+
+  const code = extractBsCode(product?.name || product?.title || product?.slug?.current || product?.id);
+  const category = String(product?.category || '').toLowerCase();
+
+  return PRICE_BY_CATEGORY_AND_CODE[category]?.[code] ?? PRICE_BY_CODE[code] ?? null;
+};
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
@@ -94,21 +173,26 @@ export default function Home() {
       ]);
       console.log('DEBUG - Fetched products:', productsData);
 
-      const normalized = (productsData ?? []).map(item => ({
-        _id: item?._id,
-        id: item?.slug?.current || item?._id,
-        title: item?.name,
-        price: item?.price,
-        category: item?.category || '', // Change: Ensure it doesn't default to 'other'
-        images: item?.images,
-        imageURL: item?.imageURL,
-        inStock: item?.inStock !== false // Default to true if not specified
-      }));
+      const normalized = (productsData ?? []).map(item => {
+        const mappedPrice = resolveMappedPrice(item);
+
+        return {
+          _id: item?._id,
+          id: item?.slug?.current || item?._id,
+          name: item?.name,
+          title: item?.name,
+          priceINR: mappedPrice,
+          category: item?.category || '',
+          images: item?.images,
+          imageURL: item?.imageURL,
+          inStock: item?.inStock !== false,
+        };
+      });
       setInventory(normalized);
 
       // Change: Filter out items with no category if that's what "other" represents
       const uniqueCategories = [...new Set((normalized ?? []).map(p => p?.category).filter(Boolean))];
-      setCategories(uniqueCategories.map(cat => ({ id: cat, name: cat.charAt(0).toUpperCase() + cat.slice(1), icon: 'âœ¦' })));
+      setCategories(uniqueCategories.map(cat => ({ id: cat, name: cat.charAt(0).toUpperCase() + cat.slice(1), icon: '✦' })));
 
       if (categoriesData) {
         setCategories(prev => {
@@ -120,7 +204,7 @@ export default function Home() {
               base[index] = { ...base[index], ...cat };
               return;
             }
-            base.push({ id: cat.id, name: cat.title, icon: cat.icon || 'âœ¦' });
+            base.push({ id: cat.id, name: cat.title, icon: cat.icon || '✦' });
           });
           return base;
         });
@@ -150,9 +234,9 @@ export default function Home() {
     setCart(prev => {
       const exists = prev.find(i => i._id === product._id);
       if (exists) return prev.map(i => i._id === product._id ? { ...i, qty: i.qty + 1 } : i);
-      return [...prev, { _id: product._id, name: product.title, price: product.price, qty: 1, image: product.imageURL }];
+      return [...prev, { _id: product._id, name: product.title, price: product.priceINR, qty: 1, image: product.imageURL }];
     });
-    setToastMessage(`ðŸ›’ Added ${product.title}`);
+    setToastMessage(`🛍️ Added ${product.title}`);
   };
   const removeFromCart = (id) => setCart(prev => prev.filter(i => i._id !== id));
   const updateQty = (id, delta) => setCart(prev => prev.map(i => i._id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i));
@@ -179,18 +263,18 @@ export default function Home() {
       setFormErrors({ transactionId: "Required" });
       return;
     }
-    const msg = `New Order: ${orderId}\nName: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}, ${customerDetails.city}\nItems:\n${(cart ?? []).map(i => `- ${i?.name} x ${i?.qty}`).join('\n')}\nTotal: â‚¹${getTotal()}\nPayment: ${paymentMethod.toUpperCase()}\nTXN ID: ${transactionId || 'N/A'}`;
+    const msg = `New Order: ${orderId}\nName: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}, ${customerDetails.city}\nItems:\n${(cart ?? []).map(i => `- ${i?.name} x ${i?.qty}`).join('\n')}\nTotal: ₹${getTotal()}\nPayment: ${paymentMethod.toUpperCase()}\nTXN ID: ${transactionId || 'N/A'}`;
     window.open(`https://wa.me/${CLIENT.whatsapp}?text=${encodeURIComponent(msg)}`);
     setCheckoutStep(3);
     clearCart();
   };
 
-  /* Scrollbar width calculation for smooth body lock */
+  const PRICE_FALLBACK_TEXT = 'Price will come soon';
   useEffect(() => {
     try {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
-    } catch(e) {}
+    } catch (e) { }
   }, []);
 
   /* Restore recently viewed */
@@ -208,7 +292,7 @@ export default function Home() {
       const updated = [product, ...filtered].slice(0, 6);
       try {
         window.localStorage.setItem('bilvashree_recent_v1', JSON.stringify(updated));
-      } catch (err) {}
+      } catch (err) { }
       return updated;
     });
   }, []);
@@ -375,11 +459,11 @@ export default function Home() {
     },
   };
 
-  if (loading) return <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh",fontSize:"20px",color:"#1a7a5e",fontWeight:"600"}}>âœ¨ Loading {CLIENT.brand}...</div>;
+  if (loading) return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", fontSize: "20px", color: "#1a7a5e", fontWeight: "600" }}>✨ Loading {CLIENT.brand}...</div>;
   if (hasError) return (
-    <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",height:"100vh",gap:"20px"}}>
-      <p style={{fontSize:"18px",color:"#e53e3e"}}>Unable to load. Please refresh.</p>
-      <button onClick={() => fetchData()} style={{padding:"10px 24px",background:"#1a7a5e",color:"#fff",border:"none",borderRadius:"8px",cursor:"pointer"}}>Retry</button>
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100vh", gap: "20px" }}>
+      <p style={{ fontSize: "18px", color: "#e53e3e" }}>Unable to load. Please refresh.</p>
+      <button onClick={() => fetchData()} style={{ padding: "10px 24px", background: "#1a7a5e", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}>Retry</button>
     </div>
   );
 
@@ -406,7 +490,7 @@ export default function Home() {
         onStoryClick={() => scrollToSection('about')}
       />
 
-      {/* â”€â”€ SHOP BY CATEGORY â”€â”€ */}
+      {/* ── SHOP BY CATEGORY ── */}
       <section id="categories" className="category-section" aria-labelledby="category-heading">
         <div className="container">
           <Reveal>
@@ -444,7 +528,7 @@ export default function Home() {
                   <div className="category-icon" aria-hidden="true">{cat.icon}</div>
                   <h3 className="category-name">{cat.name}</h3>
                   <p className="category-desc">{cat.description}</p>
-                  <span className="category-link">Explore {cat.name} <span>â†’</span></span>
+                  <span className="category-link">Explore {cat.name} <span>→</span></span>
                 </div>
               ))}
             </div>
@@ -452,7 +536,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ ABOUT â”€â”€ */}
+      {/* ── ABOUT ── */}
       <section id="about" className="about-section" aria-labelledby="about-heading">
         <div className="about-grid">
           <Reveal className="about-image-wrap">
@@ -487,14 +571,14 @@ export default function Home() {
             </p>
             <div className="about-pillars" role="list">
               {['Elegant Design', 'Ethical Craft', 'Lasting Quality', 'Fair Pricing'].map(p => (
-                <span key={p} className="about-pillar" role="listitem">âœ¦ {p}</span>
+                <span key={p} className="about-pillar" role="listitem">✦ {p}</span>
               ))}
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* â”€â”€ OUR CRAFTSMANSHIP PROCESS â”€â”€ */}
+      {/* ── OUR CRAFTSMANSHIP PROCESS ── */}
       <section className="process-section" aria-labelledby="process-heading">
         <div className="container">
           <Reveal>
@@ -524,7 +608,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ COLLECTION â”€â”€ */}
+      {/* ── COLLECTION ── */}
       <section id="collection" className="collection-section" aria-labelledby="collection-heading">
         <div className="container">
           <Reveal>
@@ -553,9 +637,9 @@ export default function Home() {
                   <h3 id="daily-drop-title">Today&apos;s Signature Spark</h3>
                   <p className="daily-drop-name">{dailyDropProduct?.title}</p>
                   <p className="daily-drop-price">
-                    {Number.isFinite(dailyDropProduct?.priceINR)
-                      ? `â‚¹${dailyDropProduct?.priceINR?.toLocaleString('en-IN')}`
-                      : 'Price on Request'}
+                    {Number.isFinite(dailyDropProduct?.priceINR) && dailyDropProduct?.priceINR > 0
+                      ? `₹${dailyDropProduct?.priceINR?.toLocaleString('en-IN')}`
+                      : PRICE_FALLBACK_TEXT}
                   </p>
                   <div className="daily-drop-actions">
                     <button
@@ -563,7 +647,7 @@ export default function Home() {
                       className="btn-drop-refresh"
                       onClick={() => {
                         setDailyDropSeed((prev) => prev + 7);
-                        setToastMessage('âœ¨ New signature pick unlocked!');
+                        setToastMessage('✨ New signature pick unlocked!');
                       }}
                     >
                       Surprise Me
@@ -600,7 +684,7 @@ export default function Home() {
 
           {filteredProducts.length === 0 ? (
             <Reveal className="empty-category-state">
-              <div className="empty-icon">âœ§</div>
+              <div className="empty-icon">✧</div>
               <h3>New Designs Coming Soon</h3>
               <p>We are currently handcrafting new {(categoryNameById[activeCategory] || activeCategory).toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
               <button
@@ -629,10 +713,10 @@ export default function Home() {
               ))}
             </div>
           )}
-          </div>
+        </div>
       </section>
 
-      {/* â”€â”€ RECOMMENDATIONS â”€â”€ */}
+      {/* ── RECOMMENDATIONS ── */}
       {recommendedProducts.length > 0 && (
         <section className="recommendation-section" aria-labelledby="recommendation-heading">
           <div className="container">
@@ -664,7 +748,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* â”€â”€ JEWELRY CARE â”€â”€ */}
+      {/* ── JEWELRY CARE ── */}
       <section id="care" className="care-section" aria-labelledby="care-heading">
         <div className="container">
           <Reveal>
@@ -691,7 +775,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ VALUES â”€â”€ */}
+      {/* ── VALUES ── */}
       <section id="values" className="values-section" aria-labelledby="values-heading">
         <div className="container">
           <Reveal>
@@ -717,7 +801,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ TESTIMONIALS â”€â”€ */}
+      {/* ── TESTIMONIALS ── */}
       <section id="reviews" className="testimonials-section" aria-labelledby="reviews-heading">
         <div className="container">
           <Reveal>
@@ -751,13 +835,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ CTA â”€â”€ */}
+      {/* ── CTA ── */}
       <Reveal>
         <section className="cta-section" aria-label="Call to action">
           <div className="cta-content">
             <h2 className="cta-title">Begin Your {settings.title.split(' ')[0]} Journey</h2>
             <p className="cta-text">
-              Discover handcrafted jewellery made for everyday elegance â€” starting at just â‚¹399. Gift yourself or someone you love a piece that feels timeless.
+              Discover handcrafted jewellery made for everyday elegance — starting at just ₹399. Gift yourself or someone you love a piece that feels timeless.
             </p>
             <button
               id="cta-shop-btn"
@@ -771,13 +855,13 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* â”€â”€ NEWSLETTER â”€â”€ */}
+      {/* ── NEWSLETTER ── */}
       <section className="newsletter-section">
         <div className="container">
           <Reveal className="newsletter-content">
             <h2 className="newsletter-title">Join the {settings.title} Circle</h2>
             <p className="newsletter-desc">Be the first to discover our new collections, styling stories, and exclusive offers.</p>
-            <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); showToast('âœ¨ Welcome to the circle!'); }}>
+            <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); showToast('✨ Welcome to the circle!'); }}>
               <input
                 type="email"
                 className="newsletter-input"
@@ -790,7 +874,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ RECENTLY VIEWED â”€â”€ */}
+      {/* ── RECENTLY VIEWED ── */}
       {recentlyViewed.length > 0 && (
         <section className="recently-viewed-section" aria-labelledby="recent-heading">
           <div className="container">
@@ -824,7 +908,7 @@ export default function Home() {
           onClick={() => setShowCart(true)}
           style={{ position: "fixed", bottom: "24px", right: "24px", zIndex: 1000, background: "#1a7a5e", color: "#fff", border: "none", borderRadius: "50px", padding: "14px 20px", cursor: "pointer", fontSize: "18px", boxShadow: "0 4px 20px rgba(0,0,0,0.25)", display: "flex", alignItems: "center", gap: "8px" }}
         >
-          ðŸ›’ <span style={{ background: "#e53e3e", color: "#fff", borderRadius: "50%", padding: "2px 8px", fontSize: "12px" }}>{getCount()}</span>
+          🛍️ <span style={{ background: "#e53e3e", color: "#fff", borderRadius: "50%", padding: "2px 8px", fontSize: "12px" }}>{getCount()}</span>
         </button>
       )}
 
@@ -832,8 +916,8 @@ export default function Home() {
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 2000, display: "flex" }} onClick={() => setShowCart(false)}>
           <div style={{ background: "#fff", borderRadius: "16px", padding: "24px", maxWidth: "480px", width: "90%", maxHeight: "80vh", overflowY: "auto", margin: "auto" }} onClick={e => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
-              <h2 style={{ margin: 0 }}>ðŸ›’ Your Cart</h2>
-              <button onClick={() => setShowCart(false)} style={{ border: "none", background: "none", fontSize: "24px", cursor: "pointer" }}>âœ•</button>
+              <h2 style={{ margin: 0 }}>🛍️ Your Cart</h2>
+              <button onClick={() => setShowCart(false)} style={{ border: "none", background: "none", fontSize: "24px", cursor: "pointer" }}>✕</button>
             </div>
             {cart.length === 0 ? <p>Your cart is empty.</p> : (
               <div style={{ flex: 1 }}>
@@ -841,10 +925,10 @@ export default function Home() {
                   <div key={item._id} style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", borderBottom: "1px solid #eee", paddingBottom: "8px" }}>
                     <div>
                       <h4 style={{ margin: "0 0 4px" }}>{item.name}</h4>
-                      <p style={{ margin: 0, color: "#666" }}>â‚¹{item.price} x {item.qty}</p>
+                      <p style={{ margin: 0, color: "#666" }}>{item.price > 0 ? `₹${item.price.toLocaleString('en-IN')}` : PRICE_FALLBACK_TEXT} x {item.qty}</p>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                      <button onClick={() => updateQty(item._id, -1)} style={{ width: "30px", height: "30px", borderRadius: "50%", border: "1px solid #ddd" }}>âˆ’</button>
+                      <button onClick={() => updateQty(item._id, -1)} style={{ width: "30px", height: "30px", borderRadius: "50%", border: "1px solid #ddd" }}>−</button>
                       <span>{item.qty}</span>
                       <button onClick={() => updateQty(item._id, 1)} style={{ width: "30px", height: "30px", borderRadius: "50%", border: "1px solid #ddd" }}>+</button>
                       <button onClick={() => removeFromCart(item._id)} style={{ color: "#e53e3e", border: "none", background: "none", marginLeft: "10px" }}>Remove</button>
@@ -854,11 +938,11 @@ export default function Home() {
                 <div style={{ marginTop: "20px", borderTop: "2px solid #eee", paddingTop: "10px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: "20px", fontWeight: "700" }}>
                     <span>Grand Total:</span>
-                    <span>â‚¹{getTotal().toLocaleString('en-IN')}</span>
+                    <span>₹{getTotal().toLocaleString('en-IN')}</span>
                   </div>
                   <div style={{ display: "flex", gap: "12px", marginTop: "20px" }}>
                     <button onClick={clearCart} style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "1px solid #ddd", background: "#f5f5f5" }}>Clear Cart</button>
-                    <button onClick={() => { setShowCart(false); setShowCheckout(true); setCheckoutStep(1); }} style={{ flex: 2, padding: "12px", borderRadius: "8px", border: "none", background: "#1a7a5e", color: "#fff", fontWeight: "600" }}>Proceed to Checkout â†’</button>
+                    <button onClick={() => { setShowCart(false); setShowCheckout(true); setCheckoutStep(1); }} style={{ flex: 2, padding: "12px", borderRadius: "8px", border: "none", background: "#1a7a5e", color: "#fff", fontWeight: "600" }}>Proceed to Checkout →</button>
                   </div>
                 </div>
               </div>
@@ -873,12 +957,12 @@ export default function Home() {
             {/* Step Progress Bar */}
             <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "24px", alignItems: "center" }}>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: checkoutStep >= 1 ? "#1a7a5e" : "#eee", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>{checkoutStep > 1 ? "âœ“" : "1"}</div>
+                <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: checkoutStep >= 1 ? "#1a7a5e" : "#eee", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>{checkoutStep > 1 ? "✓" : "1"}</div>
                 <span style={{ fontSize: "10px", marginTop: "4px" }}>Details</span>
               </div>
               <div style={{ width: "40px", height: "2px", background: "#eee" }}></div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: checkoutStep >= 2 ? "#1a7a5e" : "#eee", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>{checkoutStep > 2 ? "âœ“" : "2"}</div>
+                <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: checkoutStep >= 2 ? "#1a7a5e" : "#eee", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>{checkoutStep > 2 ? "✓" : "2"}</div>
                 <span style={{ fontSize: "10px", marginTop: "4px" }}>Payment</span>
               </div>
               <div style={{ width: "40px", height: "2px", background: "#eee" }}></div>
@@ -907,7 +991,7 @@ export default function Home() {
                 <input style={{ width: "100%", padding: "12px", border: "1px solid #ddd", borderRadius: "8px", fontSize: "15px", marginBottom: "4px", outline: "none", boxSizing: "border-box" }} value={customerDetails.city} onChange={e => setCustomerDetails({ ...customerDetails, city: e.target.value })} />
                 {formErrors.city && <p style={{ color: "#e53e3e", fontSize: "12px", marginBottom: "8px" }}>{formErrors.city}</p>}
 
-                <button onClick={handleCheckoutNext} style={{ width: "100%", padding: "14px", background: "#1a7a5e", color: "#fff", border: "none", borderRadius: "8px", fontWeight: "600", marginTop: "20px", cursor: "pointer" }}>Next â†’</button>
+                <button onClick={handleCheckoutNext} style={{ width: "100%", padding: "14px", background: "#1a7a5e", color: "#fff", border: "none", borderRadius: "8px", fontWeight: "600", marginTop: "20px", cursor: "pointer" }}>Next →</button>
                 <button onClick={() => setShowCheckout(false)} style={{ width: "100%", padding: "12px", background: "none", border: "none", color: "#666", marginTop: "10px" }}>Cancel</button>
               </div>
             )}
@@ -917,7 +1001,7 @@ export default function Home() {
                 <h3 style={{ marginBottom: "16px" }}>2. Choose Payment Method</h3>
                 <div onClick={() => setPaymentMethod("upi")} style={{ border: paymentMethod === "upi" ? "2px solid #5f259f" : "2px solid #eee", borderRadius: "12px", padding: "20px", cursor: "pointer", marginBottom: "16px", background: paymentMethod === "upi" ? "#fbf7ff" : "#fff" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                    <span style={{ color: "#5f259f", fontWeight: "700", fontSize: "18px" }}>ðŸ’œ PhonePe</span>
+                    <span style={{ color: "#5f259f", fontWeight: "700", fontSize: "18px" }}>💜 PhonePe</span>
                     <span style={{ color: "#5f259f", fontWeight: "700", fontSize: "12px", border: "1px solid #5f259f", padding: "2px 6px", borderRadius: "4px" }}>ACCEPTED HERE</span>
                   </div>
                   <p style={{ color: "#666", fontSize: "14px", margin: "0 0 12px", textAlign: "center" }}>Scan & Pay Using PhonePe App</p>
@@ -950,18 +1034,18 @@ export default function Home() {
                 </div>
 
                 <div onClick={() => setPaymentMethod("cod")} style={{ border: paymentMethod === "cod" ? "2px solid #1a7a5e" : "2px solid #eee", borderRadius: "12px", padding: "16px", cursor: "pointer", background: paymentMethod === "cod" ? "#f4fcf9" : "#fff" }}>
-                  <div style={{ fontWeight: "700", color: "#1a7a5e" }}>ðŸšš Cash on Delivery (COD)</div>
+                  <div style={{ fontWeight: "700", color: "#1a7a5e" }}>🚚 Cash on Delivery (COD)</div>
                   <p style={{ color: "#666", fontSize: "13px", margin: "4px 0" }}>Pay when you receive your order at your doorstep.</p>
                 </div>
 
                 <button onClick={confirmOrder} style={{ width: "100%", padding: "16px", background: "#1a7a5e", color: "#fff", border: "none", borderRadius: "8px", fontWeight: "700", marginTop: "24px", cursor: "pointer", fontSize: "16px" }}>Place Order & Confirm via WhatsApp</button>
-                <button onClick={() => setCheckoutStep(1)} style={{ width: "100%", padding: "12px", background: "none", border: "none", color: "#666", marginTop: "10px", cursor: "pointer" }}>â† Back to Details</button>
+                <button onClick={() => setCheckoutStep(1)} style={{ width: "100%", padding: "12px", background: "none", border: "none", color: "#666", marginTop: "10px", cursor: "pointer" }}>← Back to Details</button>
               </div>
             )}
 
             {checkoutStep === 3 && (
               <div style={{ textAlign: "center", padding: "20px 0" }}>
-                <div style={{ fontSize: "60px", marginBottom: "20px" }}>ðŸŽ‰</div>
+                <div style={{ fontSize: "60px", marginBottom: "20px" }}>🎉</div>
                 <h3>Order Placed!</h3>
                 <p>Order ID: <b>{orderId}</b></p>
                 <p style={{ color: "#666" }}>Please click the button to send your details on WhatsApp to complete the process.</p>
@@ -982,7 +1066,7 @@ export default function Home() {
         scrollToSection={scrollToSection}
       />
 
-      {/* â”€â”€ PRODUCT MODAL â”€â”€ */}
+      {/* ── PRODUCT MODAL ── */}
       {selectedProduct && (
         <ProductModal
           product={selectedProduct}
@@ -1015,14 +1099,14 @@ export default function Home() {
         <span className="scroll-progress-value">{Math.round(scrollProgress)}%</span>
       </button>
 
-      {/* â”€â”€ TOAST â”€â”€ */}
+      {/* ── TOAST ── */}
       <div
         className={`toast ${toastMessage ? 'show' : ''}`}
         role="status"
         aria-live="polite"
         aria-atomic="true"
       >
-        <span className="toast-icon" aria-hidden="true">âœ¨</span>
+        <span className="toast-icon" aria-hidden="true">✨</span>
         {toastMessage}
       </div>
 

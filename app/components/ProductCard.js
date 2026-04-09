@@ -5,10 +5,17 @@ import { useState } from 'react';
 import { DEMO_PHONE } from '../../data/inventory';
 import { urlFor } from '../../sanity/lib/image';
 
+const PRICE_FALLBACK_TEXT = 'Price will come soon';
+
 export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const hasPrice = Number.isFinite(product?.price);
+  const hasPrice = Number.isFinite(product?.priceINR) && product?.priceINR > 0;
+
+  const getCleanTitle = (title) => {
+    const match = (title || '').match(/BS\s*\d+/i);
+    return match ? match[0].toUpperCase() : title;
+  };
 
   const getImageUrl = () => {
     if (product?.images?.[0]?.asset) {
@@ -67,25 +74,25 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             onClick={(e) => {
               e.stopPropagation();
               onView?.();
-              const priceText = product?.price ? ` (₹${product?.price})` : '';
+              const priceText = product?.priceINR ? ` (₹${product?.priceINR})` : '';
               const text = encodeURIComponent(`Hi! I'm interested in "${product?.name}"${priceText}. Can you help me?`);
               window.open(`https://wa.me/${DEMO_PHONE}?text=${text}`, '_blank');
             }}
             aria-label="Wishlist / Inquiry"
           >
-            ♡
+            Inquire
           </button>
         </div>
       </div>
 
       <div className="card-body centered">
-        <h3 className="product-title-clean">{product?.title}</h3>
+        <h3 className="product-title-clean">{getCleanTitle(product?.title)}</h3>
 
         <div className="price-row-clean">
           {hasPrice ? (
-            <span className="price-current">₹{product?.price?.toLocaleString('en-IN')}</span>
+            <span className="price-current">₹{product?.priceINR?.toLocaleString('en-IN')}</span>
           ) : (
-            <span className="price-request">Price on Request</span>
+            <span className="price-request">{PRICE_FALLBACK_TEXT}</span>
           )}
         </div>
 
@@ -110,7 +117,7 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             transition: "background 0.2s"
           }}
         >
-          🛒 Add to Cart
+          Add to Cart
         </button>
       </div>
     </article>
