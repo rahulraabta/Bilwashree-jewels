@@ -4374,3 +4374,80 @@ em {
   border-radius: 20px;
   text-transform: capitalize;
 }
+
+/* ============================
+   ARTISAN CRAFTSMANSHIP
+============================*/
+.craftsmanship-section {
+  padding: 5rem 0;
+  background: var(--bg-alt);
+}
+
+.craft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3.5rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.craft-card {
+  padding: 2.5rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.craft-card:hover {
+  transform: translateY(-10px);
+}
+
+.craft-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+}
+
+.craft-card-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ============================
+   SCROLLING BANNER
+============================*/
+.marquee-section {
+  padding: 3rem 0;
+  background: var(--bg-alt);
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.marquee-container {
+  display: inline-block;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 4rem;
+}
+
+.marquee-content span {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: var(--accent-deep);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

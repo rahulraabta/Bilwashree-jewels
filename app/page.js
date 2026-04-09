@@ -801,34 +801,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
-      <section id="reviews" className="testimonials-section" aria-labelledby="reviews-heading">
+      {/* ── ARTISAN CRAFTSMANSHIP ── */}
+      <section id="craftsmanship" className="craftsmanship-section" aria-labelledby="craftsmanship-heading">
         <div className="container">
           <Reveal>
             <div className="section-eyebrow" aria-hidden="true">
               <span className="eyebrow-line" />
-              <span className="eyebrow-text garamond">Customer Stories</span>
+              <span className="eyebrow-text garamond">Our Process</span>
               <span className="eyebrow-line right" />
             </div>
-            <h2 id="reviews-heading" className="section-title">Loved by Many</h2>
-            <p className="section-subtitle">Real stories from real customers who wear their hearts in gold.</p>
+            <h2 id="craftsmanship-heading" className="section-title">Artisan Craftsmanship</h2>
+            <p className="section-subtitle">Every piece is born from a story of passion, precision, and timeless heritage.</p>
           </Reveal>
 
           <Reveal className="reveal-stagger">
-            <div className="testimonials-grid" role="list">
-              {(settings?.testimonials || (TESTIMONIALS ?? [])).map((t, idx) => (
-                <blockquote key={t?.id || idx} className="testimonial-card" role="listitem">
-                  <div className="testimonial-quote" aria-hidden="true">&ldquo;</div>
-                  <Stars count={t?.stars} />
-                  <p className="testimonial-text">{t?.text}</p>
-                  <footer className="testimonial-author">
-                    <div className="testimonial-avatar" aria-hidden="true">{t?.initial}</div>
-                    <div>
-                      <p className="testimonial-name">{t?.name}</p>
-                      <p className="testimonial-location">{t?.location}</p>
-                    </div>
-                  </footer>
-                </blockquote>
+            <div className="craft-grid" role="list">
+              {[
+                { title: "Design & Sketching", desc: "Every piece begins with an intricate hand-drawn sketch." },
+                { title: "Ethical Sourcing", desc: "Carefully selected gemstones that reflect our commitment to integrity." },
+                { title: "Handcrafted Quality", desc: "Expert artisans bring life to gold with traditional techniques." }
+              ].map((item, idx) => (
+                <div key={idx} className="glass-card craft-card" role="listitem">
+                  <h3 className="craft-card-title">{item.title}</h3>
+                  <p className="craft-card-desc">{item.desc}</p>
+                </div>
               ))}
             </div>
           </Reveal>
@@ -855,22 +851,13 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* ── NEWSLETTER ── */}
-      <section className="newsletter-section">
-        <div className="container">
-          <Reveal className="newsletter-content">
-            <h2 className="newsletter-title">Join the {settings.title} Circle</h2>
-            <p className="newsletter-desc">Be the first to discover our new collections, styling stories, and exclusive offers.</p>
-            <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); showToast('✨ Welcome to the circle!'); }}>
-              <input
-                type="email"
-                className="newsletter-input"
-                placeholder="Enter your email address"
-                required
-              />
-              <button type="submit" className="btn-newsletter">Join Now</button>
-            </form>
-          </Reveal>
+      {/* ── SCROLLING BANNER ── */}
+      <section className="marquee-section">
+        <div className="marquee-container">
+          <div className="marquee-content">
+            <span>Handcrafted Heritage • Ethical Luxury • Timeless Elegance • Devoted to Detail • Fine Gemstones</span>
+            <span>Handcrafted Heritage • Ethical Luxury • Timeless Elegance • Devoted to Detail • Fine Gemstones</span>
+          </div>
         </div>
       </section>
 
