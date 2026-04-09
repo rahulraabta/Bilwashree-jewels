@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import { client } from '../../sanity/lib/client';
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 
-const builder = imageUrlBuilder(client);
+const builder = createImageUrlBuilder(client);
 function urlFor(source) {
   return builder.image(source);
 }
@@ -73,9 +74,9 @@ export default function AdminPage() {
     if (isAuthenticated) {
       fetchData();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, fetchData]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const productsQuery = `*[_type == "product"] | order(_createdAt desc){
@@ -104,7 +105,7 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [formState.category]);
 
   // Mutations
   const handleEdit = (product) => {
@@ -361,7 +362,13 @@ export default function AdminPage() {
             >
               <div style={styles.productThumb}>
                 {product?.imageUrl ? (
-                  <img src={product?.imageUrl} alt="" style={styles.thumbImg} />
+                  <Image 
+                    src={product?.imageUrl} 
+                    alt="" 
+                    width={100} 
+                    height={100}
+                    style={styles.thumbImg}
+                  />
                 ) : (
                   <div style={styles.noImg}>No Image</div>
                 )}
@@ -408,9 +415,11 @@ export default function AdminPage() {
               <div style={styles.imageSection}>
                 <div style={styles.imagePreviewWrap}>
                   {formState.imageUrl ? (
-                    <img
+                    <Image
                       src={formState.imageUrl}
                       alt="Product"
+                      width={300}
+                      height={300}
                       style={styles.previewImg}
                     />
                   ) : (

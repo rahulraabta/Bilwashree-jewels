@@ -138,12 +138,10 @@ export default function Home() {
       return urlFor(product.images[0]).width(600).url();
     }
     if (product?.imageURL) {
-      return product.imageURL.startsWith('/') ? product.imageURL : `/${product.imageURL}`;
+      return `/${product.imageURL}`;
     }
     return "/placeholder.png";
   };
-
-  const addToCart = (product) => {
     setCart(prev => {
       const exists = prev.find(i => i._id === product._id);
       if (exists) return prev.map(i => i._id === product._id ? { ...i, qty: i.qty + 1 } : i);
@@ -626,7 +624,6 @@ export default function Home() {
               ))}
             </div>
           )}
-          </div>
       </section>
 
       {/* â”€â”€ RECOMMENDATIONS â”€â”€ */}
@@ -1006,12 +1003,10 @@ export default function Home() {
                     <span style={{ color: "#5f259f", fontWeight: "700", fontSize: "12px", border: "1px solid #5f259f", padding: "2px 6px", borderRadius: "4px" }}>ACCEPTED HERE</span>
                   </div>
                   <p style={{ color: "#666", fontSize: "14px", margin: "0 0 12px", textAlign: "center" }}>Scan & Pay Using PhonePe App</p>
-                  <Image
+                  <img
                     src={CLIENT.qrImage}
                     alt="PhonePe QR Code - VINUTHA G"
-                    width={200}
-                    height={200}
-                    style={{ margin: "12px auto", display: "block" }}
+                    style={{ width: "200px", height: "200px", margin: "12px auto", display: "block" }}
                     onError={e => { e.target.style.display = "none"; e.target.nextSibling.style.display = "block"; }}
                   />
                   <div style={{ display: "none", padding: "20px", border: "2px dashed #5f259f", textAlign: "center", borderRadius: "8px", margin: "12px 0" }}>
@@ -1109,12 +1104,10 @@ export default function Home() {
       >
         <span className="toast-icon" aria-hidden="true">âœ¨</span>
         {toastMessage}
-      </div>
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-    </div>
+
   );
-}
+

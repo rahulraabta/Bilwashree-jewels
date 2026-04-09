@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 
+import { urlFor } from '../../sanity/lib/image';
+
 export default function CartDrawer({
   isOpen,
   cartItems,
@@ -46,11 +48,14 @@ export default function CartDrawer({
               </button>
             </div>
           ) : (
-            cartItems.map(item => (
-              <div key={item.product.id} className="cart-item">
+            cartItems.map(item => {
+              const p = item.product;
+              const img = p?.images?.[0]?.asset ? urlFor(p.images[0]).width(80).url() : (p.imageURL ? `/${p.imageURL}` : "/placeholder.png");
+              return (
+              <div key={p?.id || p?._id} className="cart-item">
                 <Image
-                  src={item.product?.images?.[0]?.asset ? urlFor(item.product.images[0]).width(80).url() : "/placeholder.png"}
-                  alt={item.product.title}
+                  src={img}
+                  alt={p?.name || "Product"}
                   className="cart-item-img"
                   width={80}
                   height={80}
@@ -59,26 +64,26 @@ export default function CartDrawer({
                   style={{ objectFit: 'cover' }}
                 />
                 <div className="cart-item-details">
-                  <h4 className="cart-item-title">{item.product.title}</h4>
+                  <h4 className="cart-item-title">{p?.name}</h4>
                   <p className="cart-item-price">
-                    {item.product.priceINR != null ? `₹${item.product.priceINR.toLocaleString('en-IN')}` : 'Price TBD'}
+                    {p?.price != null ? `₹${p.price.toLocaleString('en-IN')}` : 'Price TBD'}
                   </p>
                   <div className="cart-item-actions">
                     <div className="qty-controls">
-                      <button onClick={() => updateQuantity(item.product.id, -1)} aria-label="Decrease quantity">−</button>
-                      <span>{item.qty}</span>
-                      <button onClick={() => updateQuantity(item.product.id, 1)} aria-label="Increase quantity">+</button>
+                      <button onClick={() => updateQuantity(p?.id || p?._id, -1)} aria-label="Decrease quantity">−</button>
+                      <span>{item?.qty}</span>
+                      <button onClick={() => updateQuantity(p?.id || p?._id, 1)} aria-label="Increase quantity">+</button>
                     </div>
                     <button
                       className="cart-item-remove"
-                      onClick={() => updateQuantity(item.product.id, -item.qty)}
+                      onClick={() => updateQuantity(p?.id || p?._id, -item?.qty)}
                     >
                       Remove
                     </button>
                   </div>
                 </div>
               </div>
-            ))
+            )})
           )}
         </div>
 

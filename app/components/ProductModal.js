@@ -6,7 +6,18 @@ import { urlFor } from '../../sanity/lib/image';
 
 export default function ProductModal({ product, categoryName, contactPhone, onClose, onAddToCart }) {
   const modalRef = useRef(null);
-  const hasPrice = Number.isFinite(product?.priceINR);
+  const hasPrice = Number.isFinite(product?.price);
+
+  const getImageUrl = () => {
+    if (product?.images?.[0]?.asset) {
+      return urlFor(product.images[0]).width(800).url();
+    }
+    if (product?.imageURL) {
+      return product.imageURL.startsWith('/') ? product.imageURL : `/${product.imageURL}`;
+    }
+    return "/placeholder.png";
+  };
+  const imageUrl = getImageUrl();
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -25,8 +36,8 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
   };
 
   const whatsappInquiry = () => {
-    const pricePart = hasPrice ? ` (₹${product?.priceINR})` : '';
-    const text = encodeURIComponent(`Hi! I'm interested in the "${product?.title}"${pricePart}. Can you please share more details?`);
+    const pricePart = hasPrice ? ` (₹${product?.price})` : '';
+    const text = encodeURIComponent(`Hi! I'm interested in the "${product?.name}"${pricePart}. Can you please share more details?`);
     window.open(`https://wa.me/${contactPhone || '919986237677'}?text=${text}`, '_blank');
   };
 
@@ -44,7 +55,7 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
         <div className="modal-grid">
           <div className="modal-image-wrap">
             <Image
-              src={product?.images?.[0]?.asset ? urlFor(product.images[0]).width(800).url() : "/placeholder.png"}
+              src={imageUrl}
               alt={product?.name || "Product"}
               width={600}
               height={600}
@@ -57,11 +68,11 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
               <span className="eyebrow-line" />
               <span className="eyebrow-text garamond">{categoryName}</span>
             </div>
-            <h2 className="modal-title">{product?.title}</h2>
+            <h2 className="modal-title">{product?.name}</h2>
 
             <div className="modal-price-row">
               {hasPrice ? (
-                <span className="modal-price">₹{product?.priceINR?.toLocaleString('en-IN')}</span>
+                <span className="modal-price">₹{product?.price?.toLocaleString('en-IN')}</span>
               ) : (
                 <span className="modal-price-request">Price on Request</span>
               )}

@@ -21,7 +21,13 @@
       "Bash(sed -i '422s/], \\\\[activeVibe, dailyDropSeed\\\\]\\);/], \\\\[inventory, activeVibe, dailyDropSeed\\\\]\\);/' app/page.js)",
       "Bash(sed -i '438s/], \\\\[activeCategory, recentlyViewed, selectedProduct\\\\]\\);/], \\\\[inventory, activeCategory, recentlyViewed, selectedProduct\\\\]\\);/' app/page.js)",
       "Bash(npx sanity:*)",
-      "mcp__Sanity__query_documents"
+      "mcp__Sanity__query_documents",
+      "Bash(perl:*)",
+      "mcp__code-review-graph__list_graph_stats_tool"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "code-review-graph"
+  ]
 }

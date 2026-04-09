@@ -25,7 +25,7 @@ const curatedInventory = [
     originalPrice: null,
     badge: "Best Seller",
     occasion: ["festive", "bridal", "daily"],
-    imageURL: `${BASE_PATH}/images/pendant-1.jpg.jpeg`,
+    imageURL: `${BASE_PATH}/images/pendant-1.jpg`,
     inStock: true
   },
   {
@@ -37,7 +37,7 @@ const curatedInventory = [
     originalPrice: 699,
     badge: "New Arrival",
     occasion: ["festive", "bridal"],
-    imageURL: `${BASE_PATH}/images/pendant-2.jpg.jpeg`,
+    imageURL: `${BASE_PATH}/images/pendant-2.jpg`,
     inStock: true
   },
   {
@@ -49,7 +49,7 @@ const curatedInventory = [
     originalPrice: 599,
     badge: "New Arrival",
     occasion: ["festive", "party"],
-    imageURL: `${BASE_PATH}/images/pendant-3.jpg.jpeg`,
+    imageURL: `${BASE_PATH}/images/pendant-3.jpg`,
     inStock: true
   },
   {
@@ -61,7 +61,7 @@ const curatedInventory = [
     originalPrice: null,
     badge: null,
     occasion: ["bridal", "festive"],
-    imageURL: `${BASE_PATH}/images/pendant-4.jpg.jpeg`,
+    imageURL: `${BASE_PATH}/images/pendant-4.jpg`,
     inStock: true
   },
   {
@@ -73,7 +73,7 @@ const curatedInventory = [
     originalPrice: 599,
     badge: "Best Seller",
     occasion: ["daily", "office"],
-    imageURL: `${BASE_PATH}/images/pendant-5.jpg.jpeg`,
+    imageURL: `${BASE_PATH}/images/pendant-5.jpg`,
     inStock: true
   },
   {
@@ -85,7 +85,7 @@ const curatedInventory = [
     originalPrice: null,
     badge: null,
     occasion: ["festive", "daily"],
-    imageURL: `${BASE_PATH}/images/pendant-6.jpg (2).jpeg`,
+    imageURL: `${BASE_PATH}/images/pendant-6.jpg`,
     inStock: true
   },
   {
@@ -97,7 +97,7 @@ const curatedInventory = [
     originalPrice: 799,
     badge: "New Arrival",
     occasion: ["bridal", "festive"],
-    imageURL: `${BASE_PATH}/images/pendant-7.jpg.jpeg`,
+    imageURL: `${BASE_PATH}/images/pendant-7.jpg`,
     inStock: true
   },
 

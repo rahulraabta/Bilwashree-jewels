@@ -1,0 +1,182 @@
+30	    <div className="star-row" aria-label={`${count} out of 5 stars`}>
+32	    </div>
+373	  if (loading) return <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh",fontSize:"20px",color:"#1a7a5e",fontWeight:"600"}}>✨ Loading {CLIENT.brand}...</div>;
+375	    <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",height:"100vh",gap:"20px"}}>
+378	    </div>
+382	    <div className="page-wrapper" style={{ position: "relative" }}>
+406	        <div className="container">
+408	            <div className="section-eyebrow" aria-hidden="true">
+412	            </div>
+418	            <div className="category-grid" role="list">
+420	                <div
+438	                  <div className="category-bg-gradient" aria-hidden="true"></div>
+439	                  <div className="category-icon" aria-hidden="true">{cat.icon}</div>
+443	                </div>
+445	            </div>
+447	        </div>
+452	        <div className="about-grid">
+454	            <div className="about-image-card">
+462	            </div>
+463	            <div className="about-badge" aria-hidden="true">
+464	              <div className="about-badge-number">100%</div>
+465	              <div className="about-badge-text">Pure Craft</div>
+466	            </div>
+470	            <div className="section-eyebrow">
+473	            </div>
+483	            <div className="about-pillars" role="list">
+487	            </div>
+489	        </div>
+494	        <div className="container">
+496	            <div className="section-eyebrow" aria-hidden="true">
+500	            </div>
+508	            <div className="process-grid">
+510	                <div key={step?.num} className="process-step">
+511	                  <div className="process-step-number">{step?.num}</div>
+512	                  <div className="process-step-icon" aria-hidden="true">{step?.icon}</div>
+515	                </div>
+517	            </div>
+519	        </div>
+524	        <div className="container">
+526	            <div className="section-eyebrow" aria-hidden="true">
+530	            </div>
+537	                <div className="daily-drop-media">
+545	                </div>
+546	                <div className="daily-drop-content">
+555	                  <div className="daily-drop-actions">
+573	                  </div>
+574	                </div>
+581	            <div className="category-filters" role="tablist" aria-label="Product categories">
+593	            </div>
+598	              <div className="empty-icon">✧</div>
+611	            <div
+625	            </div>
+627	        </div>
+633	          <div className="container">
+635	              <div className="section-eyebrow" aria-hidden="true">
+639	              </div>
+646	            <div className="product-grid mini-grid" role="list">
+657	            </div>
+658	          </div>
+664	        <div className="container">
+666	            <div className="section-eyebrow" aria-hidden="true">
+670	            </div>
+676	            <div className="gifting-grid">
+677	              <div
+689	                <div className="gift-bg">
+691	                </div>
+692	                <div className="gift-overlay" />
+693	                <div className="gift-content">
+697	                </div>
+698	              </div>
+700	              <div
+712	                <div className="gift-bg">
+714	                </div>
+715	                <div className="gift-overlay" />
+716	                <div className="gift-content">
+720	                </div>
+721	              </div>
+723	              <div
+735	                <div className="gift-bg">
+737	                </div>
+738	                <div className="gift-overlay" />
+739	                <div className="gift-content">
+743	                </div>
+744	              </div>
+745	            </div>
+747	        </div>
+752	        <div className="container">
+754	            <div className="section-eyebrow" aria-hidden="true">
+758	            </div>
+764	            <div className="care-grid">
+766	                <div key={idx} className="care-card">
+767	                  <div className="care-icon" aria-hidden="true">{item?.icon}</div>
+770	                </div>
+772	            </div>
+774	        </div>
+779	        <div className="container">
+781	            <div className="section-eyebrow" aria-hidden="true">
+785	            </div>
+790	            <div className="values-grid" role="list">
+792	                <div key={v?.name} className="value-card" role="listitem">
+793	                  <div className="value-icon" aria-hidden="true">{v?.icon}</div>
+796	                </div>
+798	            </div>
+800	        </div>
+805	        <div className="container">
+807	            <div className="section-eyebrow" aria-hidden="true">
+811	            </div>
+817	            <div className="testimonials-grid" role="list">
+820	                  <div className="testimonial-quote" aria-hidden="true">&ldquo;</div>
+824	                    <div className="testimonial-avatar" aria-hidden="true">{t?.initial}</div>
+825	                    <div>
+828	                    </div>
+832	            </div>
+834	        </div>
+840	          <div className="cta-content">
+853	          </div>
+859	        <div className="container">
+873	        </div>
+879	          <div className="container">
+881	              <div className="section-eyebrow" aria-hidden="true">
+885	              </div>
+888	            <div className="product-grid mini-grid">
+899	            </div>
+900	          </div>
+915	        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 2000, display: "flex" }} onClick={() => setShowCart(false)}>
+916	          <div style={{ background: "#fff", borderRadius: "16px", padding: "24px", maxWidth: "480px", width: "90%", maxHeight: "80vh", overflowY: "auto", margin: "auto" }} onClick={e => e.stopPropagation()}>
+917	            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+920	            </div>
+922	              <div style={{ flex: 1 }}>
+924	                  <div key={item._id} style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", borderBottom: "1px solid #eee", paddingBottom: "8px" }}>
+925	                    <div>
+928	                    </div>
+929	                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+934	                    </div>
+935	                  </div>
+937	                <div style={{ marginTop: "20px", borderTop: "2px solid #eee", paddingTop: "10px" }}>
+938	                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "20px", fontWeight: "700" }}>
+941	                  </div>
+942	                  <div style={{ display: "flex", gap: "12px", marginTop: "20px" }}>
+945	                  </div>
+946	                </div>
+947	              </div>
+949	          </div>
+950	        </div>
+954	        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 2000, display: "flex" }}>
+955	          <div style={{ background: "#fff", borderRadius: "16px", padding: "24px", maxWidth: "480px", width: "90%", maxHeight: "90vh", overflowY: "auto", margin: "auto" }}>
+957	            <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "24px", alignItems: "center" }}>
+958	              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+959	                <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: checkoutStep >= 1 ? "#1a7a5e" : "#eee", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>{checkoutStep > 1 ? "✓" : "1"}</div>
+961	              </div>
+962	              <div style={{ width: "40px", height: "2px", background: "#eee" }}></div>
+963	              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+964	                <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: checkoutStep >= 2 ? "#1a7a5e" : "#eee", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>{checkoutStep > 2 ? "✓" : "2"}</div>
+966	              </div>
+967	              <div style={{ width: "40px", height: "2px", background: "#eee" }}></div>
+968	              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+969	                <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: checkoutStep >= 3 ? "#1a7a5e" : "#eee", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>3</div>
+971	              </div>
+972	            </div>
+975	              <div>
+995	              </div>
+999	              <div>
+1001	                <div onClick={() => setPaymentMethod("upi")} style={{ border: paymentMethod === "upi" ? "2px solid #5f259f" : "2px solid #eee", borderRadius: "12px", padding: "20px", cursor: "pointer", marginBottom: "16px", background: paymentMethod === "upi" ? "#fbf7ff" : "#fff" }}>
+1002	                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+1005	                  </div>
+1013	                  <div style={{ display: "none", padding: "20px", border: "2px dashed #5f259f", textAlign: "center", borderRadius: "8px", margin: "12px 0" }}>
+1016	                  </div>
+1020	                    <div style={{ marginTop: "16px", borderTop: "1px solid #e0d5f0", paddingTop: "12px" }}>
+1029	                    </div>
+1031	                </div>
+1033	                <div onClick={() => setPaymentMethod("cod")} style={{ border: paymentMethod === "cod" ? "2px solid #1a7a5e" : "2px solid #eee", borderRadius: "12px", padding: "16px", cursor: "pointer", background: paymentMethod === "cod" ? "#f4fcf9" : "#fff" }}>
+1034	                  <div style={{ fontWeight: "700", color: "#1a7a5e" }}>🚚 Cash on Delivery (COD)</div>
+1036	                </div>
+1040	              </div>
+1044	              <div style={{ textAlign: "center", padding: "20px 0" }}>
+1045	                <div style={{ fontSize: "60px", marginBottom: "20px" }}>🎉</div>
+1050	              </div>
+1052	          </div>
+1053	        </div>
+1100	      <div
+1108	      </div>
+1115	    </div>

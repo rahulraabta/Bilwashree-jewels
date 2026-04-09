@@ -10,6 +10,17 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
   const [isHovered, setIsHovered] = useState(false);
   const hasPrice = Number.isFinite(product?.price);
 
+  const getImageUrl = () => {
+    if (product?.images?.[0]?.asset) {
+      return urlFor(product.images[0]).width(400).url();
+    }
+    if (product?.imageURL) {
+      return product.imageURL.startsWith('/') ? product.imageURL : `/${product.imageURL}`;
+    }
+    return null;
+  };
+  const imageUrl = getImageUrl();
+
   return (
     <article
       className="glass-card"
@@ -25,11 +36,11 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
       }}
     >
       <div className="card-image-wrap">
-        {imageError ? (
+        {imageError || !imageUrl ? (
           <div className="image-fallback">Image coming soon</div>
         ) : (
           <Image
-            src={product?.images?.[0]?.asset ? urlFor(product.images[0]).width(400).url() : "/placeholder.png"}
+            src={imageUrl || "/placeholder.png"}
             alt={product?.name || "Product"}
             width={400}
             height={400}
