@@ -98,7 +98,7 @@ export default function Home() {
         _id: item?._id,
         id: item?.slug?.current || item?._id,
         title: item?.name,
-        priceINR: item?.price,
+        price: item?.price,
         category: item?.category || 'other',
         images: item?.images,
         imageURL: item?.imageURL
@@ -148,7 +148,7 @@ export default function Home() {
     setCart(prev => {
       const exists = prev.find(i => i._id === product._id);
       if (exists) return prev.map(i => i._id === product._id ? { ...i, qty: i.qty + 1 } : i);
-      return [...prev, { _id: product._id, name: product.title, price: product.priceINR, qty: 1, image: product.imageURL }];
+      return [...prev, { _id: product._id, name: product.title, price: product.price, qty: 1, image: product.imageURL }];
     });
     setToastMessage(`ðŸ›’ Added ${product.title}`);
   };
