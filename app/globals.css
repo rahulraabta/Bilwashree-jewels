@@ -2498,15 +2498,23 @@ section[id] {
     padding: 0;
     align-items: center;
     justify-content: center;
-    background: #000; /* Use a solid black base to ensure no transparent gaps */
     position: relative;
     overflow: hidden;
+    background: #000;
   }
 
   .hero-bg-image {
-    opacity: 0.7 !important; /* Slightly dim the image so text pops */
+    opacity: 1 !important; /* Fully visible image */
     object-fit: cover !important;
     object-position: center !important;
+    z-index: 1;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2); /* Very light overlay for maximum image impact */
+    z-index: 2;
   }
 
   .hero-content {
@@ -2516,22 +2524,23 @@ section[id] {
     background: transparent;
     backdrop-filter: none;
     text-align: center;
-    border: none;
-    z-index: 2;
+    z-index: 3; /* Ensure content is on top */
+    position: relative;
   }
 
   .hero-title {
     font-size: clamp(2rem, 9vw, 3rem);
     margin-bottom: 1rem;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.8); /* Stronger shadow for readability */
+    text-shadow: 0 4px 12px rgba(0,0,0,0.9); /* Sharper text shadow for readability over image */
     color: var(--white);
+    font-weight: 700;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.5;
     margin-bottom: 1.5rem;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.9);
     color: var(--white);
   }
 
