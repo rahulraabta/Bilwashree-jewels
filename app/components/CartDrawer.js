@@ -75,14 +75,15 @@ export default function CartDrawer({
                       {p?.price != null && p?.price > 0 ? `₹${p.price.toLocaleString('en-IN')}` : PRICE_FALLBACK_TEXT}
                     </p>
                     <div className="cart-item-actions">
-                      <div className="qty-controls">
-                        <button onClick={() => updateQuantity(p?.id || p?._id, -1)} aria-label="Decrease quantity">Dec</button>
-                        <span>{item?.qty}</span>
-                        <button onClick={() => updateQuantity(p?.id || p?._id, 1)} aria-label="Increase quantity">Inc</button>
+                      <div className="qty-controls" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                        <button onClick={() => updateQuantity(p?.id || p?._id, -1)} style={{ padding: "4px 10px", borderRadius: "50%", border: "1px solid #ddd", cursor: "pointer", background: "white" }} aria-label="Decrease quantity">−</button>
+                        <span style={{ fontWeight: "600" }}>{item?.qty}</span>
+                        <button onClick={() => updateQuantity(p?.id || p?._id, 1)} style={{ padding: "4px 10px", borderRadius: "50%", border: "1px solid #ddd", cursor: "pointer", background: "white" }} aria-label="Increase quantity">+</button>
                       </div>
                       <button
                         className="cart-item-remove"
                         onClick={() => updateQuantity(p?.id || p?._id, -item?.qty)}
+                        style={{ marginTop: "10px", fontSize: "0.85rem", color: "#e53e3e", cursor: "pointer", background: "none", border: "none", textDecoration: "underline" }}
                       >
                         Remove
                       </button>

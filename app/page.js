@@ -230,13 +230,13 @@ export default function Home() {
     return "/placeholder.png";
   };
 
-  const addToCart = (product) => {
+  const addToCart = (product, quantity = 1) => {
     setCart(prev => {
       const exists = prev.find(i => i._id === product._id);
-      if (exists) return prev.map(i => i._id === product._id ? { ...i, qty: i.qty + 1 } : i);
-      return [...prev, { _id: product._id, name: product.title, price: product.priceINR, qty: 1, image: product.imageURL }];
+      if (exists) return prev.map(i => i._id === product._id ? { ...i, qty: i.qty + quantity } : i);
+      return [...prev, { _id: product._id, name: product.title, price: product.priceINR, qty: quantity, image: product.imageURL }];
     });
-    setToastMessage(`🛍️ Added ${product.title}`);
+    setToastMessage(`🛍️ Added ${quantity} x ${product.title}`);
   };
   const removeFromCart = (id) => setCart(prev => prev.filter(i => i._id !== id));
   const updateQty = (id, delta) => setCart(prev => prev.map(i => i._id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i));

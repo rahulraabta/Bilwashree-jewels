@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { urlFor } from '../../sanity/lib/image';
 
@@ -8,7 +8,8 @@ const PRICE_FALLBACK_TEXT = 'Price will come soon';
 
 export default function ProductModal({ product, categoryName, contactPhone, onClose, onAddToCart }) {
   const modalRef = useRef(null);
-  const hasPrice = Number.isFinite(product?.price) && product?.price > 0;
+  const [quantity, setQuantity] = useState(1);
+  const hasPrice = Number.isFinite(product?.priceINR) && product?.priceINR > 0;
 
   const getCleanTitle = (title) => {
     const match = (title || '').match(/BS\s*\d+/i);
@@ -81,7 +82,7 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
 
             <div className="modal-price-row">
               {hasPrice ? (
-                <span className="modal-price">₹{product?.price?.toLocaleString('en-IN')}</span>
+                <span className="modal-price">₹{product?.priceINR?.toLocaleString('en-IN')}</span>
               ) : (
                 <span className="modal-price-request">{PRICE_FALLBACK_TEXT}</span>
               )}
@@ -101,6 +102,14 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
               </div>
             )}
 
+            {/* Quantity Controls */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "20px", marginBottom: "20px" }}>
+              <span>Quantity:</span>
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ padding: "5px 10px", cursor: "pointer" }}>−</button>
+              <span>{quantity}</span>
+              <button onClick={() => setQuantity(quantity + 1)} style={{ padding: "5px 10px", cursor: "pointer" }}>+</button>
+            </div>
+
             <div className="modal-actions">
               <button
                 className="btn-modal-add"
@@ -109,11 +118,11 @@ export default function ProductModal({ product, categoryName, contactPhone, onCl
                     whatsappInquiry();
                     return;
                   }
-                  onAddToCart?.(product);
+                  onAddToCart?.(product, quantity);
                   onClose();
                 }}
               >
-                {hasPrice ? 'Add to Cart' : 'Request Price'}
+                {hasPrice ? `Add ${quantity} to Cart` : 'Request Price'}
               </button>
               <button
                 className="btn-modal-wa"

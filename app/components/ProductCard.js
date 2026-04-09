@@ -10,6 +10,7 @@ const PRICE_FALLBACK_TEXT = 'Price will come soon';
 export default function ProductCard({ product, categoryName, occasionTags, onAddToCart, onView, onClick }) {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const hasPrice = Number.isFinite(product?.priceINR) && product?.priceINR > 0;
 
   const getCleanTitle = (title) => {
@@ -96,12 +97,19 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           )}
         </div>
 
+        {/* Quantity Controls */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginTop: "10px" }}>
+          <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ padding: "5px 10px", cursor: "pointer" }}>−</button>
+          <span>{quantity}</span>
+          <button onClick={() => setQuantity(quantity + 1)} style={{ padding: "5px 10px", cursor: "pointer" }}>+</button>
+        </div>
+
         <button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onClick={(e) => {
             e.stopPropagation();
-            onAddToCart?.(product);
+            onAddToCart?.(product, quantity);
           }}
           style={{
             background: isHovered ? "#145f48" : "#1a7a5e",
@@ -117,7 +125,7 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             transition: "background 0.2s"
           }}
         >
-          Add to Cart
+          Add {quantity} to Cart
         </button>
       </div>
     </article>
