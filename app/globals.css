@@ -2498,8 +2498,8 @@ section[id] {
     padding: 0 0 calc(1.25rem + env(safe-area-inset-bottom));
     align-items: center;
     justify-content: center;
-    /* Made background more transparent to let the image shine through */
-    background: radial-gradient(circle at 50% 12%, rgba(64, 51, 37, 0.2), rgba(30, 26, 21, 0.4));
+    /* Darker overlay for better readability and contrast */
+    background: radial-gradient(circle at 50% 12%, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
   }
 
   .hero-content {
@@ -2508,10 +2508,10 @@ section[id] {
     margin: 0 auto;
     padding: 1.5rem 1rem;
     border-radius: 12px;
-    background: rgba(30, 26, 21, 0.45);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.6); /* More opaque background to ground the text */
+    backdrop-filter: none; /* Removed blur to prevent the "blurred" appearance */
     text-align: center;
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.3);
   }
 
   .hero-title {
