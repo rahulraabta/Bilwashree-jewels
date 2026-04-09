@@ -482,14 +482,6 @@ export default function Home() {
         onSearchSuggestionSelect={handleSearchSuggestionSelect}
       />
 
-      <Hero
-        title={settings.heroTitle}
-        subtitle={settings.heroSubtitle}
-        brandName={settings.title}
-        onShopClick={() => scrollToSection('collection')}
-        onStoryClick={() => scrollToSection('about')}
-      />
-
       {/* ── SHOP BY CATEGORY ── */}
       <section id="categories" className="category-section" aria-labelledby="category-heading">
         <div className="container">
@@ -535,6 +527,14 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
+
+      <Hero
+        title={settings.heroTitle}
+        subtitle={settings.heroSubtitle}
+        brandName={settings.title}
+        onShopClick={() => scrollToSection('collection')}
+        onStoryClick={() => scrollToSection('about')}
+      />
 
       {/* ── ABOUT ── */}
       <section id="about" className="about-section" aria-labelledby="about-heading">
