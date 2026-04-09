@@ -482,52 +482,6 @@ export default function Home() {
         onSearchSuggestionSelect={handleSearchSuggestionSelect}
       />
 
-      {/* ── SHOP BY CATEGORY ── */}
-      <section id="categories" className="category-section" aria-labelledby="category-heading">
-        <div className="container">
-          <Reveal>
-            <div className="section-eyebrow" aria-hidden="true">
-              <span className="eyebrow-line"></span>
-              <span className="eyebrow-text garamond">Explore</span>
-              <span className="eyebrow-line right"></span>
-            </div>
-            <h2 id="category-heading" className="section-title">Shop by Category</h2>
-            <p className="section-subtitle">Discover our meticulously curated collections, designed for every occasion.</p>
-          </Reveal>
-
-          <Reveal className="reveal-stagger">
-            <div className="category-grid" role="list">
-              {(categories ?? []).filter(c => c?.id !== 'all').map(cat => (
-                <div
-                  key={cat?.id}
-                  className="category-card"
-                  role="listitem"
-                  tabIndex={0}
-                  aria-label={`Explore ${cat.name}`}
-                  onClick={() => {
-                    changeCategory(cat.id);
-                    scrollToSection('collection');
-                  }}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      changeCategory(cat.id);
-                      scrollToSection('collection');
-                    }
-                  }}
-                >
-                  <div className="category-bg-gradient" aria-hidden="true"></div>
-                  <div className="category-icon" aria-hidden="true">{cat.icon}</div>
-                  <h3 className="category-name">{cat.name}</h3>
-                  <p className="category-desc">{cat.description}</p>
-                  <span className="category-link">Explore {cat.name} <span>→</span></span>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       <Hero
         title={settings.heroTitle}
         subtitle={settings.heroSubtitle}
@@ -536,6 +490,8 @@ export default function Home() {
         onStoryClick={() => scrollToSection('about')}
       />
 
+      {/* ── SHOP BY CATEGORY ── */}
+      <section id="categories" className="category-section" aria-labelledby="category-heading">
       {/* ── ABOUT ── */}
       <section id="about" className="about-section" aria-labelledby="about-heading">
         <div className="about-grid">
