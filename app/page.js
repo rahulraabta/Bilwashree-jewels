@@ -456,7 +456,7 @@ export default function Home() {
           <Reveal className="about-image-wrap">
             <div className="about-image-card">
               <Image
-                src="/images/pendant-1.jpg.jpeg"
+                src="/images/pendant-1.jpg"
                 alt="Close-up of a handcrafted Bilwashree pendant"
                 width={600}
                 height={800}
