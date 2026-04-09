@@ -987,7 +987,7 @@ export default function Home() {
           categoryName={categoryNameById[selectedProduct.category] || selectedProduct.category}
           contactPhone={settings.contactPhone}
           onClose={() => setSelectedProduct(null)}
-          onAddToCart={handleAddToCart}
+          onAddToCart={addToCart}
         />
       )}
 
