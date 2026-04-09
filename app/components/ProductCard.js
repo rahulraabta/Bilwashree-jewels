@@ -77,7 +77,7 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
       </div>
 
       <div className="card-body centered">
-        <h3 className="product-title-clean">{product?.name}</h3>
+        <h3 className="product-title-clean">{product?.title}</h3>
 
         <div className="price-row-clean">
           {hasPrice ? (
