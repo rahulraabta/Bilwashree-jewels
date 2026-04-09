@@ -1,5 +1,301 @@
 ﻿'use client';
 
+<Hero
+        title={settings.heroTitle}
+        subtitle={settings.heroSubtitle}
+        brandName={settings.title}
+        onShopClick={() => scrollToSection('collection')}
+        onStoryClick={() => scrollToSection('about')}
+      />
+
+      
+
+
+
+{/* ── COLLECTION ── */}
+      <section id="collection" className="collection-section" aria-labelledby="collection-heading">
+        <div className="container">
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">The Collection</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="collection-heading" className="section-title">Premium Jewelry Catalog</h2>
+          </Reveal>
+
+          {dailyDropProduct && (
+            <Reveal>
+              <article className="daily-drop-card" aria-labelledby="daily-drop-title">
+                <div className="daily-drop-media">
+                  <Image
+                    src={getImageUrl(dailyDropProduct)}
+                    alt={dailyDropProduct?.title}
+                    fill
+                    sizes="(max-width: 980px) 100vw, 280px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <div className="daily-drop-content">
+                  <p className="daily-drop-tag">Fresh Pick</p>
+                  <h3 id="daily-drop-title">Today&apos;s Signature Spark</h3>
+                  <p className="daily-drop-name">{dailyDropProduct?.title}</p>
+                  <p className="daily-drop-price">
+                    {Number.isFinite(dailyDropProduct?.priceINR) && dailyDropProduct?.priceINR > 0
+                      ? `₹${dailyDropProduct?.priceINR?.toLocaleString('en-IN')}`
+                      : PRICE_FALLBACK_TEXT}
+                  </p>
+                  <div className="daily-drop-actions">
+                    <button
+                      type="button"
+                      className="btn-drop-refresh"
+                      onClick={() => {
+                        setDailyDropSeed((prev) => prev + 7);
+                        setToastMessage('✨ New signature pick unlocked!');
+                      }}
+                    >
+                      Surprise Me
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-drop-view"
+                      onClick={() => setSelectedProduct(dailyDropProduct)}
+                    >
+                      View Piece
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+          )}
+
+          {/* Category Filter Pills */}
+          <Reveal>
+            <div className="category-filters" role="tablist" aria-label="Product categories">
+              {(categories ?? []).map(cat => (
+                <button
+                  key={cat?.id}
+                  role="tab"
+                  aria-selected={activeCategory === cat?.id}
+                  className={`filter-pill ${activeCategory === cat?.id ? 'active' : ''}`}
+                  onClick={() => changeCategory(cat?.id)}
+                >
+                  {cat?.name}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+
+          {filteredProducts.length === 0 ? (
+            <Reveal className="empty-category-state">
+              <div className="empty-icon">✧</div>
+              <h3>New Designs Coming Soon</h3>
+              <p>We are currently handcrafting new {(categoryNameById[activeCategory] || activeCategory).toLowerCase()} for this collection. Please check back later or explore our other exquisite categories.</p>
+              <button
+                className="btn-empty"
+                onClick={() => {
+                  setActiveCategory('all');
+                }}
+              >
+                View All Exquisite Designs
+              </button>
+            </Reveal>
+          ) : (
+            <div
+              className={`product-grid ${isFiltering ? 'filtering' : ''}`}
+              role="list"
+            >
+              {(filteredProducts ?? []).map(product => (
+                <ProductCard
+                  key={product?._id || product?.id}
+                  product={product}
+                  categoryName={categoryNameById[product?.category] || product?.category}
+                  onAddToCart={addToCart}
+                  onView={() => addToRecent(product)}
+                  onClick={() => setSelectedProduct(product)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      
+
+
+
+{/* ── SHOP BY CATEGORY ── */}
+      <section id="categories" className="category-section" aria-labelledby="category-heading">
+      {/* ── ABOUT ── */}
+      <section id="about" className="about-section" aria-labelledby="about-heading">
+        <div className="about-grid">
+          <Reveal className="about-image-wrap">
+            <div className="about-image-card">
+              <Image
+                src="/images/pendant-1.jpg"
+                alt="Close-up of a handcrafted Bilwashree pendant"
+                width={600}
+                height={800}
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+            <div className="about-badge" aria-hidden="true">
+              <div className="about-badge-number">100%</div>
+              <div className="about-badge-text">Pure Craft</div>
+            </div>
+          </Reveal>
+
+          <Reveal className="about-text">
+            <div className="section-eyebrow">
+              <span className="eyebrow-line" aria-hidden="true" />
+              <span className="eyebrow-text garamond">Our Story</span>
+            </div>
+            <h2 id="about-heading" className="section-title">
+              Morality &amp; Purpose<br />at Our Heart
+            </h2>
+            <p className="about-description">
+              At Bilwashree Jewels, we believe that true elegance lies not in ostentation, but in the purity of intent. Our designs are inspired by timeless forms, graceful motifs, and modern wearability for every occasion.
+            </p>
+            <p className="about-description">
+              Every piece we create is a quiet promise: to respect our artisans, deliver reliable quality, and offer jewellery that feels as beautiful as it looks. We do not simply sell jewellery; we celebrate confidence, style, and timeless beauty.
+            </p>
+            <div className="about-pillars" role="list">
+              {['Elegant Design', 'Ethical Craft', 'Lasting Quality', 'Fair Pricing'].map(p => (
+                <span key={p} className="about-pillar" role="listitem">✦ {p}</span>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      
+
+
+
+
+
+
+
+{/* ── ABOUT ── */}
+      <section id="about" className="about-section" aria-labelledby="about-heading">
+        <div className="about-grid">
+          <Reveal className="about-image-wrap">
+            <div className="about-image-card">
+              <Image
+                src="/images/pendant-1.jpg"
+                alt="Close-up of a handcrafted Bilwashree pendant"
+                width={600}
+                height={800}
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+            <div className="about-badge" aria-hidden="true">
+              <div className="about-badge-number">100%</div>
+              <div className="about-badge-text">Pure Craft</div>
+            </div>
+          </Reveal>
+
+          <Reveal className="about-text">
+            <div className="section-eyebrow">
+              <span className="eyebrow-line" aria-hidden="true" />
+              <span className="eyebrow-text garamond">Our Story</span>
+            </div>
+            <h2 id="about-heading" className="section-title">
+              Morality &amp; Purpose<br />at Our Heart
+            </h2>
+            <p className="about-description">
+              At Bilwashree Jewels, we believe that true elegance lies not in ostentation, but in the purity of intent. Our designs are inspired by timeless forms, graceful motifs, and modern wearability for every occasion.
+            </p>
+            <p className="about-description">
+              Every piece we create is a quiet promise: to respect our artisans, deliver reliable quality, and offer jewellery that feels as beautiful as it looks. We do not simply sell jewellery; we celebrate confidence, style, and timeless beauty.
+            </p>
+            <div className="about-pillars" role="list">
+              {['Elegant Design', 'Ethical Craft', 'Lasting Quality', 'Fair Pricing'].map(p => (
+                <span key={p} className="about-pillar" role="listitem">✦ {p}</span>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      
+
+
+
+
+
+
+
+{/* ── OUR CRAFTSMANSHIP PROCESS ── */}
+      <section className="process-section" aria-labelledby="process-heading">
+        <div className="container">
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">Our Process</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="process-heading" className="section-title">From Vision to Treasure</h2>
+            <p className="section-subtitle">
+              Each pendant passes through hands that have perfected their craft over generations.
+            </p>
+          </Reveal>
+
+          <Reveal className="reveal-stagger">
+            <div className="process-grid">
+              {(settings?.processSteps || (PROCESS_STEPS ?? [])).map(step => (
+                <div key={step?.num} className="process-step">
+                  <div className="process-step-number">{step?.num}</div>
+                  <div className="process-step-icon" aria-hidden="true">{step?.icon}</div>
+                  <h3 className="process-step-name">{step?.name}</h3>
+                  <p className="process-step-desc">{step?.desc}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      
+
+
+
+
+
+
+{/* ── ARTISAN CRAFTSMANSHIP ── */}
+      <section id="craftsmanship" className="craftsmanship-section" aria-labelledby="craftsmanship-heading">
+        <div className="container">
+          <Reveal>
+            <div className="section-eyebrow" aria-hidden="true">
+              <span className="eyebrow-line" />
+              <span className="eyebrow-text garamond">Our Process</span>
+              <span className="eyebrow-line right" />
+            </div>
+            <h2 id="craftsmanship-heading" className="section-title">Artisan Craftsmanship</h2>
+            <p className="section-subtitle">Every piece is born from a story of passion, precision, and timeless heritage.</p>
+          </Reveal>
+
+          <Reveal className="reveal-stagger">
+            <div className="craft-grid" role="list">
+              {[
+                { title: "Design & Sketching", desc: "Every piece begins with an intricate hand-drawn sketch." },
+                { title: "Ethical Sourcing", desc: "Carefully selected gemstones that reflect our commitment to integrity." },
+                { title: "Handcrafted Quality", desc: "Expert artisans bring life to gold with traditional techniques." }
+              ].map((item, idx) => (
+                <div key={idx} className="glass-card craft-card" role="listitem">
+                  <h3 className="craft-card-title">{item.title}</h3>
+                  <p className="craft-card-desc">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      
+
+
 import { useEffect, useState, useCallback, useRef, useMemo, useDeferredValue } from 'react';
 import Image from 'next/image';
 import { client } from '../sanity/lib/client';
@@ -482,88 +778,6 @@ export default function Home() {
         onSearchSuggestionSelect={handleSearchSuggestionSelect}
       />
 
-      <Hero
-        title={settings.heroTitle}
-        subtitle={settings.heroSubtitle}
-        brandName={settings.title}
-        onShopClick={() => scrollToSection('collection')}
-        onStoryClick={() => scrollToSection('about')}
-      />
-
-      {/* ── SHOP BY CATEGORY ── */}
-      <section id="categories" className="category-section" aria-labelledby="category-heading">
-      {/* ── ABOUT ── */}
-      <section id="about" className="about-section" aria-labelledby="about-heading">
-        <div className="about-grid">
-          <Reveal className="about-image-wrap">
-            <div className="about-image-card">
-              <Image
-                src="/images/pendant-1.jpg"
-                alt="Close-up of a handcrafted Bilwashree pendant"
-                width={600}
-                height={800}
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <div className="about-badge" aria-hidden="true">
-              <div className="about-badge-number">100%</div>
-              <div className="about-badge-text">Pure Craft</div>
-            </div>
-          </Reveal>
-
-          <Reveal className="about-text">
-            <div className="section-eyebrow">
-              <span className="eyebrow-line" aria-hidden="true" />
-              <span className="eyebrow-text garamond">Our Story</span>
-            </div>
-            <h2 id="about-heading" className="section-title">
-              Morality &amp; Purpose<br />at Our Heart
-            </h2>
-            <p className="about-description">
-              At Bilwashree Jewels, we believe that true elegance lies not in ostentation, but in the purity of intent. Our designs are inspired by timeless forms, graceful motifs, and modern wearability for every occasion.
-            </p>
-            <p className="about-description">
-              Every piece we create is a quiet promise: to respect our artisans, deliver reliable quality, and offer jewellery that feels as beautiful as it looks. We do not simply sell jewellery; we celebrate confidence, style, and timeless beauty.
-            </p>
-            <div className="about-pillars" role="list">
-              {['Elegant Design', 'Ethical Craft', 'Lasting Quality', 'Fair Pricing'].map(p => (
-                <span key={p} className="about-pillar" role="listitem">✦ {p}</span>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── OUR CRAFTSMANSHIP PROCESS ── */}
-      <section className="process-section" aria-labelledby="process-heading">
-        <div className="container">
-          <Reveal>
-            <div className="section-eyebrow" aria-hidden="true">
-              <span className="eyebrow-line" />
-              <span className="eyebrow-text garamond">Our Process</span>
-              <span className="eyebrow-line right" />
-            </div>
-            <h2 id="process-heading" className="section-title">From Vision to Treasure</h2>
-            <p className="section-subtitle">
-              Each pendant passes through hands that have perfected their craft over generations.
-            </p>
-          </Reveal>
-
-          <Reveal className="reveal-stagger">
-            <div className="process-grid">
-              {(settings?.processSteps || (PROCESS_STEPS ?? [])).map(step => (
-                <div key={step?.num} className="process-step">
-                  <div className="process-step-number">{step?.num}</div>
-                  <div className="process-step-icon" aria-hidden="true">{step?.icon}</div>
-                  <h3 className="process-step-name">{step?.name}</h3>
-                  <p className="process-step-desc">{step?.desc}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── COLLECTION ── */}
       <section id="collection" className="collection-section" aria-labelledby="collection-heading">
         <div className="container">
@@ -750,36 +964,6 @@ export default function Home() {
                   <div className="value-icon" aria-hidden="true">{v?.icon}</div>
                   <h3 className="value-name">{v?.name}</h3>
                   <p className="value-desc">{v?.desc}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── ARTISAN CRAFTSMANSHIP ── */}
-      <section id="craftsmanship" className="craftsmanship-section" aria-labelledby="craftsmanship-heading">
-        <div className="container">
-          <Reveal>
-            <div className="section-eyebrow" aria-hidden="true">
-              <span className="eyebrow-line" />
-              <span className="eyebrow-text garamond">Our Process</span>
-              <span className="eyebrow-line right" />
-            </div>
-            <h2 id="craftsmanship-heading" className="section-title">Artisan Craftsmanship</h2>
-            <p className="section-subtitle">Every piece is born from a story of passion, precision, and timeless heritage.</p>
-          </Reveal>
-
-          <Reveal className="reveal-stagger">
-            <div className="craft-grid" role="list">
-              {[
-                { title: "Design & Sketching", desc: "Every piece begins with an intricate hand-drawn sketch." },
-                { title: "Ethical Sourcing", desc: "Carefully selected gemstones that reflect our commitment to integrity." },
-                { title: "Handcrafted Quality", desc: "Expert artisans bring life to gold with traditional techniques." }
-              ].map((item, idx) => (
-                <div key={idx} className="glass-card craft-card" role="listitem">
-                  <h3 className="craft-card-title">{item.title}</h3>
-                  <p className="craft-card-desc">{item.desc}</p>
                 </div>
               ))}
             </div>
