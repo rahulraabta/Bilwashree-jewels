@@ -16,54 +16,29 @@ export default function Hero({ title, subtitle, brandName, onShopClick, onStoryC
       <div className="hero-overlay" aria-hidden="true" />
 
       <div className="hero-content">
-        <div className="hero-eyebrow" aria-hidden="true">
-          <span className="hero-eyebrow-dot" />
-          Signature Jewellery Collection
+        <div className="hero-eyebrow">
+          <span className="eyebrow-line" />
+          <span className="eyebrow-text">✦ New Collection 2024</span>
+          <span className="eyebrow-line" />
         </div>
 
         <h1 className="hero-title">
-          {title || 'Fine Jewellery with Timeless Impact'}
+          {brandName || 'Bilwashree Jewels'}
         </h1>
 
         <p className="hero-subtitle">
-          {subtitle || 'Let the craftsmanship speak first - elegant pieces designed to elevate every celebration.'}
+          {subtitle || 'Crafted with Elegance, Worn with Pride'}
         </p>
 
         <div className="hero-actions">
           <button
-            id="hero-shop-now-btn"
             className="btn-hero-primary"
             onClick={onShopClick}
-            aria-label="Shop the collection"
+            aria-label="Explore the full collection"
           >
-            Shop the Collection
-          </button>
-          <button
-            id="hero-our-story-btn"
-            className="btn-hero-secondary"
-            onClick={onStoryClick}
-            aria-label="Learn our story"
-          >
-            Our Story
+            Explore Collection
           </button>
         </div>
-      </div>
-
-      <div
-        className="hero-scroll-hint"
-        role="button"
-        tabIndex={0}
-        aria-label="Scroll to collection"
-        onClick={onShopClick}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            onShopClick();
-          }
-        }}
-      >
-        <span className="hero-scroll-arrow">↓</span>
-        Scroll
       </div>
     </section>
   );
