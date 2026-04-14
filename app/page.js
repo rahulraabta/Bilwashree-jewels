@@ -14,6 +14,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
 import ProductModal from './components/ProductModal';
+import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
 import Reveal from './components/Reveal';
 
@@ -91,6 +92,16 @@ export default function Home() {
   const scrollToSection = (id) => {
     if (!id) window.scrollTo({ top: 0, behavior: 'smooth' });
     else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const updateQuantity = (id, delta) => {
+    setCartItems(prev => prev.map(item => {
+      if (item.product.id === id) {
+        const newQty = Math.max(0, item.qty + delta);
+        return { ...item, qty: newQty };
+      }
+      return item;
+    }).filter(item => item.qty > 0));
   };
 
   const filteredProducts = products.filter((product) => {
@@ -172,11 +183,24 @@ export default function Home() {
         />
       )}
 
-      {isCartOpen && (
-        <div className="cart-overlay open" onClick={() => setIsCartOpen(false)}>
-           {/* Cart Content placeholder */}
-        </div>
-      )}
+      <CartDrawer
+        isOpen={isCartOpen}
+        cartItems={cartItems}
+        cartCount={cartItems.reduce((s, i) => s + i.qty, 0)}
+        cartTotal={cartItems.reduce((s, i) => s + (i.product?.priceINR || 0) * i.qty, 0)}
+        onClose={() => setIsCartOpen(false)}
+        updateQuantity={updateQuantity}
+        scrollToSection={scrollToSection}
+        checkoutWhatsApp={() => {
+          const lines = cartItems.map(i => `• ${i.product?.title} x${i.qty} = ₹${(i.product?.priceINR || 0) * i.qty}`).join('%0A');
+          const total = cartItems.reduce((s, i) => s + (i.product?.priceINR || 0) * i.qty, 0);
+          window.open(`https://wa.me/919986237677?text=🛍 Order from Bilwashree Jewels:%0A${lines}%0A%0ATotal: ₹${total}`, '_blank');
+        }}
+        checkoutEmail={() => {
+          const lines = cartItems.map(i => `${i.product?.title} x${i.qty}`).join(', ');
+          window.open(`mailto:bilwashreejewels@gmail.com?subject=New Order&body=Order: ${lines}`, '_blank');
+        }}
+      />
 
       <div className={`toast ${toastMessage ? 'show' : ''}`}>{toastMessage}</div>
     </div>
