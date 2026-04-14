@@ -102,13 +102,17 @@ export default function Home() {
     <div className="page-wrapper">
       <Navbar
       navLinks={[
-  { label: 'Home', href: '#' },
-  { label: 'Collection', href: '#collection' },
-  { label: 'Reviews', href: '#reviews' },
+  { label: 'Home', id: '' },
+  { label: 'Collection', id: 'collection' },
+  { label: 'Reviews', id: 'reviews' },
 ]}
         cartCount={cartItems.reduce((s, i) => s + i.qty, 0)}
         onCartOpen={() => setIsCartOpen(true)}
-        brandName="Bilwashree Jewels"
+scrollToSection={(id) => {
+  if (!id) window.scrollTo({ top: 0, behavior: 'smooth' });
+  else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}}
+brandName="Bilwashree Jewels"
       />
 
       <Hero
