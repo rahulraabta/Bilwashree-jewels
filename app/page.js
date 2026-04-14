@@ -101,7 +101,11 @@ export default function Home() {
   return (
     <div className="page-wrapper">
       <Navbar
-        navLinks={[]}
+      navLinks={[
+  { label: 'Home', href: '#' },
+  { label: 'Collection', href: '#collection' },
+  { label: 'Reviews', href: '#reviews' },
+]}
         cartCount={cartItems.reduce((s, i) => s + i.qty, 0)}
         onCartOpen={() => setIsCartOpen(true)}
         brandName="Bilwashree Jewels"
