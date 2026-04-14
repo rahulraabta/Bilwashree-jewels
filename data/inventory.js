@@ -1132,44 +1132,7 @@ const metadataByCategoryCode = curatedInventory.reduce((acc, product) => {
   return acc;
 }, {});
 
-const existingIds = new Set(curatedInventory.map((product) => product.id));
 
-const generatedInventoryVariants = Object.entries(AUTO_VARIANT_IMAGE_FILES).flatMap(([category, files]) => {
-  return files
-    .filter((fileName) => !existingImageNames.has(fileName.toLowerCase()))
-    .map((fileName) => {
-      const codeMatch = fileName.match(/nk-(\d+)/i);
-      if (!codeMatch) return null;
-
-      const code = `BS ${Number(codeMatch[1])}`;
-      const metadataKey = `${category}|${code}`;
-      const metadata = metadataByCategoryCode[metadataKey] || AUTO_VARIANT_DEFAULTS[category];
-
-      const rawId = `${category}-variant-${fileName.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-      let id = rawId;
-      let suffix = 2;
-      while (existingIds.has(id)) {
-        id = `${rawId}-${suffix}`;
-        suffix += 1;
-      }
-      existingIds.add(id);
-
-      return {
-        id,
-        title: category === 'pendants' ? `Dollar ${code}` : code,
-        category,
-        ...(category === 'necklaces' ? { structure: fileName.includes('choker') ? 'Choker' : 'Necklace' } : {}),
-        material: metadata.material,
-        priceINR: metadata.price ?? null,
-        originalPrice: null,
-        badge: null,
-        occasion: metadata.occasion,
-        imageURL: `${BASE_PATH}/images/products/${category}/${fileName}`,
-        inStock: true,
-      };
-    })
-    .filter(Boolean);
-});
 
 export const inventory = [...curatedInventory];
 
