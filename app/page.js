@@ -89,7 +89,8 @@ export default function Home() {
   }, [showToast]);
 
   const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (!id) window.scrollTo({ top: 0, behavior: 'smooth' });
+    else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const filteredProducts = products.filter((product) => {
@@ -101,18 +102,15 @@ export default function Home() {
   return (
     <div className="page-wrapper">
       <Navbar
-      navLinks={[
-  { label: 'Home', id: '' },
-  { label: 'Collection', id: 'collection' },
-  { label: 'Reviews', id: 'reviews' },
-]}
+        navLinks={[
+          { label: 'Home', id: '' },
+          { label: 'Collection', id: 'collection' },
+          { label: 'Reviews', id: 'reviews' },
+        ]}
         cartCount={cartItems.reduce((s, i) => s + i.qty, 0)}
         onCartOpen={() => setIsCartOpen(true)}
-scrollToSection={(id) => {
-  if (!id) window.scrollTo({ top: 0, behavior: 'smooth' });
-  else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-}}
-brandName="Bilwashree Jewels"
+        scrollToSection={scrollToSection}
+        brandName="Bilwashree Jewels"
       />
 
       <Hero
