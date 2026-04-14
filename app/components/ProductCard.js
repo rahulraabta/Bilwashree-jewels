@@ -93,7 +93,7 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
           {hasPrice ? (
             <span className="price-current">₹{product?.priceINR?.toLocaleString('en-IN')}</span>
           ) : (
-            <span className="price-request">{PRICE_FALLBACK_TEXT}</span>
+            <div className="price-request" style={{display:'block'}}>{PRICE_FALLBACK_TEXT}</div>
           )}
         </div>
 
@@ -112,13 +112,14 @@ export default function ProductCard({ product, categoryName, occasionTags, onAdd
             onAddToCart?.(product, quantity);
           }}
           style={{
+            display: "block",
+            width: "100%",
             background: isHovered ? "#145f48" : "#1a7a5e",
             color: "#fff",
             border: "none",
             padding: "10px 20px",
             borderRadius: "8px",
             cursor: "pointer",
-            width: "100%",
             marginTop: "10px",
             fontSize: "14px",
             fontWeight: "600",

@@ -82,7 +82,7 @@ body.modal-open {
 
 /* Smooth image loading — scoped to product cards only */
 .card-image-wrap img {
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 
