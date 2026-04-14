@@ -1171,7 +1171,7 @@ const generatedInventoryVariants = Object.entries(AUTO_VARIANT_IMAGE_FILES).flat
     .filter(Boolean);
 });
 
-export const inventory = [...curatedInventory, ...generatedInventoryVariants];
+export const inventory = [...curatedInventory];
 
 /* ─── Static Data — Extra Content ────────────────────────── */
 export const TESTIMONIALS = [
