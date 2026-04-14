@@ -192,9 +192,15 @@ export default function Home() {
         updateQuantity={updateQuantity}
         scrollToSection={scrollToSection}
         checkoutWhatsApp={() => {
-          const lines = cartItems.map(i => `• ${i.product?.title} x${i.qty} = ₹${(i.product?.priceINR || 0) * i.qty}`).join('%0A');
-          const total = cartItems.reduce((s, i) => s + (i.product?.priceINR || 0) * i.qty, 0);
-          window.open(`https://wa.me/919986237677?text=🛍 Order from Bilwashree Jewels:%0A${lines}%0A%0ATotal: ₹${total}`, '_blank');
+          const orderLines = cartItems
+            .map(i => `${i.product?.title} x${i.qty} = Rs.${(i.product?.priceINR || 0) * i.qty}`)
+            .join(' | ');
+          const total = cartItems.reduce((s, i) =>
+            s + (i.product?.priceINR || 0) * i.qty, 0);
+          window.open(
+            `/checkout?order=${encodeURIComponent(orderLines)}&total=${total}`,
+            '_blank'
+          );
         }}
         checkoutEmail={() => {
           const lines = cartItems.map(i => `${i.product?.title} x${i.qty}`).join(', ');

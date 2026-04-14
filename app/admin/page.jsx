@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react';
 import { client } from '../../sanity/lib/client';
-import { createImageUrlBuilder } from '@sanity/image-url';
+import imageUrlBuilder from '@sanity/image-url';
 
-const builder = createImageUrlBuilder(client);
+const builder = imageUrlBuilder(client);
 function urlFor(source) {
   return builder.image(source);
 }
@@ -25,7 +24,6 @@ export default function AdminPage() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [toast, setToast] = useState({ message: '', type: '' });
   const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState('');
   const [newCatName, setNewCatName] = useState('');
   const [catToDelete, setCatToDelete] = useState(null);
 
@@ -46,27 +44,21 @@ export default function AdminPage() {
 
   // Authentication check
   const handleLogin = (e) => {
-    try {
-      e.preventDefault();
-      if (password === ADMIN_PASSWORD) {
-        setIsAuthenticated(true);
-        localStorage.setItem('admin_auth', 'true');
-        showToast('Logged in successfully');
-      } else {
-        showToast('Incorrect password', 'error');
-      }
-    } catch (err) {
-      showToast('Login error: ' + err.message, 'error');
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      localStorage.setItem('admin_auth', 'true');
+      showToast('Logged in successfully');
+    } else {
+      showToast('Incorrect password', 'error');
     }
   };
 
   useEffect(() => {
-    try {
-      const auth = localStorage.getItem('admin_auth');
-      if (auth === 'true') {
-        setIsAuthenticated(true);
-      }
-    } catch (err) {}
+    const auth = localStorage.getItem('admin_auth');
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
   }, []);
 
   // Fetch products and categories
@@ -74,11 +66,12 @@ export default function AdminPage() {
     if (isAuthenticated) {
       fetchData();
     }
-  }, [isAuthenticated, fetchData]);
+  }, [isAuthenticated]);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
+      // BUG 1 FIX: Updated GROQ query to include direct imageUrl
       const productsQuery = `*[_type == "product"] | order(_createdAt desc){
         _id,
         name,
@@ -94,40 +87,40 @@ export default function AdminPage() {
         client.fetch(`*[_type == "category"] | order(title asc)`)
       ]);
 
-      setProducts(productsData ?? []);
-      setCategories(categoriesData ?? []);
+      console.log('Fetched products:', productsData); // Debug log
+      setProducts(productsData);
+      setCategories(categoriesData);
 
-      if ((categoriesData ?? []).length > 0 && !formState.category) {
-        setFormState(prev => ({ ...prev, category: categoriesData[0].slug?.current || categoriesData[0].title?.toLowerCase() || '' }));
+      if (categoriesData.length > 0 && !formState.category) {
+        setFormState(prev => ({ ...prev, category: categoriesData[0].slug?.current || categoriesData[0].title.toLowerCase() }));
       }
     } catch (error) {
+      console.error('Error fetching data:', error);
       showToast('Error loading data', 'error');
     } finally {
       setLoading(false);
     }
-  }, [formState.category]);
+  };
 
   // Mutations
   const handleEdit = (product) => {
-    if (!product) return;
     setEditingProduct(product);
     setFormState({
-      name: product?.name || '',
-      price: product?.price || 0,
-      category: product?.category || (categories?.[0]?.slug?.current || categories?.[0]?.title?.toLowerCase() || ''),
+      name: product.name,
+      price: product.price,
+      category: product.category || (categories[0]?.slug?.current || ''),
       image: null,
       imageFile: null,
-      imageUrl: product?.imageUrl || null
+      imageUrl: product.imageUrl || null
     });
   };
 
   const handleAddNew = () => {
     setIsAddingNew(true);
-    const firstCat = categories?.[0];
     setFormState({
       name: '',
       price: '',
-      category: firstCat?.slug?.current || firstCat?.title?.toLowerCase() || '',
+      category: categories[0]?.slug?.current || categories[0]?.title?.toLowerCase() || '',
       image: null,
       imageFile: null,
       imageUrl: null
@@ -135,13 +128,8 @@ export default function AdminPage() {
   };
 
   const handleSave = async () => {
-    setSaveError('');
-    if (!formState.name) {
-      setSaveError('Product name is required');
-      return;
-    }
-    if (!formState.price && formState.price !== 0) {
-      setSaveError('Price is required');
+    if (!formState.name || (!formState.price && formState.price !== 0)) {
+      showToast('Name and Price are required', 'error');
       return;
     }
 
@@ -149,6 +137,7 @@ export default function AdminPage() {
     try {
       let imageAssetRef = null;
 
+      // Handle image upload if a new file was selected
       if (formState.imageFile) {
         const formData = new FormData();
         formData.append('file', formState.imageFile);
@@ -189,7 +178,7 @@ export default function AdminPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: 'patch',
-            data: { id: editingProduct?._id, _type: 'product', ...productData }
+            data: { id: editingProduct._id, _type: 'product', ...productData }
           }),
         });
         const data = await res.json();
@@ -201,7 +190,7 @@ export default function AdminPage() {
       setIsAddingNew(false);
       fetchData();
     } catch (error) {
-      setSaveError('Error saving: ' + error.message);
+      console.error('Save error:', error);
       showToast('Error saving: ' + error.message, 'error');
     } finally {
       setIsSaving(false);
@@ -209,7 +198,6 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (id) => {
-    if (!id) return;
     try {
       const res = await fetch('/api/admin/mutate', {
         method: 'POST',
@@ -221,7 +209,7 @@ export default function AdminPage() {
 
       showToast('Product deleted successfully');
       setShowDeleteConfirm(null);
-      setProducts(prev => (prev ?? []).filter(p => p?._id !== id));
+      setProducts(prev => prev.filter(p => p._id !== id));
     } catch (error) {
       showToast('Error deleting: ' + error.message, 'error');
     }
@@ -230,7 +218,6 @@ export default function AdminPage() {
   const handleAddCategory = async () => {
     if (!newCatName.trim()) return;
     setIsSaving(true);
-    setSaveError('');
     try {
       const res = await fetch('/api/admin/mutate', {
         method: 'POST',
@@ -247,7 +234,6 @@ export default function AdminPage() {
       setNewCatName('');
       fetchData();
     } catch (error) {
-      setSaveError('Error: ' + error.message);
       showToast('Error: ' + error.message, 'error');
     } finally {
       setIsSaving(false);
@@ -255,7 +241,6 @@ export default function AdminPage() {
   };
 
   const handleDeleteCategory = async (id) => {
-    if (!id) return;
     try {
       const res = await fetch('/api/admin/mutate', {
         method: 'POST',
@@ -288,9 +273,9 @@ export default function AdminPage() {
 
   const filteredProducts = activeFilter === 'all'
     ? products
-    : (products ?? []).filter(p => p?.category === activeFilter);
+    : products.filter(p => p.category === activeFilter);
 
-  const getCategoryLabel = (val) => (categories ?? []).find(c => (c?.slug?.current || c?.slug || c?.title?.toLowerCase()) === val)?.title || val || 'Other';
+  const getCategoryLabel = (val) => categories.find(c => (c.slug?.current || c.title?.toLowerCase()) === val)?.title || val || 'Other';
 
   if (!isAuthenticated) {
     return (
@@ -351,39 +336,33 @@ export default function AdminPage() {
         <div style={styles.loading}>Loading items...</div>
       ) : (
         <div style={styles.productList}>
-          {(filteredProducts ?? []).map((product) => (
+          {filteredProducts.map((product) => (
             <div
-              key={product?._id}
+              key={product._id}
               style={{
                 ...styles.productItem,
-                borderLeft: (product?.price === 0 || !product?.price) ? '5px solid #d32f2f' : 'none'
+                borderLeft: (product.price === 0 || !product.price) ? '5px solid #d32f2f' : 'none'
               }}
               onClick={() => handleEdit(product)}
             >
               <div style={styles.productThumb}>
-                {product?.imageUrl ? (
-                  <Image 
-                    src={product?.imageUrl} 
-                    alt="" 
-                    width={100} 
-                    height={100}
-                    style={styles.thumbImg}
-                  />
+                {product.imageUrl ? (
+                  <img src={product.imageUrl} alt="" style={styles.thumbImg} />
                 ) : (
                   <div style={styles.noImg}>No Image</div>
                 )}
               </div>
               <div style={styles.productInfo}>
-                <div style={styles.productName}>{product?.name}</div>
+                <div style={styles.productName}>{product.name}</div>
                 <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                   {/* Price highlighting fix */}
-                  {(product?.price === 0 || !product?.price) ? (
+                  {(product.price === 0 || !product.price) ? (
                     <div style={styles.missingPrice}>Price Missing</div>
                   ) : (
-                    <div style={styles.productPrice}>₹{product?.price}</div>
+                    <div style={styles.productPrice}>₹{product.price}</div>
                   )}
-                  {product?.category && (
-                    <span style={styles.categoryBadge}>{getCategoryLabel(product?.category)}</span>
+                  {product.category && (
+                    <span style={styles.categoryBadge}>{getCategoryLabel(product.category)}</span>
                   )}
                 </div>
               </div>
@@ -397,7 +376,7 @@ export default function AdminPage() {
               <div style={styles.chevron}>›</div>
             </div>
           ))}
-          {(filteredProducts ?? []).length === 0 && (
+          {filteredProducts.length === 0 && (
             <div style={styles.noResults}>No products found.</div>
           )}
         </div>
@@ -415,11 +394,9 @@ export default function AdminPage() {
               <div style={styles.imageSection}>
                 <div style={styles.imagePreviewWrap}>
                   {formState.imageUrl ? (
-                    <Image
+                    <img
                       src={formState.imageUrl}
                       alt="Product"
-                      width={300}
-                      height={300}
                       style={styles.previewImg}
                     />
                   ) : (
@@ -488,23 +465,20 @@ export default function AdminPage() {
               </div>
             </div>
             <div style={styles.modalFooter}>
-              {saveError && <p style={{color: '#e53e3e', fontSize: '14px', marginBottom: '10px', textAlign: 'left'}}>{saveError}</p>}
-              <div style={{display: 'flex', gap: '12px'}}>
-                <button
-                  onClick={() => { setEditingProduct(null); setIsAddingNew(false); setSaveError(''); }}
-                  style={styles.cancelBtnLarge}
-                  disabled={isSaving}
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  style={styles.saveBtn}
-                  disabled={isSaving}
-                >
-                  {isSaving ? 'Saving...' : 'Save Product'}
-                </button>
-              </div>
+              <button
+                onClick={() => { setEditingProduct(null); setIsAddingNew(false); }}
+                style={styles.cancelBtnLarge}
+                disabled={isSaving}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                style={styles.saveBtn}
+                disabled={isSaving}
+              >
+                {isSaving ? 'Saving...' : 'Save Product'}
+              </button>
             </div>
           </div>
         </div>
@@ -594,46 +568,46 @@ const styles = {
   form: { display: 'flex', flexDirection: 'column', gap: '15px' },
   input: { padding: '15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px', outline: 'none', height: '48px' },
   button: { padding: '12px', background: '#128c7e', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', height: '48px' },
-  adminContainer: { minHeight: '100vh', background: '#f0f2f5', maxWidth: '600px', margin: '0 auto', paddingBottom: '100px', position: 'relative' },
-  header: { padding: '12px 16px', background: '#075e54', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10, flexWrap: 'wrap', gap: '10px' },
-  headerTitle: { fontSize: '18px', margin: 0, fontWeight: '800' },
-  addButton: { background: '#25d366', color: 'white', border: 'none', padding: '0 14px', borderRadius: '24px', fontWeight: 'bold', fontSize: '13px', height: '36px' },
-  secondaryHeaderBtn: { background: 'rgba(255,255,255,0.2)', color: 'white', border: 'none', padding: '0 14px', borderRadius: '24px', fontSize: '13px', height: '36px' },
-  filterBar: { display: 'flex', gap: '6px', padding: '10px 12px', overflowX: 'auto', background: 'white', borderBottom: '1px solid #eee', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' },
-  filterBtn: { padding: '0 12px', borderRadius: '18px', border: '1px solid #ddd', background: 'white', fontSize: '12px', whiteSpace: 'nowrap', cursor: 'pointer', height: '32px', transition: 'all 0.2s' },
+  adminContainer: { minHeight: '100vh', background: '#f0f2f5', maxWidth: '600px', margin: '0 auto', paddingBottom: '100px' },
+  header: { padding: '15px', background: '#075e54', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 },
+  headerTitle: { fontSize: '20px', margin: 0 },
+  addButton: { background: '#25d366', color: 'white', border: 'none', padding: '0 16px', borderRadius: '24px', fontWeight: 'bold', fontSize: '14px', height: '40px' },
+  secondaryHeaderBtn: { background: 'rgba(255,255,255,0.2)', color: 'white', border: 'none', padding: '0 16px', borderRadius: '24px', fontSize: '14px', height: '40px' },
+  filterBar: { display: 'flex', gap: '8px', padding: '12px', overflowX: 'auto', background: 'white', borderBottom: '1px solid #eee', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' },
+  filterBtn: { padding: '0 16px', borderRadius: '20px', border: '1px solid #ddd', background: 'white', fontSize: '13px', whiteSpace: 'nowrap', cursor: 'pointer', height: '36px' },
   filterBtnActive: { background: '#075e54', color: 'white', borderColor: '#075e54' },
   loading: { padding: '40px', textAlign: 'center', color: '#666' },
   productList: { padding: '10px' },
-  productItem: { background: 'white', borderRadius: '12px', padding: '10px', marginBottom: '8px', display: 'flex', alignItems: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', cursor: 'pointer', position: 'relative', overflow: 'hidden' },
-  productThumb: { width: '50px', height: '50px', borderRadius: '8px', overflow: 'hidden', background: '#f8f9fa', marginRight: '12px', flexShrink: 0 },
+  productItem: { background: 'white', borderRadius: '12px', padding: '12px', marginBottom: '10px', display: 'flex', alignItems: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer', position: 'relative' },
+  productThumb: { width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', background: '#f8f9fa', marginRight: '15px' },
   thumbImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  noImg: { width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#999', textAlign: 'center', padding: '2px' },
-  productInfo: { flex: 1, minWidth: 0 },
-  productName: { fontWeight: 'bold', fontSize: '15px', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
-  productPrice: { color: '#075e54', fontWeight: 'bold', fontSize: '14px' },
-  missingPrice: { color: '#d32f2f', fontWeight: 'bold', fontSize: '12px' },
-  categoryBadge: { fontSize: '9px', background: '#e1f5fe', color: '#0288d1', padding: '1px 6px', borderRadius: '8px', fontWeight: 'bold', textTransform: 'uppercase' },
-  itemDeleteBtn: { background: 'none', border: 'none', fontSize: '18px', padding: '8px', marginRight: '2px', cursor: 'pointer', flexShrink: 0 },
+  noImg: { width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#999' },
+  productInfo: { flex: 1 },
+  productName: { fontWeight: 'bold', fontSize: '16px', marginBottom: '4px' },
+  productPrice: { color: '#075e54', fontWeight: 'bold' },
+  missingPrice: { color: '#d32f2f', fontWeight: 'bold', fontSize: '14px' },
+  categoryBadge: { fontSize: '10px', background: '#e1f5fe', color: '#0288d1', padding: '2px 8px', borderRadius: '10px', fontWeight: 'bold', textTransform: 'uppercase' },
+  itemDeleteBtn: { background: 'none', border: 'none', fontSize: '20px', padding: '10px', marginRight: '5px', cursor: 'pointer' },
   noResults: { padding: '40px', textAlign: 'center', color: '#999' },
-  chevron: { color: '#bbb', fontSize: '20px', flexShrink: 0 },
+  chevron: { color: '#bbb', fontSize: '24px' },
   modalOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '15px' },
   modal: { background: 'white', borderRadius: '16px', width: '100%', maxWidth: '500px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' },
   modalHeader: { padding: '15px 20px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8f9fa' },
   closeBtn: { background: 'none', border: 'none', fontSize: '24px', color: '#999', cursor: 'pointer' },
-  modalBody: { padding: '16px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' },
-  imageSection: { display: 'flex', flexDirection: 'column', gap: '12px' },
+  modalBody: { padding: '20px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px' },
+  imageSection: { display: 'flex', flexDirection: 'column', gap: '15px' },
   imagePreviewWrap: { width: '100%', aspectRatio: '1', background: '#f1f3f4', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '1px solid #eee' },
   previewImg: { width: '100%', height: '100%', objectFit: 'contain' },
   uploadPlaceholder: { color: '#999', fontSize: '14px' },
-  uploadButtonsGrid: { display: 'flex', gap: '8px' },
-  uploadLabelGallery: { flex: 1, minHeight: '44px', padding: '12px 8px', background: '#f0f0f0', borderRadius: '10px', textAlign: 'center', fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  uploadLabelCamera: { flex: 1, minHeight: '44px', padding: '12px 8px', background: '#e8f5e9', borderRadius: '10px', textAlign: 'center', fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  field: { display: 'flex', flexDirection: 'column', gap: '6px' },
-  fieldLabel: { fontSize: '13px', fontWeight: 'bold', color: '#555' },
-  modalInput: { padding: '0 12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px', outline: 'none', height: '44px', background: '#fff' },
-  modalFooter: { padding: '16px', borderTop: '1px solid #eee', display: 'flex', gap: '10px', background: '#f8f9fa' },
-  cancelBtnLarge: { flex: 1, height: '44px', borderRadius: '8px', border: '1px solid #ddd', background: 'white', fontSize: '15px', fontWeight: 'bold', cursor: 'pointer' },
-  saveBtn: { flex: 2, height: '44px', background: '#075e54', color: 'white', border: 'none', borderRadius: '8px', fontSize: '15px', fontWeight: 'bold', cursor: 'pointer' },
+  uploadButtonsGrid: { display: 'flex', gap: '10px' },
+  uploadLabelGallery: { flex: 1, height: '48px', padding: '14px', background: '#f0f0f0', borderRadius: '10px', textAlign: 'center', fontSize: '16px', cursor: 'pointer', display: 'block' },
+  uploadLabelCamera: { flex: 1, height: '48px', padding: '14px', background: '#e8f5e9', borderRadius: '10px', textAlign: 'center', fontSize: '16px', cursor: 'pointer', display: 'block' },
+  field: { display: 'flex', flexDirection: 'column', gap: '8px' },
+  fieldLabel: { fontSize: '14px', fontWeight: 'bold', color: '#555' },
+  modalInput: { padding: '0 15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '16px', outline: 'none', height: '48px', background: '#fff' },
+  modalFooter: { padding: '20px', borderTop: '1px solid #eee', display: 'flex', gap: '12px', background: '#f8f9fa' },
+  cancelBtnLarge: { flex: 1, height: '48px', borderRadius: '8px', border: '1px solid #ddd', background: 'white', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
+  saveBtn: { flex: 2, height: '48px', background: '#075e54', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
   addCatRow: { display: 'flex', gap: '10px', marginBottom: '20px' },
   catInput: { flex: 1, height: '48px', padding: '0 15px', borderRadius: '8px', border: '1px solid #ddd', outline: 'none' },
   addCatBtn: { width: '80px', height: '48px', background: '#25d366', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold' },
