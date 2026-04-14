@@ -46,6 +46,7 @@ export default function Home() {
   const [products] = useState(inventory);
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeOccasion, setActiveOccasion] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -107,7 +108,10 @@ export default function Home() {
   const filteredProducts = products.filter((product) => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
     const matchesOccasion = activeOccasion === 'all' || product.occasion?.includes(activeOccasion);
-    return matchesCategory && matchesOccasion;
+    const matchesSearch = !searchQuery ||
+      product.title?.toLowerCase().includes(searchQuery) ||
+      product.category?.toLowerCase().includes(searchQuery);
+    return matchesCategory && matchesOccasion && matchesSearch;
   });
 
   return (
@@ -122,6 +126,29 @@ export default function Home() {
         onCartOpen={() => setIsCartOpen(true)}
         scrollToSection={scrollToSection}
         brandName="Bilwashree Jewels"
+        onSearch={(query) => {
+          if (!query.trim()) {
+            setSearchQuery('');
+            return;
+          }
+          setSearchQuery(query.toLowerCase());
+        }}
+        searchSuggestions={
+          searchQuery.length > 0
+            ? products
+                .filter(p =>
+                  p.title?.toLowerCase().includes(searchQuery) ||
+                  p.category?.toLowerCase().includes(searchQuery)
+                )
+                .slice(0, 6)
+                .map(p => ({ id: p.id || p._id, label: p.title }))
+            : []
+        }
+        onSearchSuggestionSelect={(suggestion) => {
+          setSearchQuery('');
+          const el = document.getElementById(`product-${suggestion.id}`);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }}
       />
 
       <Hero
@@ -147,13 +174,14 @@ export default function Home() {
 
           <div className="product-grid" style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))', gap:'30px'}}>
             {filteredProducts.map(product => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                categoryName={CATEGORIES.find(c => c.id === product.category)?.name}
-                onAddToCart={handleAddToCart}
-                onClick={() => setSelectedProduct(product)}
-              />
+              <div key={product.id} id={`product-${product.id || product._id}`}>
+                <ProductCard
+                  product={product}
+                  categoryName={CATEGORIES.find(c => c.id === product.category)?.name}
+                  onAddToCart={handleAddToCart}
+                  onClick={() => setSelectedProduct(product)}
+                />
+              </div>
             ))}
           </div>
         </div>

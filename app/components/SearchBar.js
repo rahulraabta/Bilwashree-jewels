@@ -1,159 +1,88 @@
 'use client';
+import { useState, useRef, useEffect } from 'react';
 
-import { useState, useEffect, useRef } from 'react';
-
-export default function SearchBar({
-  onSearch,
-  onSuggestionSelect,
-  suggestions = [],
-  placeholder = "Search for necklaces, pendants...",
-}) {
-  const [query, setQuery] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
-  const inputRef = useRef(null);
-  const containerRef = useRef(null);
-  const focusTimeoutRef = useRef(null);
+export default function SearchBar({ onSearch, suggestions = [], onSuggestionSelect }) {
+  const [value, setValue] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const ref = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        if (!query) setIsExpanded(false);
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setShowSuggestions(false);
       }
     };
-    document.addEventListener('pointerdown', handleClickOutside);
-    return () => document.removeEventListener('pointerdown', handleClickOutside);
-  }, [query]);
-
-  const searchTimeoutRef = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      if (focusTimeoutRef.current) {
-        clearTimeout(focusTimeoutRef.current);
-      }
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
-      }
-    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const normalizedQuery = query?.trim()?.toLowerCase();
-  const filteredSuggestions = normalizedQuery
-    ? (suggestions ?? [])
-      .filter((item) => {
-        const label = (item?.label || '')?.toLowerCase();
-        const keywords = (item?.keywords || [])?.join(' ')?.toLowerCase();
-        return label?.includes(normalizedQuery) || keywords?.includes(normalizedQuery);
-      })
-      .slice(0, 6)
-    : [];
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setValue(val);
+    onSearch?.(val);
+    setShowSuggestions(val.length > 0);
+  };
+
+  const handleSelect = (suggestion) => {
+    setValue('');
+    onSearch?.('');
+    setShowSuggestions(false);
+    onSuggestionSelect?.(suggestion);
+  };
 
   return (
-    <div
-      ref={containerRef}
-      className={`search-container ${isExpanded ? 'expanded' : ''}`}
-    >
-      <button
-        className="search-toggle-btn"
-        onClick={() => {
-          if (!isExpanded) {
-            setIsExpanded(true);
-          } else if (query?.trim()) {
-            onSearch?.(query?.trim());
-          } else {
-            onSearch?.('');
-          }
-
-          if (focusTimeoutRef.current) {
-            clearTimeout(focusTimeoutRef.current);
-          }
-
-          focusTimeoutRef.current = setTimeout(() => {
-            inputRef.current?.focus();
-            if (isExpanded && query) {
-              inputRef.current?.select();
-            }
-          }, 100);
-        }}
-        aria-label="Toggle search"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="11" cy="11" r="8" />
-          <path d="M21 21l-4.35-4.35" />
-        </svg>
-      </button>
-
+    <div ref={ref} style={{ position: 'relative' }}>
       <input
-        ref={inputRef}
         type="text"
-        className="search-input"
-        placeholder={placeholder}
-        value={query}
-        onChange={(e) => {
-          const value = e?.target?.value;
-          setQuery?.(value);
-
-          // Debounce the search to improve performance
-          if (searchTimeoutRef.current) {
-            clearTimeout(searchTimeoutRef.current);
-          }
-
-          searchTimeoutRef.current = setTimeout(() => {
-            onSearch?.(value);
-          }, 150); // 150ms debounce delay
+        value={value}
+        onChange={handleChange}
+        onFocus={() => value.length > 0 && setShowSuggestions(true)}
+        placeholder="Search jewellery..."
+        style={{
+          padding: '8px 14px',
+          borderRadius: '20px',
+          border: '1px solid #c9a84c',
+          outline: 'none',
+          fontSize: '14px',
+          width: '200px',
+          background: '#fff8f0',
         }}
-        onKeyDown={(e) => {
-          if (e?.key === 'Enter') {
-            e?.preventDefault();
-            if (filteredSuggestions[0] && onSuggestionSelect) {
-              onSuggestionSelect?.(filteredSuggestions[0]);
-              setQuery?.(filteredSuggestions[0]?.label);
-              setIsExpanded?.(false);
-              return;
-            }
-            onSearch?.(query?.trim());
-          }
-        }}
-        aria-label="Search products"
       />
-
-      {isExpanded && (filteredSuggestions ?? [])?.length > 0 && (
-        <div className="search-suggestions" role="listbox" aria-label="Search suggestions">
-          {(filteredSuggestions ?? []).map((item) => (
-            <button
-              key={item?.id}
-              type="button"
-              role="option"
-              aria-selected="false"
-              className="search-suggestion-item"
-              onClick={() => {
-                setQuery?.(item?.label);
-                onSearch?.(item?.label);
-                if (onSuggestionSelect) {
-                  onSuggestionSelect?.(item);
-                }
-                setIsExpanded?.(false);
+      {showSuggestions && suggestions.length > 0 && (
+        <ul style={{
+          position: 'absolute',
+          top: '110%',
+          left: 0,
+          right: 0,
+          background: '#fff',
+          border: '1px solid #c9a84c',
+          borderRadius: '10px',
+          listStyle: 'none',
+          margin: 0,
+          padding: '6px 0',
+          zIndex: 9999,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+          maxHeight: '240px',
+          overflowY: 'auto',
+        }}>
+          {suggestions.map((s) => (
+            <li
+              key={s.id}
+              onClick={() => handleSelect(s)}
+              style={{
+                padding: '10px 16px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                color: '#333',
+                borderBottom: '1px solid #f5f0e8',
               }}
+              onMouseEnter={e => e.target.style.background = '#fff8f0'}
+              onMouseLeave={e => e.target.style.background = 'transparent'}
             >
-              <span className="suggestion-label">{item?.label}</span>
-              <span className="suggestion-type">{item?.type}</span>
-            </button>
+              {s.label}
+            </li>
           ))}
-        </div>
-      )}
-
-      {query && (
-        <button
-          className="search-clear-btn"
-          onClick={() => {
-            setQuery('');
-            onSearch('');
-            inputRef.current?.focus();
-          }}
-          aria-label="Clear search"
-        >
-          Clear
-        </button>
+        </ul>
       )}
     </div>
   );
